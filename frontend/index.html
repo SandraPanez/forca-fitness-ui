@@ -155,21 +155,22 @@
     // Auth guard (cualquier usuario autenticado puede ver el dashboard)
     if (!localStorage.getItem('token')) location.href = 'login.html';
 
-    // Inicializar nav dinámico
-    initNav();
+    document.addEventListener('DOMContentLoaded', function() {
+      // Inicializar nav dinámico
+      initNav();
 
-    // Personalizar saludo
-    var usuario = _getUsuario();
-    if (usuario.nombre) {
-      var hora = new Date().getHours();
-      var saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
-      document.getElementById('dash-saludo').textContent = saludo + ', ' + usuario.nombre.split(' ')[0] + '. Aquí el resumen de hoy.';
-    }
+      // Personalizar saludo
+      var usuario = _getUsuario();
+      if (usuario.nombre) {
+        var hora = new Date().getHours();
+        var saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
+        document.getElementById('dash-saludo').textContent = saludo + ', ' + usuario.nombre.split(' ')[0] + '. Aquí el resumen de hoy.';
+      }
 
-    // Accesos rápidos según rol
-    var rol = (usuario.rol || '').trim();
-    var acciones = [];
-    if (rol === 'Admin' || rol === 'Tesorería') {
+      // Accesos rápidos según rol (roles BD: admin, tesorero, recepcion, instructor)
+      var rol = (usuario.rol || '').trim().toLowerCase();
+      var acciones = [];
+      if (rol === 'admin' || rol === 'tesorero') {
       acciones = [
         { href:'alumnos.html',        icon:'👥', label:'Gestión de Alumnos',   sub:'Ver fichas, estados y matrículas' },
         { href:'tesoreria.html',      icon:'💰', label:'Tesorería',             sub:'Confirmar y rechazar pagos' },
@@ -269,7 +270,8 @@
       }
     }
 
-    cargarDashboard();
+      cargarDashboard();
+    }); // fin DOMContentLoaded
   </script>
 </body>
 </html>
