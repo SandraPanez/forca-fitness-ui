@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tesorería — Forca & Fitness</title>
+  <title>Tesorería — Forca &amp; Fitness</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -28,7 +28,8 @@
     h1{font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
     .page-sub{font-size:13px;color:#6b7280;margin-bottom:16px;}
     .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
-    .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 16px;}
+    .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 16px;transition:box-shadow .18s,transform .15s;}
+    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
     .stat-label{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.4px;margin-bottom:4px;}
     .stat-val{font-size:22px;font-weight:800;color:#0d2d5e;}
     .stat-sub{font-size:11px;color:#9ca3af;margin-top:2px;}
@@ -52,18 +53,15 @@
     .btn-reject{padding:6px 14px;background:#fff;color:#dc2626;border:1.5px solid #fca5a5;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;margin-left:6px;}
     .btn-reject:hover{background:#fee2e2;}
     .empty-row td{text-align:center;padding:28px;color:#9ca3af;font-size:13px;}
-    /* Status badges */
     .status-badge{border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;}
     .sb-approved{background:#dcfce7;color:#15803d;}
     .sb-pending{background:#fef9c3;color:#92400e;}
     .sb-rejected{background:#fee2e2;color:#dc2626;}
     .sb-annulled{background:#f3f4f6;color:#6b7280;}
-    /* Pay method */
     .pay-method-badge{border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;}
     .pm-mp{background:#eff6ff;color:#1d4ed8;}
     .pm-cash{background:#f0fdf4;color:#15803d;}
     .pm-transfer{background:#faf5ff;color:#7c3aed;}
-    /* Filters bar */
     .filters-bar{padding:12px 16px;border-bottom:1px solid #e5e7eb;display:flex;gap:10px;align-items:center;background:#f9fafb;}
     .filter-select{padding:7px 12px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;cursor:pointer;transition:border-color .15s;}
     .filter-select:focus{border-color:#0d2d5e;}
@@ -80,20 +78,18 @@
 <body>
   <nav>
     <div class="nav-logo">
-      <div class="logo-box">F&F</div>
-      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
+      <div class="logo-box">F&amp;F</div>
+      <div class="logo-text"><h1>FORCA &amp; FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Dashboard</a>
-      <a href="alumnos.html">Alumnos</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="#" class="active">💰 Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
-      <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
@@ -103,56 +99,24 @@
     <p class="page-sub">Aprobación de pagos pendientes, historial de cobros y estado de cuenta.</p>
 
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-label">RECAUDADO HOY</div><div class="stat-val">S/. 1,275</div><div class="stat-sub">↑ vs ayer S/. 850</div></div>
-      <div class="stat-card"><div class="stat-label">POR APROBAR</div><div class="stat-val" style="color:#d97706;" id="stat-pendientes">3</div><div class="stat-sub">Pagos en espera</div></div>
-      <div class="stat-card"><div class="stat-label">MES EN CURSO</div><div class="stat-val">S/. 18,420</div><div class="stat-sub">Marzo 2025</div></div>
-      <div class="stat-card"><div class="stat-label">DEUDORES</div><div class="stat-val" style="color:#dc2626;">4</div><div class="stat-sub">Requieren cobro</div></div>
+      <div class="stat-card"><div class="stat-label">RECAUDADO HOY</div><div class="stat-val" id="stat-hoy">S/. —</div><div class="stat-sub">Pagos aprobados hoy</div></div>
+      <div class="stat-card"><div class="stat-label">POR APROBAR</div><div class="stat-val" style="color:#d97706;" id="stat-pendientes">—</div><div class="stat-sub">Pagos en espera</div></div>
+      <div class="stat-card"><div class="stat-label">MES EN CURSO</div><div class="stat-val" id="stat-mes">S/. —</div><div class="stat-sub" id="stat-mes-label">—</div></div>
+      <div class="stat-card"><div class="stat-label">TOTAL HISTORIAL</div><div class="stat-val" id="stat-total">—</div><div class="stat-sub">Registros de pago</div></div>
     </div>
 
     <!-- PAGOS POR APROBAR -->
     <div class="section-card">
       <div class="section-header">
         <h2>⏳ Pagos por aprobar</h2>
-        <span class="pending-badge" id="pending-badge">3 pendientes</span>
+        <span class="pending-badge" id="pending-badge">— pendientes</span>
       </div>
       <table>
         <thead>
           <tr><th>ALUMNO</th><th>CONCEPTO</th><th>MONTO</th><th>FECHA ENVÍO</th><th>MEDIO</th><th>ACCIONES</th></tr>
         </thead>
         <tbody id="pendingBody">
-          <tr id="prow-1">
-            <td><div class="alumno-name">Martín Gómez Silva</div><div class="alumno-sub">Socio #1042</div></td>
-            <td>Renovación BJJ · 1 mes</td>
-            <td><span class="amount">S/. 150.00</span></td>
-            <td>25 Mar 2025, 20:15</td>
-            <td><span class="pay-method-badge pm-mp">Mercado Pago</span></td>
-            <td>
-              <button class="btn-confirm" onclick="confirmar(1,'Martín Gómez')">✓ Confirmar pago</button>
-              <button class="btn-reject" onclick="rechazar(1,'Martín Gómez')">✕ Rechazar</button>
-            </td>
-          </tr>
-          <tr id="prow-2">
-            <td><div class="alumno-name">Sofía Martínez Ruiz</div><div class="alumno-sub">Socia #1055</div></td>
-            <td>Renovación Muay Thai · 3 meses</td>
-            <td><span class="amount">S/. 405.00</span></td>
-            <td>26 Mar 2025, 11:30</td>
-            <td><span class="pay-method-badge pm-mp">Mercado Pago</span></td>
-            <td>
-              <button class="btn-confirm" onclick="confirmar(2,'Sofía Martínez')">✓ Confirmar pago</button>
-              <button class="btn-reject" onclick="rechazar(2,'Sofía Martínez')">✕ Rechazar</button>
-            </td>
-          </tr>
-          <tr id="prow-3">
-            <td><div class="alumno-name">Carlos Barrón Díaz</div><div class="alumno-sub">Socio #0981</div></td>
-            <td>Reactivación BJJ · 1 mes</td>
-            <td><span class="amount">S/. 150.00</span></td>
-            <td>27 Mar 2025, 09:45</td>
-            <td><span class="pay-method-badge pm-cash">Efectivo</span></td>
-            <td>
-              <button class="btn-confirm" onclick="confirmar(3,'Carlos Barrón')">✓ Confirmar pago</button>
-              <button class="btn-reject" onclick="rechazar(3,'Carlos Barrón')">✕ Rechazar</button>
-            </td>
-          </tr>
+          <tr class="empty-row"><td colspan="6">Cargando pagos pendientes…</td></tr>
         </tbody>
       </table>
     </div>
@@ -172,7 +136,7 @@
         </select>
         <select class="filter-select" id="filterMedio" onchange="filtrarHistorial()">
           <option value="">Todos los medios</option>
-          <option value="pm-mp">Mercado Pago</option>
+          <option value="pm-mp">Yape / Plin / Tarjeta</option>
           <option value="pm-cash">Efectivo</option>
           <option value="pm-transfer">Transferencia</option>
         </select>
@@ -183,78 +147,24 @@
           <tr><th>ALUMNO</th><th>CONCEPTO</th><th>MONTO</th><th>FECHA</th><th>MEDIO</th><th>ESTADO</th></tr>
         </thead>
         <tbody id="historyBody">
-          <tr data-estado="sb-approved" data-medio="pm-mp">
-            <td><div class="alumno-name">Luis Fernando Torres</div><div class="alumno-sub">#1061</div></td>
-            <td>Renovación Boxeo · 6 meses</td>
-            <td><span class="amount">S/. 720.00</span></td>
-            <td>20 Mar 2025</td>
-            <td><span class="pay-method-badge pm-mp">Mercado Pago</span></td>
-            <td><span class="status-badge sb-approved">✓ Aprobado</span></td>
-          </tr>
-          <tr data-estado="sb-approved" data-medio="pm-cash">
-            <td><div class="alumno-name">Carla Sofía Benítez</div><div class="alumno-sub">#1072</div></td>
-            <td>Nueva matrícula Capoeira · 1 mes</td>
-            <td><span class="amount">S/. 130.00</span></td>
-            <td>18 Mar 2025</td>
-            <td><span class="pay-method-badge pm-cash">Efectivo</span></td>
-            <td><span class="status-badge sb-approved">✓ Aprobado</span></td>
-          </tr>
-          <tr data-estado="sb-approved" data-medio="pm-transfer">
-            <td><div class="alumno-name">Miguel Vargas León</div><div class="alumno-sub">#1038</div></td>
-            <td>Renovación BJJ + Gym · 3 meses</td>
-            <td><span class="amount">S/. 810.00</span></td>
-            <td>15 Mar 2025</td>
-            <td><span class="pay-method-badge pm-transfer">Transferencia</span></td>
-            <td><span class="status-badge sb-approved">✓ Aprobado</span></td>
-          </tr>
-          <tr data-estado="sb-pending" data-medio="pm-mp">
-            <td><div class="alumno-name">Ana Lucía Vega</div><div class="alumno-sub">#1083</div></td>
-            <td>Renovación Gym · 1 mes</td>
-            <td><span class="amount">S/. 100.00</span></td>
-            <td>24 Mar 2025</td>
-            <td><span class="pay-method-badge pm-mp">Mercado Pago</span></td>
-            <td><span class="status-badge sb-pending">⏱ Pendiente</span></td>
-          </tr>
-          <tr data-estado="sb-rejected" data-medio="pm-mp">
-            <td><div class="alumno-name">Jorge Palma Ríos</div><div class="alumno-sub">#0995</div></td>
-            <td>Renovación Muay Thai · 1 mes</td>
-            <td><span class="amount">S/. 150.00</span></td>
-            <td>22 Mar 2025</td>
-            <td><span class="pay-method-badge pm-mp">Mercado Pago</span></td>
-            <td><span class="status-badge sb-rejected">✕ Rechazado</span></td>
-          </tr>
-          <tr data-estado="sb-annulled" data-medio="pm-cash">
-            <td><div class="alumno-name">Patricia Lozano</div><div class="alumno-sub">#1010</div></td>
-            <td>Matrícula BJJ · 1 mes (Anulado)</td>
-            <td><span class="amount">S/. 150.00</span></td>
-            <td>10 Mar 2025</td>
-            <td><span class="pay-method-badge pm-cash">Efectivo</span></td>
-            <td><span class="status-badge sb-annulled">— Anulado</span></td>
-          </tr>
+          <tr class="empty-row"><td colspan="6">Cargando historial…</td></tr>
         </tbody>
       </table>
     </div>
   </main>
 
-  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a> · <a href="#">Política de Privacidad</a></footer>
+  <footer><strong>FORCA &amp; FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a> · <a href="#">Política de Privacidad</a></footer>
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
-    const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol(['Admin', 'Tesorería']);
+    initNav();
 
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    var API = 'https://forca-fitness-backend.onrender.com';
+    var headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
-    }
-
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
-
-    // Mapa medio_pago → clase CSS y etiqueta
-    const medioMap = {
+    var medioMap = {
       'yape':          { cls: 'pm-mp',       label: 'Yape' },
       'plin':          { cls: 'pm-mp',       label: 'Plin' },
       'efectivo':      { cls: 'pm-cash',     label: 'Efectivo' },
@@ -263,17 +173,17 @@
     };
 
     function medioHtml(medio) {
-      const m = medioMap[medio] || { cls: 'pm-cash', label: medio };
-      return `<span class="pay-method-badge ${m.cls}">${m.label}</span>`;
+      var m = medioMap[medio] || { cls: 'pm-cash', label: medio || '—' };
+      return '<span class="pay-method-badge ' + m.cls + '">' + m.label + '</span>';
     }
 
     function estadoHtml(estado) {
-      const map = {
+      var map = {
         'pendiente':  '<span class="status-badge sb-pending">⏱ Pendiente</span>',
         'aprobado':   '<span class="status-badge sb-approved">✓ Aprobado</span>',
         'rechazado':  '<span class="status-badge sb-rejected">✕ Rechazado</span>'
       };
-      return map[estado] || `<span class="status-badge sb-annulled">${estado}</span>`;
+      return map[estado] || '<span class="status-badge sb-annulled">' + estado + '</span>';
     }
 
     function formatFecha(f) {
@@ -283,9 +193,9 @@
 
     async function cargarPendientes() {
       try {
-        const res = await fetch(API + '/api/pagos/pendientes', { headers });
-        const data = await res.json();
-        const tbody = document.getElementById('pendingBody');
+        var res = await fetch(API + '/api/pagos/pendientes', { headers: headers });
+        var data = await res.json();
+        var tbody = document.getElementById('pendingBody');
         tbody.innerHTML = '';
 
         if (!data.length) {
@@ -300,20 +210,19 @@
         document.getElementById('pending-badge').textContent = data.length + ' pendiente' + (data.length > 1 ? 's' : '');
 
         data.forEach(function(p) {
-          const nombre = (p.alumno || 'Alumno').split(' ').slice(0,2).join(' ');
-          const tr = document.createElement('tr');
+          var nombre = (p.alumno || 'Alumno').split(' ').slice(0,2).join(' ');
+          var tr = document.createElement('tr');
           tr.id = 'prow-' + p.id;
-          tr.innerHTML = `
-            <td><div class="alumno-name">${p.alumno || '—'}</div><div class="alumno-sub">DNI ${p.dni || '—'}</div></td>
-            <td>${p.concepto || 'Pago'}</td>
-            <td><span class="amount">S/. ${parseFloat(p.monto).toFixed(2)}</span></td>
-            <td>${formatFecha(p.fecha_pago)}</td>
-            <td>${medioHtml(p.medio_pago)}</td>
-            <td>
-              <button class="btn-confirm" onclick="confirmar(${p.id},'${nombre}')">✓ Confirmar pago</button>
-              <button class="btn-reject" onclick="rechazar(${p.id},'${nombre}')">✕ Rechazar</button>
-            </td>
-          `;
+          tr.innerHTML =
+            '<td><div class="alumno-name">' + (p.alumno || '—') + '</div><div class="alumno-sub">DNI ' + (p.dni || '—') + '</div></td>' +
+            '<td>' + (p.concepto || 'Pago') + '</td>' +
+            '<td><span class="amount">S/. ' + parseFloat(p.monto).toFixed(2) + '</span></td>' +
+            '<td>' + formatFecha(p.fecha_pago) + '</td>' +
+            '<td>' + medioHtml(p.medio_pago) + '</td>' +
+            '<td>' +
+              '<button class="btn-confirm" onclick="confirmar(' + p.id + ',\'' + nombre + '\')">✓ Confirmar pago</button>' +
+              '<button class="btn-reject" onclick="rechazar(' + p.id + ',\'' + nombre + '\')">✕ Rechazar</button>' +
+            '</td>';
           tbody.appendChild(tr);
         });
       } catch(e) {
@@ -323,38 +232,53 @@
 
     async function cargarHistorial() {
       try {
-        const res = await fetch(API + '/api/pagos', { headers });
-        const data = await res.json();
-        const tbody = document.getElementById('historyBody');
+        var res = await fetch(API + '/api/pagos', { headers: headers });
+        var data = await res.json();
+        var tbody = document.getElementById('historyBody');
         tbody.innerHTML = '';
 
+        document.getElementById('stat-total').textContent = data.length;
+
+        var totalMes = 0;
+        var mesActual = new Date().getMonth();
+        var anioActual = new Date().getFullYear();
+
         data.forEach(function(p) {
-          const estadoKey = p.estado === 'aprobado' ? 'sb-approved' : p.estado === 'pendiente' ? 'sb-pending' : 'sb-rejected';
-          const medioKey = p.medio_pago === 'efectivo' ? 'pm-cash' : p.medio_pago === 'transferencia' ? 'pm-transfer' : 'pm-mp';
-          const tr = document.createElement('tr');
+          var estadoKey = p.estado === 'aprobado' ? 'sb-approved' : p.estado === 'pendiente' ? 'sb-pending' : 'sb-rejected';
+          var medioKey = p.medio_pago === 'efectivo' ? 'pm-cash' : p.medio_pago === 'transferencia' ? 'pm-transfer' : 'pm-mp';
+          var tr = document.createElement('tr');
           tr.setAttribute('data-estado', estadoKey);
           tr.setAttribute('data-medio', medioKey);
-          tr.innerHTML = `
-            <td><div class="alumno-name">${p.alumno || '—'}</div><div class="alumno-sub">DNI ${p.dni || '—'}</div></td>
-            <td>${p.concepto || 'Pago'}</td>
-            <td><span class="amount">S/. ${parseFloat(p.monto).toFixed(2)}</span></td>
-            <td>${formatFecha(p.fecha_pago)}</td>
-            <td>${medioHtml(p.medio_pago)}</td>
-            <td>${estadoHtml(p.estado)}</td>
-          `;
+          tr.innerHTML =
+            '<td><div class="alumno-name">' + (p.alumno || '—') + '</div><div class="alumno-sub">DNI ' + (p.dni || '—') + '</div></td>' +
+            '<td>' + (p.concepto || 'Pago') + '</td>' +
+            '<td><span class="amount">S/. ' + parseFloat(p.monto).toFixed(2) + '</span></td>' +
+            '<td>' + formatFecha(p.fecha_pago) + '</td>' +
+            '<td>' + medioHtml(p.medio_pago) + '</td>' +
+            '<td>' + estadoHtml(p.estado) + '</td>';
           tbody.appendChild(tr);
+
+          if (p.estado === 'aprobado' && p.fecha_pago) {
+            var d = new Date(p.fecha_pago);
+            if (d.getMonth() === mesActual && d.getFullYear() === anioActual) {
+              totalMes += parseFloat(p.monto) || 0;
+            }
+          }
         });
+
+        document.getElementById('stat-mes').textContent = 'S/. ' + totalMes.toFixed(2);
+        document.getElementById('stat-mes-label').textContent = new Date().toLocaleDateString('es-PE', { month:'long', year:'numeric' });
       } catch(e) {
         console.error('Error cargando historial:', e);
       }
     }
 
     async function confirmar(id, nombre) {
-      const row = document.getElementById('prow-' + id);
+      var row = document.getElementById('prow-' + id);
       if (!row) return;
       row.classList.add('row-confirming');
       try {
-        const res = await fetch(API + '/api/pagos/' + id + '/confirmar', { method: 'PUT', headers });
+        var res = await fetch(API + '/api/pagos/' + id + '/confirmar', { method: 'PUT', headers: headers });
         if (!res.ok) throw new Error();
         toast('✅ Pago de ' + nombre + ' confirmado exitosamente');
         setTimeout(function() {
@@ -369,11 +293,11 @@
     }
 
     async function rechazar(id, nombre) {
-      const row = document.getElementById('prow-' + id);
+      var row = document.getElementById('prow-' + id);
       if (!row) return;
       row.classList.add('row-removing');
       try {
-        const res = await fetch(API + '/api/pagos/' + id + '/rechazar', { method: 'PUT', headers });
+        var res = await fetch(API + '/api/pagos/' + id + '/rechazar', { method: 'PUT', headers: headers });
         if (!res.ok) throw new Error();
         toast('❌ Pago de ' + nombre + ' rechazado');
         setTimeout(function() {
@@ -414,6 +338,6 @@
 
     cargarPendientes();
     cargarHistorial();
-</script>
+  </script>
 </body>
 </html>

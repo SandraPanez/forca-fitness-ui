@@ -22,6 +22,8 @@
     .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
     .user-info .name{font-size:13px;font-weight:600;}
     .user-info .role{font-size:11px;color:#9ca3af;}
+    .btn-logout{background:transparent;border:1.5px solid #e5e7eb;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#6b7280;transition:all .18s;}
+    .btn-logout:hover{border-color:#dc2626;color:#dc2626;}
     .page-wrap{max-width:1200px;margin:0 auto;padding:28px 32px;}
     .eyebrow{font-size:11px;font-weight:700;color:#15803d;background:#dcfce7;border-radius:20px;padding:4px 12px;display:inline-flex;align-items:center;gap:5px;margin-bottom:12px;}
     .eyebrow span{width:6px;height:6px;background:#16a34a;border-radius:50%;animation:pulse 1.5s infinite;}
@@ -31,7 +33,6 @@
     .dash-header p{font-size:13px;color:#6b7280;margin-top:4px;}
     .btn-new{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .18s;}
     .btn-new:hover{background:#0a2448;}
-    /* STATS */
     .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
     .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px 18px;transition:box-shadow .18s,transform .15s;}
     .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
@@ -42,12 +43,10 @@
     .stat-orange .stat-val{color:#d97706;}
     .stat-red .stat-val{color:#dc2626;}
     .stat-blue .stat-val{color:#1d4ed8;}
-    /* MAIN GRID */
     .main-grid{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-bottom:24px;}
     .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;}
     .card-title{font-size:13px;font-weight:700;color:#374151;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
     .card-title a{font-size:11px;font-weight:600;color:#0d2d5e;text-decoration:none;}
-    /* TABLE */
     table{width:100%;border-collapse:collapse;}
     thead th{padding:8px 12px;font-size:10px;font-weight:700;color:#9ca3af;text-align:left;letter-spacing:.3px;border-bottom:1px solid #e5e7eb;}
     tbody td{padding:10px 12px;font-size:12px;border-bottom:1px solid #f3f4f6;vertical-align:middle;}
@@ -59,21 +58,18 @@
     .badge-active{background:#dcfce7;color:#15803d;}
     .badge-warn{background:#fef9c3;color:#92400e;}
     .badge-inactive{background:#f3f4f6;color:#6b7280;}
-    /* PAGOS PENDIENTES */
     .pago-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f3f4f6;}
     .pago-item:last-child{border-bottom:none;}
     .pago-name{font-size:13px;font-weight:700;color:#111;}
     .pago-concepto{font-size:11px;color:#9ca3af;margin-top:2px;}
     .pago-monto{font-size:14px;font-weight:800;color:#0d2d5e;}
     .pago-medio{font-size:10px;color:#6b7280;text-align:right;margin-top:2px;}
-    /* QUICK ACTIONS */
     .actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
     .action-btn{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:box-shadow .18s,transform .15s;text-decoration:none;}
     .action-btn:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
     .action-icon{font-size:20px;}
     .action-label{font-size:12px;font-weight:700;color:#374151;}
     .action-sub{font-size:11px;color:#9ca3af;}
-    /* ACTIVIDAD */
     .act-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f3f4f6;}
     .act-item:last-child{border-bottom:none;}
     .act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
@@ -95,20 +91,15 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html" class="active">📊 Dashboard</a>
-      <a href="alumnos.html">Alumnos</a>
-      <a href="control_acceso.html">🛡 Control de Acceso</a>
-      <a href="tesoreria.html">Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" id="nav-avatar" onclick="location.href='perfil.html'">FD</div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
       <div class="user-info">
-        <div class="name" id="nav-nombre">Ing. Fred Duarte</div>
-        <div class="role" id="nav-rol">Administrador General</div>
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
       </div>
+      <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
     </div>
   </nav>
 
@@ -122,80 +113,30 @@
       <button class="btn-new" onclick="location.href='renovar.html'">➕ Nueva matrícula</button>
     </div>
 
-    <!-- STATS -->
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">TOTAL ALUMNOS</div>
-        <div class="stat-val" id="stat-total">—</div>
-        <div class="stat-sub">Registrados en el sistema</div>
-      </div>
-      <div class="stat-card stat-green">
-        <div class="stat-label">ACTIVOS</div>
-        <div class="stat-val" id="stat-activos">—</div>
-        <div class="stat-sub">Membresía vigente</div>
-      </div>
-      <div class="stat-card stat-orange">
-        <div class="stat-label">PRÓX. A VENCER</div>
-        <div class="stat-val" id="stat-prox">—</div>
-        <div class="stat-sub">Vencen en 7 días</div>
-      </div>
-      <div class="stat-card stat-red">
-        <div class="stat-label">PAGOS PENDIENTES</div>
-        <div class="stat-val" id="stat-pagos">—</div>
-        <div class="stat-sub">Por confirmar</div>
-      </div>
-      <div class="stat-card stat-blue">
-        <div class="stat-label">INACTIVOS</div>
-        <div class="stat-val" id="stat-inactivos">—</div>
-        <div class="stat-sub">Sin membresía activa</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">TOTAL ALUMNOS</div><div class="stat-val" id="stat-total">—</div><div class="stat-sub">Registrados en el sistema</div></div>
+      <div class="stat-card stat-green"><div class="stat-label">ACTIVOS</div><div class="stat-val" id="stat-activos">—</div><div class="stat-sub">Membresía vigente</div></div>
+      <div class="stat-card stat-orange"><div class="stat-label">PRÓX. A VENCER</div><div class="stat-val" id="stat-prox">—</div><div class="stat-sub">Vencen en 7 días</div></div>
+      <div class="stat-card stat-red"><div class="stat-label">PAGOS PENDIENTES</div><div class="stat-val" id="stat-pagos">—</div><div class="stat-sub">Por confirmar</div></div>
+      <div class="stat-card stat-blue"><div class="stat-label">INACTIVOS</div><div class="stat-val" id="stat-inactivos">—</div><div class="stat-sub">Sin membresía activa</div></div>
     </div>
 
-    <!-- MAIN GRID -->
     <div class="main-grid">
-      <!-- TABLA ALUMNOS RECIENTES -->
       <div class="card">
-        <div class="card-title">
-          Alumnos recientes
-          <a href="alumnos.html">Ver todos →</a>
-        </div>
+        <div class="card-title">Alumnos recientes<a href="alumnos.html">Ver todos →</a></div>
         <div id="tabla-alumnos"><div class="loading">Cargando alumnos...</div></div>
       </div>
-
-      <!-- PAGOS PENDIENTES -->
       <div class="card">
-        <div class="card-title">
-          Pagos pendientes
-          <a href="tesoreria.html">Ver todos →</a>
-        </div>
+        <div class="card-title">Pagos pendientes<a href="tesoreria.html">Ver todos →</a></div>
         <div id="lista-pagos"><div class="loading">Cargando pagos...</div></div>
       </div>
     </div>
 
-    <!-- QUICK ACTIONS -->
     <div class="card" style="margin-bottom:20px;">
       <div class="card-title">Accesos rápidos</div>
-      <div class="actions-grid">
-        <a class="action-btn" href="alumnos.html">
-          <div class="action-icon">👥</div>
-          <div><div class="action-label">Gestión de Alumnos</div><div class="action-sub">Ver fichas, estados y matrículas</div></div>
-        </a>
-        <a class="action-btn" href="tesoreria.html">
-          <div class="action-icon">💰</div>
-          <div><div class="action-label">Tesorería</div><div class="action-sub">Confirmar y rechazar pagos</div></div>
-        </a>
-        <a class="action-btn" href="control_acceso.html">
-          <div class="action-icon">🛡</div>
-          <div><div class="action-label">Control de Acceso</div><div class="action-sub">Monitoreo de ingresos QR</div></div>
-        </a>
-        <a class="action-btn" href="disciplinas.html">
-          <div class="action-icon">🥋</div>
-          <div><div class="action-label">Horarios y Clases</div><div class="action-sub">Disponibilidad por disciplina</div></div>
-        </a>
-      </div>
+      <div class="actions-grid" id="quickActions"></div>
     </div>
 
-    <!-- ACTIVIDAD RECIENTE -->
     <div class="card">
       <div class="card-title">Actividad reciente del sistema</div>
       <div id="actividad">
@@ -207,22 +148,47 @@
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a></footer>
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
 
-    // Auth guard
+    // Auth guard (cualquier usuario autenticado puede ver el dashboard)
     if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+
+    // Inicializar nav dinámico
+    initNav();
+
+    // Personalizar saludo
+    var usuario = _getUsuario();
     if (usuario.nombre) {
-      document.getElementById('nav-nombre').textContent = usuario.nombre;
-      document.getElementById('nav-rol').textContent = usuario.rol || 'Staff';
-      document.getElementById('nav-avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
-      const hora = new Date().getHours();
-      const saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
+      var hora = new Date().getHours();
+      var saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
       document.getElementById('dash-saludo').textContent = saludo + ', ' + usuario.nombre.split(' ')[0] + '. Aquí el resumen de hoy.';
     }
 
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+    // Accesos rápidos según rol
+    var rol = (usuario.rol || '').trim();
+    var acciones = [];
+    if (rol === 'Admin' || rol === 'Tesorería') {
+      acciones = [
+        { href:'alumnos.html',        icon:'👥', label:'Gestión de Alumnos',   sub:'Ver fichas, estados y matrículas' },
+        { href:'tesoreria.html',      icon:'💰', label:'Tesorería',             sub:'Confirmar y rechazar pagos' },
+        { href:'control_acceso.html', icon:'🛡', label:'Control de Acceso',     sub:'Monitoreo de ingresos QR' },
+        { href:'disciplinas.html',    icon:'🥋', label:'Horarios y Clases',     sub:'Disponibilidad por disciplina' },
+      ];
+    } else {
+      acciones = [
+        { href:'disciplinas.html',  icon:'🥋', label:'Mis Clases',       sub:'Horarios y cupos disponibles' },
+        { href:'renovar.html',      icon:'🔄', label:'Renovar',          sub:'Renueva tu matrícula' },
+        { href:'pagos.html',        icon:'💳', label:'Mis Pagos',        sub:'Historial de pagos' },
+        { href:'perfil.html',       icon:'👤', label:'Mi Perfil',        sub:'Ver y editar datos' },
+      ];
+    }
+    document.getElementById('quickActions').innerHTML = acciones.map(function(a) {
+      return '<a class="action-btn" href="' + a.href + '"><div class="action-icon">' + a.icon + '</div><div><div class="action-label">' + a.label + '</div><div class="action-sub">' + a.sub + '</div></div></a>';
+    }).join('');
+
+    var headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 
     function formatFecha(f) {
       if (!f) return '—';
@@ -230,10 +196,10 @@
     }
 
     function estadoBadge(a) {
-      const hoy = new Date();
+      var hoy = new Date();
       if (!a.fecha_fin_membresia) return { clase: 'badge-inactive', texto: '— Inactivo' };
-      const fin = new Date(a.fecha_fin_membresia);
-      const diff = Math.ceil((fin - hoy) / (1000*60*60*24));
+      var fin = new Date(a.fecha_fin_membresia);
+      var diff = Math.ceil((fin - hoy) / (1000*60*60*24));
       if (diff < 0) return { clase: 'badge-inactive', texto: 'Vencido' };
       if (diff <= 7) return { clase: 'badge-warn', texto: 'Próx. vencer' };
       return { clase: 'badge-active', texto: 'Activo' };
@@ -241,94 +207,66 @@
 
     async function cargarDashboard() {
       try {
-        // Cargar alumnos
-        const resA = await fetch(API + '/api/alumnos', { headers });
-        const alumnos = await resA.json();
-
-        // Stats
-        const hoy = new Date();
-        let activos = 0, proxVencer = 0, inactivos = 0;
-        alumnos.forEach(a => {
+        var resA = await fetch(API + '/api/alumnos', { headers: headers });
+        var alumnos = await resA.json();
+        var hoy = new Date();
+        var activos = 0, proxVencer = 0, inactivos = 0;
+        alumnos.forEach(function(a) {
           if (!a.fecha_fin_membresia) { inactivos++; return; }
-          const fin = new Date(a.fecha_fin_membresia);
-          const diff = Math.ceil((fin - hoy) / (1000*60*60*24));
+          var fin = new Date(a.fecha_fin_membresia);
+          var diff = Math.ceil((fin - hoy) / (1000*60*60*24));
           if (diff < 0) inactivos++;
           else if (diff <= 7) proxVencer++;
           else activos++;
         });
-
         document.getElementById('stat-total').textContent = alumnos.length;
         document.getElementById('stat-activos').textContent = activos;
         document.getElementById('stat-prox').textContent = proxVencer;
         document.getElementById('stat-inactivos').textContent = inactivos;
 
-        // Tabla alumnos recientes (últimos 5)
-        const recientes = alumnos.slice(0, 5);
-        if (recientes.length === 0) {
+        var recientes = alumnos.slice(0, 5);
+        if (!recientes.length) {
           document.getElementById('tabla-alumnos').innerHTML = '<div class="loading">No hay alumnos registrados</div>';
         } else {
           document.getElementById('tabla-alumnos').innerHTML =
             '<table><thead><tr><th>ALUMNO</th><th>DISCIPLINA</th><th>ESTADO</th><th>VENCE</th></tr></thead><tbody>' +
-            recientes.map(a => {
-              const badge = estadoBadge(a);
+            recientes.map(function(a) {
+              var badge = estadoBadge(a);
               return '<tr onclick="location.href=\'alumnos.html\'" style="cursor:pointer">' +
                 '<td><div class="alumno-name">' + (a.nombre||'—') + '</div><div class="alumno-sub">ID #' + a.id_alumno + '</div></td>' +
                 '<td>' + (a.disciplina || '—') + '</td>' +
                 '<td><span class="badge ' + badge.clase + '">' + badge.texto + '</span></td>' +
-                '<td>' + formatFecha(a.fecha_fin_membresia) + '</td>' +
-                '</tr>';
-            }).join('') +
-            '</tbody></table>';
+                '<td>' + formatFecha(a.fecha_fin_membresia) + '</td></tr>';
+            }).join('') + '</tbody></table>';
         }
 
-        // Registrar actividad
-        const actEl = document.getElementById('actividad');
+        var actEl = document.getElementById('actividad');
         actEl.innerHTML =
           '<div class="act-item"><div class="act-dot dot-green"></div><div><div class="act-text">' + alumnos.length + ' alumnos cargados desde la base de datos</div><div class="act-time">Ahora</div></div></div>' +
           '<div class="act-item"><div class="act-dot dot-blue"></div><div><div class="act-text">' + activos + ' membresías activas · ' + proxVencer + ' próximas a vencer</div><div class="act-time">Ahora</div></div></div>';
-
       } catch(e) {
-        console.error('Error cargando alumnos:', e);
         document.getElementById('stat-total').textContent = '—';
       }
 
       try {
-        // Cargar pagos pendientes
-        const resP = await fetch(API + '/api/pagos/pendientes', { headers });
-        const pagos = await resP.json();
-
+        var resP = await fetch(API + '/api/pagos/pendientes', { headers: headers });
+        var pagos = await resP.json();
         document.getElementById('stat-pagos').textContent = pagos.length;
-
-        if (pagos.length === 0) {
+        if (!pagos.length) {
           document.getElementById('lista-pagos').innerHTML = '<div class="loading" style="color:#16a34a">✓ Sin pagos pendientes</div>';
         } else {
-          const medioLabel = { yape:'📱 Yape', plin:'📱 Plin', efectivo:'💵 Efectivo', tarjeta:'💳 Tarjeta', transferencia:'🏦 Transferencia' };
-          document.getElementById('lista-pagos').innerHTML = pagos.slice(0,6).map(p =>
-            '<div class="pago-item">' +
-            '<div><div class="pago-name">' + (p.nombre_alumno || 'Alumno #' + p.id_alumno) + '</div>' +
-            '<div class="pago-concepto">' + (p.concepto || 'Pago') + '</div></div>' +
-            '<div style="text-align:right"><div class="pago-monto">S/. ' + Number(p.monto).toFixed(2) + '</div>' +
-            '<div class="pago-medio">' + (medioLabel[p.medio_pago] || p.medio_pago) + '</div></div>' +
-            '</div>'
-          ).join('');
-
-          // Agregar a actividad
-          const actEl = document.getElementById('actividad');
-          actEl.innerHTML += '<div class="act-item"><div class="act-dot dot-orange"></div><div><div class="act-text">' + pagos.length + ' pago(s) pendientes de confirmación en Tesorería</div><div class="act-time">Ahora</div></div></div>';
+          var medioLabel = { yape:'📱 Yape', plin:'📱 Plin', efectivo:'💵 Efectivo', tarjeta:'💳 Tarjeta', transferencia:'🏦 Transferencia' };
+          document.getElementById('lista-pagos').innerHTML = pagos.slice(0,6).map(function(p) {
+            return '<div class="pago-item"><div><div class="pago-name">' + (p.nombre_alumno || 'Alumno #' + p.id_alumno) + '</div>' +
+              '<div class="pago-concepto">' + (p.concepto || 'Pago') + '</div></div>' +
+              '<div style="text-align:right"><div class="pago-monto">S/. ' + Number(p.monto).toFixed(2) + '</div>' +
+              '<div class="pago-medio">' + (medioLabel[p.medio_pago] || p.medio_pago) + '</div></div></div>';
+          }).join('');
+          document.getElementById('actividad').innerHTML += '<div class="act-item"><div class="act-dot dot-orange"></div><div><div class="act-text">' + pagos.length + ' pago(s) pendientes de confirmación</div><div class="act-time">Ahora</div></div></div>';
         }
-
       } catch(e) {
-        console.error('Error cargando pagos:', e);
         document.getElementById('stat-pagos').textContent = '—';
       }
-    }
-
-    function toast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      clearTimeout(t._timer);
-      t._timer = setTimeout(() => t.classList.remove('show'), 2200);
     }
 
     cargarDashboard();

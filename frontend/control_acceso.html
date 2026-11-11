@@ -99,17 +99,15 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Dashboard</a>
-      <a href="alumnos.html">Alumnos</a>
-      <a href="#" class="active">🛡 Control de Acceso</a>
-      <a href="tesoreria.html">Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
-      <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
@@ -120,78 +118,28 @@
       <p class="page-sub">Monitoreo de ingresos por QR, estado de membresías y habilitación de socios.</p>
 
       <div class="stats-row">
-        <div class="stat-card"><div class="stat-label">TOTAL</div><div class="stat-val">41</div></div>
-        <div class="stat-card"><div class="stat-label">ACTIVOS</div><div class="stat-val" style="color:#16a34a;">32</div></div>
-        <div class="stat-card"><div class="stat-label">PRÓX. VENCER</div><div class="stat-val" style="color:#d97706;">6</div></div>
-        <div class="stat-card"><div class="stat-label">INACTIVOS</div><div class="stat-val" style="color:#6b7280;">2</div></div>
-        <div class="stat-card"><div class="stat-label">INHABILITADOS</div><div class="stat-val" style="color:#dc2626;">1</div></div>
+        <div class="stat-card"><div class="stat-label">TOTAL</div><div class="stat-val" id="st-total">—</div></div>
+        <div class="stat-card"><div class="stat-label">ACTIVOS</div><div class="stat-val" id="st-activos" style="color:#16a34a;">—</div></div>
+        <div class="stat-card"><div class="stat-label">PRÓX. VENCER</div><div class="stat-val" id="st-prox" style="color:#d97706;">—</div></div>
+        <div class="stat-card"><div class="stat-label">INACTIVOS</div><div class="stat-val" id="st-inactivos" style="color:#6b7280;">—</div></div>
+        <div class="stat-card"><div class="stat-label">INHABILITADOS</div><div class="stat-val" id="st-bloq" style="color:#dc2626;">0</div></div>
       </div>
 
       <div class="tabs-row">
-        <button class="tab active" onclick="filtrarTab('',this)">Todos (41)</button>
-        <button class="tab" onclick="filtrarTab('badge-active',this)">Activo (32)</button>
-        <button class="tab tab-warn" onclick="filtrarTab('badge-warn',this)">Próx. a vencer (6)</button>
-        <button class="tab tab-inactive" onclick="filtrarTab('badge-inactive',this)">Inactivo (2)</button>
-        <button class="tab tab-blocked" onclick="filtrarTab('badge-blocked',this)">Inhabilitado (1)</button>
+        <button class="tab active" onclick="filtrarTab('',this)">Todos</button>
+        <button class="tab" onclick="filtrarTab('badge-active',this)">Activo</button>
+        <button class="tab tab-warn" onclick="filtrarTab('badge-warn',this)">Próx. a vencer</button>
+        <button class="tab tab-inactive" onclick="filtrarTab('badge-inactive',this)">Inactivo</button>
+        <button class="tab tab-blocked" onclick="filtrarTab('badge-blocked',this)">Inhabilitado</button>
       </div>
 
       <div class="table-wrap">
         <table>
           <thead>
-            <tr>
-              <th>ALUMNO</th><th>SEDE</th><th>DISCIPLINA</th><th>ESTADO</th><th>ÚLTIMO ACCESO</th><th>MÉTODO</th>
-            </tr>
+            <tr><th>ALUMNO</th><th>SEDE</th><th>DISCIPLINA</th><th>ESTADO</th><th>VENCE</th><th>MÉTODO</th></tr>
           </thead>
           <tbody id="tableBody">
-            <tr class="selected" data-id="1" onclick="selRow(this,1)">
-              <td><div class="alumno-name">Martín Gómez Silva</div><div class="alumno-sub">Socio #1042</div></td>
-              <td>Miraflores</td><td>BJJ</td>
-              <td><span class="badge badge-warn">⏱ Próx. a vencer</span></td>
-              <td><div class="acc-time">Hoy, 19:03</div></td>
-              <td>📱 QR</td>
-            </tr>
-            <tr data-id="2" onclick="selRow(this,2)">
-              <td><div class="alumno-name">Sofía Martínez Ruiz</div><div class="alumno-sub">Socia #1055</div></td>
-              <td>San Isidro</td><td>Muay Thai</td>
-              <td><span class="badge badge-warn">⏱ Próx. a vencer</span></td>
-              <td><div class="acc-time">Hoy, 17:45</div></td>
-              <td>📱 QR</td>
-            </tr>
-            <tr data-id="3" onclick="selRow(this,3)">
-              <td><div class="alumno-name">Luis Fernando Torres</div><div class="alumno-sub">Socio #1061</div></td>
-              <td>Miraflores</td><td>Boxeo</td>
-              <td><span class="badge badge-active">✓ Activo</span></td>
-              <td><div class="acc-time">Hoy, 08:12</div></td>
-              <td>🎫 Tarjeta</td>
-            </tr>
-            <tr data-id="4" onclick="selRow(this,4)">
-              <td><div class="alumno-name">Carla Sofía Benítez</div><div class="alumno-sub">Socia #1072</div></td>
-              <td>San Isidro</td><td>Capoeira</td>
-              <td><span class="badge badge-active">✓ Activo</span></td>
-              <td><div class="acc-time">Ayer, 10:30</div></td>
-              <td>📱 QR</td>
-            </tr>
-            <tr data-id="5" onclick="selRow(this,5)">
-              <td><div class="alumno-name">Miguel Vargas León</div><div class="alumno-sub">Socio #1038</div></td>
-              <td>Miraflores</td><td>BJJ + Gym</td>
-              <td><span class="badge badge-active">✓ Activo</span></td>
-              <td><div class="acc-time">Hoy, 06:55</div></td>
-              <td>📱 QR</td>
-            </tr>
-            <tr data-id="6" onclick="selRow(this,6)">
-              <td><div class="alumno-name">Carlos Barrón Díaz</div><div class="alumno-sub">Socio #0981</div></td>
-              <td>Miraflores</td><td>BJJ</td>
-              <td><span class="badge badge-inactive">— Inactivo</span></td>
-              <td><div class="acc-time">01 Mar, 20:15</div></td>
-              <td>🎫 Tarjeta</td>
-            </tr>
-            <tr data-id="7" onclick="selRow(this,7)">
-              <td><div class="alumno-name">Roberto Díaz Ponce</div><div class="alumno-sub">Socio #0954</div></td>
-              <td>Miraflores</td><td>Boxeo</td>
-              <td><span class="badge badge-blocked">🚫 Inhabilitado</span></td>
-              <td><div class="acc-time">Denegado</div></td>
-              <td>— —</td>
-            </tr>
+            <tr><td colspan="6" style="text-align:center;padding:20px;color:#9ca3af;">Cargando...</td></tr>
           </tbody>
         </table>
       </div>
@@ -200,16 +148,16 @@
     <div class="right-col">
       <div class="sidebar-title">DETALLE DE ACCESO</div>
       <div class="alumno-card">
-        <div class="alumno-avatar" id="sb-avatar">MG</div>
-        <div class="alumno-full-name" id="sb-name">Martín Gómez Silva</div>
-        <div class="alumno-id-s" id="sb-id">Socio #1042 · Miraflores</div>
+        <div class="alumno-avatar" id="sb-avatar">--</div>
+        <div class="alumno-full-name" id="sb-name">Selecciona un alumno</div>
+        <div class="alumno-id-s" id="sb-id">—</div>
       </div>
       <div class="section-sep"></div>
-      <div class="info-row"><span class="info-label">🥋 Disciplina</span><span class="info-val blue" id="sb-disc">Brazilian Jiu-Jitsu</span></div>
-      <div class="info-row"><span class="info-label">📅 Vence</span><span class="info-val warn" id="sb-vence">28 Mar 2025 (3 días)</span></div>
-      <div class="info-row"><span class="info-label">⏱ Último acceso</span><span class="info-val" id="sb-acceso">Hoy, 19:03</span></div>
-      <div class="info-row"><span class="info-label">📱 Método</span><span class="info-val" id="sb-metodo">Código QR</span></div>
-      <div class="info-row"><span class="info-label">📊 Asistencia</span><span class="info-val ok" id="sb-asistencia">18 de 22 clases</span></div>
+      <div class="info-row"><span class="info-label">🥋 Disciplina</span><span class="info-val blue" id="sb-disc">—</span></div>
+      <div class="info-row"><span class="info-label">📅 Vence</span><span class="info-val warn" id="sb-vence">—</span></div>
+      <div class="info-row"><span class="info-label">⏱ Último acceso</span><span class="info-val" id="sb-acceso">—</span></div>
+      <div class="info-row"><span class="info-label">📱 Método</span><span class="info-val" id="sb-metodo">—</span></div>
+      <div class="info-row"><span class="info-label">📊 Asistencia</span><span class="info-val ok" id="sb-asistencia">—</span></div>
       <div class="section-sep"></div>
       <div class="sidebar-title">HISTORIAL RECIENTE</div>
       <div class="access-log" id="sb-log"></div>
@@ -224,106 +172,98 @@
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a></footer>
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
-    let accesosData = [];
+    var accesosData = [];
 
-    // Auth guard
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
-    }
+    requireRol(['Admin']);
+    initNav();
 
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+    var headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 
     async function cargarAccesos() {
       try {
-        const res = await fetch(API + '/api/alumnos', { headers });
-        const data = await res.json();
+        var res = await fetch(API + '/api/alumnos', { headers: headers });
+        var data = await res.json();
         accesosData = data;
         renderTabla(data);
         actualizarStats(data);
-        if (data.length > 0) selRow(document.querySelector('#tableBody tr'), data[0]);
-      } catch(e) { console.error('Error cargando accesos:', e); }
+        if (data.length > 0) {
+          var primerTr = document.querySelector('#tableBody tr');
+          if (primerTr) selRow(primerTr, data[0]);
+        }
+      } catch(e) {
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#dc2626;">Error cargando datos</td></tr>';
+      }
     }
 
     function estadoBadge(a) {
-      const hoy = new Date();
+      var hoy = new Date();
       if (!a.fecha_fin_membresia) return { clase: 'badge-inactive', texto: '— Inactivo' };
-      const fin = new Date(a.fecha_fin_membresia);
-      const diff = Math.ceil((fin - hoy) / (1000*60*60*24));
+      var fin = new Date(a.fecha_fin_membresia);
+      var diff = Math.ceil((fin - hoy) / (1000*60*60*24));
       if (diff < 0) return { clase: 'badge-inactive', texto: '— Inactivo' };
       if (diff <= 7) return { clase: 'badge-warn', texto: '⏱ Próx. a vencer' };
       return { clase: 'badge-active', texto: '✓ Activo' };
     }
 
+    function formatFecha(f) {
+      if (!f) return '—';
+      return new Date(f).toLocaleDateString('es-PE', { day:'2-digit', month:'short', year:'numeric' });
+    }
+
     function renderTabla(data) {
-      const tbody = document.getElementById('tableBody');
+      var tbody = document.getElementById('tableBody');
       if (!data.length) {
         tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#9ca3af;">No hay alumnos registrados</td></tr>';
         return;
       }
       tbody.innerHTML = data.map(function(a, i) {
-        const badge = estadoBadge(a);
-        const initials = (a.nombre||'').split(' ').map(function(p){return p[0];}).join('').substring(0,2).toUpperCase();
-        const disciplina = a.disciplina || a.id_disciplina || '—';
-        return '<tr data-id="'+a.id_alumno+'" onclick="selRow(this,'+JSON.stringify(a).replace(/"/g,'&quot;')+')" '+(i===0?'class="selected"':'')+'>'+
-          '<td><div class="alumno-name">'+(a.nombre||'')+'</div><div class="alumno-sub">Socio #'+String(a.id_alumno).padStart(4,'0')+'</div></td>'+
-          '<td>'+(a.sede||'Miraflores')+'</td>'+
-          '<td>'+disciplina+'</td>'+
-          '<td><span class="badge '+badge.clase+'">'+badge.texto+'</span></td>'+
-          '<td><div class="acc-time">'+formatFecha(a.fecha_fin_membresia)+'</div></td>'+
-          '<td>📱 QR</td>'+
-          '</tr>';
+        var badge = estadoBadge(a);
+        var id = a.id_alumno || a.id;
+        return '<tr data-id="' + id + '" onclick="selRowById(' + id + ')" ' + (i===0?'class="selected"':'') + '>' +
+          '<td><div class="alumno-name">' + (a.nombre||'') + '</div><div class="alumno-sub">Socio #' + String(id).padStart(4,'0') + '</div></td>' +
+          '<td>' + (a.sede||'Miraflores') + '</td>' +
+          '<td>' + (a.disciplina||'—') + '</td>' +
+          '<td><span class="badge ' + badge.clase + '">' + badge.texto + '</span></td>' +
+          '<td><div class="acc-time">' + formatFecha(a.fecha_fin_membresia) + '</div></td>' +
+          '<td>📱 QR</td></tr>';
       }).join('');
     }
 
-    function formatFecha(f) {
-      if (!f) return '—';
-      const d = new Date(f);
-      return d.toLocaleDateString('es-PE', { day:'2-digit', month:'short', year:'numeric' });
-    }
-
     function actualizarStats(data) {
-      const hoy = new Date();
-      let activos=0, proxVencer=0, inactivos=0;
+      var hoy = new Date(), activos = 0, prox = 0, inact = 0;
       data.forEach(function(a) {
-        if (!a.fecha_fin_membresia) { inactivos++; return; }
-        const fin = new Date(a.fecha_fin_membresia);
-        const diff = Math.ceil((fin - hoy) / (1000*60*60*24));
-        if (diff < 0) inactivos++;
-        else if (diff <= 7) proxVencer++;
+        if (!a.fecha_fin_membresia) { inact++; return; }
+        var diff = Math.ceil((new Date(a.fecha_fin_membresia) - hoy) / (1000*60*60*24));
+        if (diff < 0) inact++;
+        else if (diff <= 7) prox++;
         else activos++;
       });
-      const stats = document.querySelectorAll('.stat-val');
-      if (stats[0]) stats[0].textContent = data.length;
-      if (stats[1]) stats[1].textContent = activos;
-      if (stats[2]) stats[2].textContent = proxVencer;
-      if (stats[3]) stats[3].textContent = inactivos;
-      if (stats[4]) stats[4].textContent = 0;
-      // Actualizar tabs
-      const tabs = document.querySelectorAll('.tabs-row .tab');
-      if (tabs[0]) tabs[0].textContent = 'Todos (' + data.length + ')';
-      if (tabs[1]) tabs[1].textContent = 'Activo (' + activos + ')';
-      if (tabs[2]) tabs[2].textContent = 'Próx. a vencer (' + proxVencer + ')';
-      if (tabs[3]) tabs[3].textContent = 'Inactivo (' + inactivos + ')';
-      if (tabs[4]) tabs[4].textContent = 'Inhabilitado (0)';
+      document.getElementById('st-total').textContent = data.length;
+      document.getElementById('st-activos').textContent = activos;
+      document.getElementById('st-prox').textContent = prox;
+      document.getElementById('st-inactivos').textContent = inact;
     }
 
-    function selRow(tr, alumno) {
-      document.querySelectorAll('#tableBody tr').forEach(function(r){r.classList.remove('selected');});
+    function selRowById(id) {
+      var a = accesosData.find(function(x) { return (x.id_alumno||x.id) == id; });
+      var tr = document.querySelector('#tableBody tr[data-id="' + id + '"]');
+      if (a) selRow(tr, a);
+    }
+
+    function selRow(tr, a) {
+      document.querySelectorAll('#tableBody tr').forEach(function(r) { r.classList.remove('selected'); });
       if (tr) tr.classList.add('selected');
-      const a = alumno;
-      const initials = (a.nombre||'').split(' ').map(function(p){return p[0];}).join('').substring(0,2).toUpperCase();
+      var initials = (a.nombre||'').split(' ').map(function(p) { return p[0]||''; }).join('').substring(0,2).toUpperCase();
+      var id = a.id_alumno || a.id;
+      var badge = estadoBadge(a);
       document.getElementById('sb-avatar').textContent = initials;
       document.getElementById('sb-name').textContent = a.nombre || '—';
-      document.getElementById('sb-id').textContent = 'Socio #'+String(a.id_alumno).padStart(4,'0')+' · '+(a.sede||'Miraflores');
+      document.getElementById('sb-id').textContent = 'Socio #' + String(id).padStart(4,'0') + ' · ' + (a.sede||'Miraflores');
       document.getElementById('sb-disc').textContent = a.disciplina || '—';
-      const vEl = document.getElementById('sb-vence');
-      const badge = estadoBadge(a);
+      var vEl = document.getElementById('sb-vence');
       vEl.textContent = formatFecha(a.fecha_fin_membresia);
       vEl.className = 'info-val ' + (badge.clase === 'badge-active' ? 'ok' : badge.clase === 'badge-warn' ? 'warn' : 'danger');
       document.getElementById('sb-acceso').textContent = formatFecha(a.fecha_fin_membresia);
@@ -335,11 +275,11 @@
     }
 
     function filtrarTab(badge, btn) {
-      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
       btn.classList.add('active');
-      document.querySelectorAll('#tableBody tr').forEach(function(tr){
+      document.querySelectorAll('#tableBody tr').forEach(function(tr) {
         if (!badge) { tr.classList.remove('hidden'); return; }
-        if (tr.querySelector('.'+badge)) tr.classList.remove('hidden');
+        if (tr.querySelector('.' + badge)) tr.classList.remove('hidden');
         else tr.classList.add('hidden');
       });
       toast(badge ? '🔍 Filtrando por estado' : '✅ Mostrando todos los socios');
@@ -347,13 +287,12 @@
 
     function toast(msg) {
       var t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
+      t.textContent = msg; t.classList.add('show');
       clearTimeout(t._timer);
-      t._timer = setTimeout(function(){t.classList.remove('show');}, 2200);
+      t._timer = setTimeout(function() { t.classList.remove('show'); }, 2200);
     }
 
     cargarAccesos();
-</script>
+  </script>
 </body>
 </html>
