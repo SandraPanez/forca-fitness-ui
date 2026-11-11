@@ -5,14 +5,33 @@
 
 const API = 'https://forca-fitness-backend.onrender.com';
 
+// ── MAPEO DE ROLES (BD → frontend) ───────────────────────────────────────────
+// BD usa: admin, tesorero, recepcion, instructor
+// Frontend acepta también: Admin, Tesorería, Alumno, Instructor (legacy)
+const ROL_MAP = {
+  'admin':      'admin',
+  'tesorero':   'tesorero',
+  'recepcion':  'recepcion',
+  'instructor': 'instructor',
+  // aliases con mayúscula (por compatibilidad)
+  'Admin':      'admin',
+  'Tesorería':  'tesorero',
+  'Tesoreria':  'tesorero',
+  'Alumno':     'recepcion',
+  'Instructor': 'instructor',
+};
+
 // ── GUARD DE ROL ─────────────────────────────────────────────────────────────
+// rolesPermitidos: array de roles en minúscula según BD
+// Ej: requireRol(['admin','tesorero']) o requireRol([]) para cualquier usuario
 function requireRol(rolesPermitidos) {
   const token = localStorage.getItem('token');
   if (!token) { location.href = 'login.html'; return; }
   if (rolesPermitidos && rolesPermitidos.length > 0) {
     const usuario = _getUsuario();
-    const rol = (usuario.rol || '').trim();
-    const permitido = rolesPermitidos.some(r => r.toLowerCase() === rol.toLowerCase());
+    const rolOriginal = (usuario.rol || '').trim();
+    const rol = (ROL_MAP[rolOriginal] || rolOriginal).toLowerCase();
+    const permitido = rolesPermitidos.some(r => r.toLowerCase() === rol);
     if (!permitido) {
       alert('No tienes permiso para acceder a esta sección.');
       location.href = 'index.html';
@@ -21,15 +40,16 @@ function requireRol(rolesPermitidos) {
 }
 
 // ── CONFIGURACIÓN DE NAVEGACIÓN POR ROL ──────────────────────────────────────
+// Roles en BD: admin, tesorero, recepcion, instructor (todos minúscula)
 const NAV_CONFIG = {
-  Alumno: [
+  recepcion: [
     { href: 'index.html',        label: '🏠 Inicio' },
     { href: 'disciplinas.html',  label: '🥋 Mis Clases' },
     { href: 'renovar.html',      label: '🔄 Renovar' },
     { href: 'pagos.html',        label: '💳 Pagos' },
     { href: 'perfil.html',       label: '👤 Mi Perfil' },
   ],
-  Admin: [
+  admin: [
     { href: 'index.html',          label: '📊 Dashboard' },
     { href: 'alumnos.html',        label: '👥 Alumnos' },
     { href: 'mis-matriculas.html', label: '📋 Matrículas' },
@@ -37,12 +57,12 @@ const NAV_CONFIG = {
     { href: 'control_acceso.html', label: '🛡 Control Acceso' },
     { href: 'perfil.html',         label: '👤 Mi Perfil' },
   ],
-  Instructor: [
+  instructor: [
     { href: 'index.html',       label: '🏠 Inicio' },
     { href: 'disciplinas.html', label: '🥋 Mis Clases' },
     { href: 'perfil.html',      label: '👤 Mi Perfil' },
   ],
-  Tesorería: [
+  tesorero: [
     { href: 'index.html',          label: '📊 Dashboard' },
     { href: 'alumnos.html',        label: '👥 Alumnos' },
     { href: 'mis-matriculas.html', label: '📋 Matrículas' },

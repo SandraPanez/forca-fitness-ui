@@ -162,16 +162,11 @@
           return;
         }
 
-        localStorage.setItem('token', data.token);
+        // La API no devuelve JWT, usamos el email como token de sesión
+        var token = data.token || ('session_' + data.usuario.email);
+        localStorage.setItem('token', token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
-
-        // Redirigir según rol
-        var rol = (data.usuario.rol || '').trim();
-        if (rol === 'Admin' || rol === 'Tesorería') {
-          location.href = 'index.html';
-        } else {
-          location.href = 'index.html';
-        }
+        location.href = 'index.html';
 
       } catch (e) {
         errorEl.textContent = 'No se pudo conectar con el servidor.';
