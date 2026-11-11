@@ -23,11 +23,11 @@
     .user-info .role{font-size:11px;color:#9ca3af;}
     main{max-width:720px;margin:0 auto;padding:28px 32px;}
     .back-link{font-size:13px;color:#374151;text-decoration:none;display:flex;align-items:center;gap:5px;margin-bottom:12px;}
+    .back-link:hover{color:#0d2d5e;}
     .eyebrow{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:14px;}
     .eyebrow span{width:6px;height:6px;background:#1d4ed8;border-radius:50%;}
     h1{font-size:30px;font-weight:800;color:#0d2d5e;margin-bottom:6px;}
     .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;}
-    /* FORM CARD */
     .form-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;margin-bottom:16px;}
     .form-card-head{padding:20px 28px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
     .form-card-title-row{display:flex;align-items:center;gap:8px;}
@@ -47,7 +47,6 @@
     input:focus,select:focus{outline:none;border-color:#0d2d5e;}
     input:disabled{background:#f9fafb;color:#9ca3af;cursor:not-allowed;}
     .input-wrapper{position:relative;}
-    .input-lock{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;color:#9ca3af;}
     .badge-confirmed{display:inline-flex;align-items:center;gap:5px;background:#dcfce7;color:#15803d;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;position:absolute;right:10px;top:50%;transform:translateY(-50%);}
     .security-alert{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;margin-top:4px;}
     .security-alert .icon{font-size:16px;margin-top:1px;flex-shrink:0;}
@@ -55,7 +54,6 @@
     .form-actions{padding:20px 28px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px;}
     .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 22px;font-size:13px;font-weight:500;cursor:pointer;}
     .btn-save{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    /* LEGAL CARD */
     .legal-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;}
     .legal-left{display:flex;align-items:flex-start;gap:10px;}
     .legal-icon{font-size:20px;flex-shrink:0;}
@@ -63,34 +61,14 @@
     .legal-link{font-size:13px;color:#0d2d5e;font-weight:600;text-decoration:none;white-space:nowrap;}
     footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:16px;}
     footer a{color:#0d2d5e;text-decoration:none;}
-    /* ── HOVER & TRANSITION EFFECTS ── */
-    a{transition:color .18s ease;}
     button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
     button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
     button:active{transform:translateY(0);}
-    .btn-primary:hover{background:#0a2448;}
-    .btn-secondary:hover{background:#0a2448;}
-    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-pagar:hover{background:#0a2448;}
     .btn-save:hover{background:#0a2448;}
-    .btn-confirm:hover{background:#0a2448;}
-    .btn-reject:hover{background:#f3f4f6;}
-    .btn-refresh:hover{background:#0a2448;}
+    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
     .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
-    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
-    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
-    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
-    .card-link:hover{opacity:.75;}
-    .comp-link:hover{opacity:.75;}
-    .back-link:hover{color:#0d2d5e;}
-    tbody tr{transition:background .15s ease;}
-    tbody tr:hover{background:#f9fafb;}
+    .msg{background:#dcfce7;color:#166534;border-radius:8px;padding:12px 16px;font-size:13px;font-weight:600;margin-bottom:16px;display:none;}
+    .msg.error{background:#fee2e2;color:#dc2626;}
   </style>
 </head>
 <body>
@@ -100,15 +78,15 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
     <div class="nav-links">
-      <a href="#">Inicio</a>
+      <a href="index.html">Inicio</a>
       <a href="mis-matriculas.html">Mis Matrículas</a>
       <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="#">Historial de Pagos</a>
+      <a href="tesoreria.html">Tesorería</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar">MG</div>
-      <div class="user-info"><div class="name">Martín Gómez Silva</div><div class="role">Socio #1042 · BJJ Azul</div></div>
+      <div class="avatar" id="navAvatar">--</div>
+      <div class="user-info"><div class="name" id="navNombre">Cargando...</div><div class="role" id="navRol">--</div></div>
     </div>
   </nav>
 
@@ -117,6 +95,8 @@
     <div class="eyebrow"><span></span> PORTAL ALUMNO · MI PERFIL</div>
     <h1>Editar datos personales</h1>
     <p class="page-sub">Actualiza tu información personal. Los cambios se guardarán en tu perfil.</p>
+
+    <div id="msgBox" class="msg"></div>
 
     <div class="form-card">
       <div class="form-card-head">
@@ -131,49 +111,34 @@
       </div>
 
       <div class="form-body">
-        <div class="section-label">INFORMACIÓN BÁSICA <span>Expediente Socio #1042</span></div>
+        <div class="section-label">INFORMACIÓN BÁSICA <span id="secId">ID: --</span></div>
         <div class="form-grid">
-          <div class="form-group">
-            <label>NOMBRE(S) <span class="req">*</span></label>
-            <input type="text" value="Martín"/>
-          </div>
-          <div class="form-group">
-            <label>APELLIDO PATERNO <span class="req">*</span></label>
-            <input type="text" value="Gómez"/>
-          </div>
-          <div class="form-group">
-            <label>APELLIDO MATERNO <span class="req">*</span></label>
-            <input type="text" value="Silva"/>
-          </div>
-          <div class="form-group">
-            <label>FECHA DE NACIMIENTO <span class="req">*</span></label>
-            <input type="text" value="05/05/1998"/>
-          </div>
-          <div class="form-group">
-            <label>GÉNERO <span class="req">*</span></label>
-            <select>
-              <option selected>Masculino</option>
-              <option>Femenino</option>
-              <option>Prefiero no indicar</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>CELULAR / WHATSAPP <span class="req">*</span></label>
-            <input type="tel" value="+51 984 210 592"/>
-          </div>
           <div class="form-group full">
-            <label>DIRECCIÓN COMPLETA (CALLE, DISTRITO, LIMA)</label>
-            <input type="text" value="Av. Angamos Oeste 450, Miraflores, Lima"/>
+            <label>NOMBRE COMPLETO <span class="req">*</span></label>
+            <input type="text" id="inpNombre" placeholder="Tu nombre completo"/>
+          </div>
+          <div class="form-group">
+            <label>DISCIPLINA</label>
+            <input type="text" id="inpDisc" placeholder="Ej: BJJ, Boxeo..."/>
+          </div>
+          <div class="form-group">
+            <label>ROL</label>
+            <select id="inpRol">
+              <option value="Socio">Socio</option>
+              <option value="Instructor">Instructor</option>
+              <option value="Admin">Administrador</option>
+              <option value="Tesorería">Tesorería</option>
+            </select>
           </div>
           <div class="form-group full">
             <label>CORREO ELECTRÓNICO <span style="font-size:10px;color:#9ca3af;font-weight:400;">(IDENTIFICADOR DE CUENTA)</span></label>
             <div class="input-wrapper">
-              <input type="email" value="martin.gomez@gmail.com" disabled/>
+              <input type="email" id="inpEmail" disabled/>
               <span class="badge-confirmed">✓ Confirmado</span>
             </div>
             <div class="security-alert">
               <span class="icon">⚠</span>
-              <p><strong>Aviso de seguridad:</strong> El correo electrónico está vinculado a tus comprobantes fiscales y credenciales de acceso al torniquete de ingreso. Para modificarlo, solicita la actualización directamente con recepción o administración en sede.</p>
+              <p><strong>Aviso de seguridad:</strong> El correo electrónico está vinculado a tus credenciales de acceso. Para modificarlo, solicita la actualización directamente con administración en sede.</p>
             </div>
           </div>
         </div>
@@ -181,7 +146,7 @@
 
       <div class="form-actions">
         <button class="btn-cancel" onclick="location.href='perfil.html'">Cancelar</button>
-        <button class="btn-save">✓ Guardar cambios</button>
+        <button class="btn-save" id="btnGuardar" onclick="guardarCambios()">✓ Guardar cambios</button>
       </div>
     </div>
 
@@ -190,9 +155,65 @@
         <span class="legal-icon">🛡</span>
         <p class="legal-text"><strong>Protección de datos conforme a ley:</strong> Tus datos se encuentran encriptados y protegidos bajo la Ley Nº 29733 de Protección de Datos Personales de la República del Perú.</p>
       </div>
-      <a class="legal-link" href="#">Gestionar contraseña →</a>
+      <a class="legal-link" href="#">Términos de privacidad →</a>
     </div>
   </main>
-  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
+
+  <script>
+    // ── Auth guard ──
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+
+    // ── Poblar nav y formulario con datos actuales ──
+    if (usuario.nombre) {
+      const ini = usuario.nombre.substring(0,2).toUpperCase();
+      document.getElementById('navAvatar').textContent = ini;
+      document.getElementById('navNombre').textContent = usuario.nombre;
+      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+
+      document.getElementById('inpNombre').value = usuario.nombre || '';
+      document.getElementById('inpDisc').value = usuario.disciplina || '';
+      document.getElementById('inpEmail').value = usuario.email || '';
+      document.getElementById('secId').textContent = 'ID: ' + (usuario.id || '--');
+
+      // Seleccionar el rol actual en el select
+      const rolSelect = document.getElementById('inpRol');
+      for (let opt of rolSelect.options) {
+        if (opt.value === usuario.rol) { opt.selected = true; break; }
+      }
+    }
+
+    // ── Guardar cambios en localStorage ──
+    // Nota: el backend no tiene endpoint PUT /api/alumnos/:id en este proyecto,
+    // así que guardamos en localStorage para mantener la sesión actualizada.
+    function guardarCambios() {
+      const btn = document.getElementById('btnGuardar');
+      const msgBox = document.getElementById('msgBox');
+      const nombre = document.getElementById('inpNombre').value.trim();
+      const disc = document.getElementById('inpDisc').value.trim();
+      const rol = document.getElementById('inpRol').value;
+
+      if (!nombre) {
+        msgBox.textContent = 'El nombre no puede estar vacío.';
+        msgBox.className = 'msg error';
+        msgBox.style.display = 'block';
+        return;
+      }
+
+      btn.textContent = 'Guardando...';
+      btn.disabled = true;
+
+      // Actualizar datos en localStorage
+      const usuarioActualizado = { ...usuario, nombre, disciplina: disc, rol };
+      localStorage.setItem('usuario', JSON.stringify(usuarioActualizado));
+
+      msgBox.textContent = '✅ Datos actualizados correctamente. Redirigiendo a tu perfil...';
+      msgBox.className = 'msg';
+      msgBox.style.display = 'block';
+
+      setTimeout(() => location.href = 'perfil.html', 2000);
+    }
+  </script>
 </body>
 </html>

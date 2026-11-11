@@ -147,7 +147,8 @@
         <span class="cifrado">🔐 Conexión cifrada</span>
       </div>
 
-      <button class="btn-primary" onclick="location.href='alumnos.html'">Iniciar sesión →</button>
+      <button class="btn-primary" id="btnLogin" onclick="login()">Iniciar sesión →</button>
+      <p id="login-error" style="color:#dc2626;font-size:13px;text-align:center;margin-top:10px;display:none;"></p>
 
       <div class="divider">O CONTINÚA CON</div>
 
@@ -159,5 +160,49 @@
       </div>
     </div>
   </div>
+  <script>
+    async function login() {
+      const email = document.querySelector('input[type="email"]').value.trim();
+      const password = document.querySelector('input[type="password"]').value.trim();
+      const btnLogin = document.getElementById('btnLogin');
+      const errorEl = document.getElementById('login-error');
+
+      if (!email || !password) {
+        errorEl.textContent = 'Ingresa tu correo y contraseña.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      btnLogin.textContent = 'Iniciando sesión...';
+      btnLogin.disabled = true;
+      errorEl.style.display = 'none';
+
+      try {
+        const res = await fetch('https://forca-fitness-backend.onrender.com/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorEl.textContent = data.error || 'Credenciales incorrectas.';
+          errorEl.style.display = 'block';
+          btnLogin.textContent = 'Iniciar sesión →';
+          btnLogin.disabled = false;
+          return;
+        }
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+        location.href = 'alumnos.html';
+      } catch (e) {
+        errorEl.textContent = 'No se pudo conectar con el servidor.';
+        errorEl.style.display = 'block';
+        btnLogin.textContent = 'Iniciar sesión →';
+        btnLogin.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>

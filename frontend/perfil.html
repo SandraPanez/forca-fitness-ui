@@ -23,11 +23,11 @@
     .user-info .role{font-size:11px;color:#9ca3af;}
     main{max-width:720px;margin:0 auto;padding:28px 32px;}
     .back-link{font-size:13px;color:#374151;text-decoration:none;display:flex;align-items:center;gap:5px;margin-bottom:12px;}
+    .back-link:hover{color:#0d2d5e;}
     .eyebrow{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:14px;}
     .eyebrow span{width:6px;height:6px;background:#1d4ed8;border-radius:50%;}
     h1{font-size:30px;font-weight:800;color:#0d2d5e;margin-bottom:6px;}
     .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;}
-    /* PROFILE CARD */
     .profile-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;margin-bottom:20px;}
     .profile-header{padding:28px 32px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:20px;}
     .avatar-large{width:68px;height:68px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;}
@@ -36,7 +36,6 @@
     .profile-badge span{width:6px;height:6px;background:#15803d;border-radius:50%;}
     .profile-meta{font-size:12px;color:#9ca3af;margin-top:5px;display:flex;gap:14px;flex-wrap:wrap;}
     .profile-meta span{display:flex;align-items:center;gap:4px;}
-    /* INFO ROWS */
     .info-section{padding:0 32px;}
     .info-row{display:flex;align-items:center;border-bottom:1px solid #f3f4f6;padding:14px 0;}
     .info-row:last-child{border-bottom:none;}
@@ -47,7 +46,6 @@
     .btn-row{padding:20px 32px;display:flex;gap:10px;justify-content:flex-end;}
     .btn-outline{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;}
     .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 22px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    /* BOTTOM CARDS */
     .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
     .info-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 22px;}
     .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
@@ -55,6 +53,7 @@
     .card-icon{font-size:18px;}
     .card-title{font-size:14px;font-weight:700;color:#0d2d5e;}
     .card-badge-green{background:#dcfce7;color:#15803d;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;}
+    .card-badge-orange{background:#fef9c3;color:#92400e;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;}
     .card-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
     .card-row:last-child{margin-bottom:0;}
     .card-label{font-size:12px;color:#9ca3af;}
@@ -62,34 +61,13 @@
     .card-value.orange{color:#d97706;}
     footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:16px;}
     footer a{color:#0d2d5e;text-decoration:none;}
-    /* ── HOVER & TRANSITION EFFECTS ── */
-    a{transition:color .18s ease;}
     button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
     button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
     button:active{transform:translateY(0);}
     .btn-primary:hover{background:#0a2448;}
-    .btn-secondary:hover{background:#0a2448;}
     .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-pagar:hover{background:#0a2448;}
-    .btn-save:hover{background:#0a2448;}
-    .btn-confirm:hover{background:#0a2448;}
-    .btn-reject:hover{background:#f3f4f6;}
-    .btn-refresh:hover{background:#0a2448;}
     .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
-    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
-    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
-    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
-    .card-link:hover{opacity:.75;}
-    .comp-link:hover{opacity:.75;}
-    .back-link:hover{color:#0d2d5e;}
-    tbody tr{transition:background .15s ease;}
-    tbody tr:hover{background:#f9fafb;}
+    .loading-row{color:#9ca3af;font-style:italic;}
   </style>
 </head>
 <body>
@@ -99,15 +77,15 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
     <div class="nav-links">
-      <a href="#">Inicio</a>
+      <a href="index.html">Inicio</a>
       <a href="mis-matriculas.html">Mis Matrículas</a>
       <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="#">Historial de Pagos</a>
+      <a href="tesoreria.html">Tesorería</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar">MG</div>
-      <div class="user-info"><div class="name">Martín Gómez Silva</div><div class="role">Socio #1042 · BJJ Azul</div></div>
+      <div class="avatar" id="navAvatar">--</div>
+      <div class="user-info"><div class="name" id="navNombre">Cargando...</div><div class="role" id="navRol">--</div></div>
     </div>
   </nav>
 
@@ -119,16 +97,16 @@
 
     <div class="profile-card">
       <div class="profile-header">
-        <div class="avatar-large">MG</div>
+        <div class="avatar-large" id="avatarLarge">--</div>
         <div>
           <div>
-            <span class="profile-name">Martín Gómez Silva</span>
-            <span class="profile-badge"><span></span> Socio #1042 · BJJ Faixa Azul</span>
+            <span class="profile-name" id="profileNombre">Cargando...</span>
+            <span class="profile-badge"><span></span> <span id="profileBadge">--</span></span>
           </div>
           <div class="profile-meta">
-            <span>📍 Sede Central Miraflores</span>
-            <span>📅 Miembro desde Feb 2023</span>
-            <span>✅ Plan Mensual Vigente</span>
+            <span>📍 Sede Central Forca & Fitness</span>
+            <span id="profileDisc">🥋 --</span>
+            <span id="profileEstado">✅ --</span>
           </div>
         </div>
       </div>
@@ -136,36 +114,32 @@
       <div class="info-section">
         <div class="info-row">
           <div class="info-label">Nombre completo</div>
-          <div class="info-value">Martín Gómez Silva</div>
+          <div class="info-value" id="infoNombre">--</div>
         </div>
         <div class="info-row">
-          <div class="info-label">Fecha de nacimiento</div>
-          <div class="info-value">05 de Mayo de 1998 (26 años)</div>
+          <div class="info-label">Rol / Cargo</div>
+          <div class="info-value" id="infoRol">--</div>
         </div>
         <div class="info-row">
-          <div class="info-label">Género</div>
-          <div class="info-value">Masculino</div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">Dirección</div>
-          <div class="info-value">Av. Angamos Oeste 450, Miraflores, Lima</div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">Nº Documento (DNI)</div>
-          <div class="info-value">74839210 <span class="badge-verified">✓ Verificado</span></div>
+          <div class="info-label">Disciplina</div>
+          <div class="info-value" id="infoDisc">--</div>
         </div>
         <div class="info-row">
           <div class="info-label">Correo electrónico</div>
-          <div class="info-value">martin.gomez@gmail.com <span class="badge-confirmed">✓ Confirmado</span></div>
+          <div class="info-value" id="infoEmail">-- <span class="badge-confirmed">✓ Confirmado</span></div>
         </div>
         <div class="info-row">
-          <div class="info-label">Celular / WhatsApp</div>
-          <div class="info-value">+51 984 210 592</div>
+          <div class="info-label">ID de usuario</div>
+          <div class="info-value" id="infoId">-- <span class="badge-verified">✓ Verificado</span></div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Membresía hasta</div>
+          <div class="info-value" id="infoMembresia">Cargando...</div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn-outline">🔒 Cambiar contraseña</button>
+        <button class="btn-outline" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
         <button class="btn-primary" onclick="location.href='editar-perfil.html'">✏ Editar datos</button>
       </div>
     </div>
@@ -175,32 +149,116 @@
         <div class="card-head">
           <div class="card-title-row">
             <span class="card-icon">📋</span>
-            <span class="card-title">Membresía Activa</span>
+            <span class="card-title">Estado de Membresía</span>
           </div>
-          <span class="card-badge-green">Al día</span>
+          <span class="card-badge-green" id="estadoBadge">Cargando...</span>
         </div>
-        <div class="card-row"><span class="card-label">Disciplina</span><span class="card-value">Brazilian Jiu-Jitsu (BJJ)</span></div>
-        <div class="card-row"><span class="card-label">Turno asignado</span><span class="card-value">Nocturno (19:00 – 20:30)</span></div>
-        <div class="card-row"><span class="card-label">Profesor a cargo</span><span class="card-value">Prof. Renzo Gracie</span></div>
-        <div class="card-row"><span class="card-label">Vencimiento</span><span class="card-value orange">28 Mar 2025 (Vence en 3 días)</span></div>
-        <div class="card-row"><span class="card-label">Asistencias mes</span><span class="card-value">14 sesiones / 92% asistencia</span></div>
+        <div class="card-row"><span class="card-label">Disciplina</span><span class="card-value" id="cardDisc">--</span></div>
+        <div class="card-row"><span class="card-label">Rol</span><span class="card-value" id="cardRol">--</span></div>
+        <div class="card-row"><span class="card-label">ID alumno</span><span class="card-value" id="cardId">--</span></div>
+        <div class="card-row"><span class="card-label">Vencimiento</span><span class="card-value orange" id="cardVencimiento">--</span></div>
       </div>
       <div class="info-card">
         <div class="card-head">
           <div class="card-title-row">
-            <span class="card-icon">❤️</span>
-            <span class="card-title">Ficha Médica & Emergencia</span>
+            <span class="card-icon">🔐</span>
+            <span class="card-title">Sesión Activa</span>
           </div>
-          <span class="card-badge-green">Aprobado</span>
+          <span class="card-badge-green">Conectado</span>
         </div>
-        <div class="card-row"><span class="card-label">Contacto emergencia</span><span class="card-value">Rosa Silva (Madre)</span></div>
-        <div class="card-row"><span class="card-label">Teléfono emergencia</span><span class="card-value">+51 993 112 004</span></div>
-        <div class="card-row"><span class="card-label">Grupo sanguíneo</span><span class="card-value">O Positivo (O+)</span></div>
-        <div class="card-row"><span class="card-label">Alergias / Condiciones</span><span class="card-value">Ninguna registrada</span></div>
-        <div class="card-row"><span class="card-label">Seguro médico</span><span class="card-value">Rimac EPS Activo</span></div>
+        <div class="card-row"><span class="card-label">Usuario</span><span class="card-value" id="sesNombre">--</span></div>
+        <div class="card-row"><span class="card-label">Correo</span><span class="card-value" id="sesEmail">--</span></div>
+        <div class="card-row"><span class="card-label">Token activo</span><span class="card-value">✅ Sí</span></div>
+        <div class="card-row"><span class="card-label">Acceso</span><span class="card-value">🌐 Web App</span></div>
       </div>
     </div>
   </main>
-  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
+
+  <script>
+    const API = 'https://forca-fitness-backend.onrender.com';
+
+    // ── Auth guard ──
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+
+    // ── Poblar todo con datos del localStorage ──
+    if (usuario.nombre) {
+      const ini = usuario.nombre.substring(0,2).toUpperCase();
+
+      // Nav
+      document.getElementById('navAvatar').textContent = ini;
+      document.getElementById('navNombre').textContent = usuario.nombre;
+      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+
+      // Header perfil
+      document.getElementById('avatarLarge').textContent = ini;
+      document.getElementById('profileNombre').textContent = usuario.nombre;
+      document.getElementById('profileBadge').textContent = 'ID ' + (usuario.id || '--') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+      document.getElementById('profileDisc').textContent = '🥋 ' + (usuario.disciplina || 'Sin disciplina');
+
+      // Info rows
+      document.getElementById('infoNombre').textContent = usuario.nombre;
+      document.getElementById('infoRol').textContent = usuario.rol || 'Socio';
+      document.getElementById('infoDisc').textContent = usuario.disciplina || 'Sin disciplina';
+      document.getElementById('infoEmail').innerHTML = (usuario.email || '--') + ' <span class="badge-confirmed">✓ Confirmado</span>';
+      document.getElementById('infoId').innerHTML = 'ID: ' + (usuario.id || '--') + ' <span class="badge-verified">✓ Verificado</span>';
+
+      // Cards
+      document.getElementById('cardDisc').textContent = usuario.disciplina || '--';
+      document.getElementById('cardRol').textContent = usuario.rol || 'Socio';
+      document.getElementById('cardId').textContent = 'ID ' + (usuario.id || '--');
+      document.getElementById('sesNombre').textContent = usuario.nombre;
+      document.getElementById('sesEmail').textContent = usuario.email || '--';
+    }
+
+    // ── Cargar membresía desde la API ──
+    async function cargarMembresia() {
+      try {
+        const res = await fetch(API + '/api/alumnos', { headers });
+        if (!res.ok) throw new Error('Error');
+        const alumnos = await res.json();
+        const yo = alumnos.find(a => a.id == usuario.id) || alumnos[0];
+
+        if (yo && yo.fecha_fin_membresia) {
+          const diff = Math.ceil((new Date(yo.fecha_fin_membresia) - new Date()) / 86400000);
+          const fechaStr = new Date(yo.fecha_fin_membresia).toLocaleDateString('es-PE', {day:'2-digit',month:'long',year:'numeric'});
+
+          document.getElementById('infoMembresia').textContent = fechaStr;
+          document.getElementById('cardVencimiento').textContent = fechaStr + (diff >= 0 ? ' (' + diff + ' días)' : ' — Vencida');
+
+          if (diff < 0) {
+            document.getElementById('estadoBadge').textContent = 'Vencida';
+            document.getElementById('estadoBadge').className = 'card-badge-orange';
+            document.getElementById('profileEstado').textContent = '❌ Membresía vencida';
+          } else if (diff <= 7) {
+            document.getElementById('estadoBadge').textContent = 'Próx. a vencer';
+            document.getElementById('estadoBadge').className = 'card-badge-orange';
+            document.getElementById('profileEstado').textContent = '⚠️ Vence en ' + diff + ' días';
+          } else {
+            document.getElementById('estadoBadge').textContent = 'Al día';
+            document.getElementById('profileEstado').textContent = '✅ Membresía vigente';
+          }
+        } else {
+          document.getElementById('infoMembresia').textContent = 'Sin membresía activa';
+          document.getElementById('estadoBadge').textContent = 'Sin datos';
+          document.getElementById('profileEstado').textContent = '—';
+        }
+      } catch(_) {
+        document.getElementById('infoMembresia').textContent = 'No disponible';
+      }
+    }
+
+    function cerrarSesion() {
+      if (confirm('¿Seguro que deseas cerrar sesión?')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        location.href = 'login.html';
+      }
+    }
+
+    cargarMembresia();
+  </script>
 </body>
 </html>

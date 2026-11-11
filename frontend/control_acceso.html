@@ -225,62 +225,135 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    var alumnos = {
-      1:{avatar:'MG',name:'Martín Gómez Silva',id:'Socio #1042 · Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'28 Mar 2025 (3 días)',venceC:'warn',acceso:'Hoy, 19:03',metodo:'Código QR',asist:'18 de 22 clases',asistC:'ok',
-         log:[{ok:1,t:'19:03',d:'Ingreso habilitado - QR escaneado'},{ok:1,t:'19:02',d:'Primera validación BJJ Noche'},{ok:0,t:'06:55',d:'Sin actividad Torniquete 2'},{ok:1,t:'Ayer 19:10',d:'Ingreso regular BJJ'}]},
-      2:{avatar:'SM',name:'Sofía Martínez Ruiz',id:'Socia #1055 · San Isidro',disc:'Muay Thai',vence:'31 Mar 2025 (6 días)',venceC:'warn',acceso:'Hoy, 17:45',metodo:'Código QR',asist:'14 de 20 clases',asistC:'ok',
-         log:[{ok:1,t:'17:45',d:'Ingreso habilitado - QR'},{ok:1,t:'Ayer 17:50',d:'Ingreso Muay Thai tarde'}]},
-      3:{avatar:'LF',name:'Luis Fernando Torres',id:'Socio #1061 · Miraflores',disc:'Boxeo Clásico',vence:'15 Jun 2025',venceC:'ok',acceso:'Hoy, 08:12',metodo:'Tarjeta NFC',asist:'20 de 22 clases',asistC:'ok',
-         log:[{ok:1,t:'08:12',d:'Ingreso habilitado - Tarjeta'},{ok:1,t:'Ayer 07:58',d:'Ingreso puntual Boxeo AM'}]},
-      4:{avatar:'CB',name:'Carla Sofía Benítez',id:'Socia #1072 · San Isidro',disc:'Capoeira',vence:'30 Abr 2025',venceC:'ok',acceso:'Ayer, 10:30',metodo:'Código QR',asist:'10 de 12 clases',asistC:'ok',
-         log:[{ok:1,t:'Ayer 10:30',d:'Ingreso habilitado - QR'},{ok:1,t:'22 Mar',d:'Acceso clase Capoeira Sáb'}]},
-      5:{avatar:'MV',name:'Miguel Vargas León',id:'Socio #1038 · Miraflores',disc:'BJJ + Acond. Físico',vence:'30 May 2025',venceC:'ok',acceso:'Hoy, 06:55',metodo:'Código QR',asist:'21 de 22 clases',asistC:'ok',
-         log:[{ok:1,t:'06:55',d:'Ingreso AM Gym habilitado'},{ok:1,t:'19:08',d:'Ingreso BJJ Noche habilitado'}]},
-      6:{avatar:'CB',name:'Carlos Barrón Díaz',id:'Socio #0981 · Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'01 Mar 2025 (Vencido)',venceC:'danger',acceso:'01 Mar, 20:15',metodo:'Tarjeta NFC',asist:'2 de 22 clases',asistC:'danger',
-         log:[{ok:0,t:'Hoy',d:'Denegado - membresía vencida'},{ok:1,t:'01 Mar',d:'Último acceso válido'},{ok:0,t:'02 Mar',d:'Intento fallido - vencido'}]},
-      7:{avatar:'RD',name:'Roberto Díaz Ponce',id:'Socio #0954 · Miraflores',disc:'Boxeo Clásico',vence:'Inhabilitado',venceC:'danger',acceso:'Acceso denegado',metodo:'Inhabilitado',asist:'0 clases',asistC:'danger',
-         log:[{ok:0,t:'Hoy',d:'Bloqueado - inhabilitado'},{ok:0,t:'Ayer',d:'Bloqueado - inhabilitado'},{ok:0,t:'25 Mar',d:'Bloqueo aplicado por admin'}]}
-    };
+    const API = 'https://forca-fitness-backend.onrender.com';
+    let accesosData = [];
 
-    function renderLog(log) {
-      return log.map(function(l){
-        return '<div class="log-item"><div class="log-dot '+(l.ok?'dot-green':'dot-red')+'"></div><span class="log-time">'+l.t+'</span><span class="log-desc">'+l.d+'</span></div>';
+    // Auth guard
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    if (usuario.nombre) {
+      document.querySelector('.user-info .name').textContent = usuario.nombre;
+      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
+      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    }
+
+    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+
+    async function cargarAccesos() {
+      try {
+        const res = await fetch(API + '/api/alumnos', { headers });
+        const data = await res.json();
+        accesosData = data;
+        renderTabla(data);
+        actualizarStats(data);
+        if (data.length > 0) selRow(document.querySelector('#tableBody tr'), data[0]);
+      } catch(e) { console.error('Error cargando accesos:', e); }
+    }
+
+    function estadoBadge(a) {
+      const hoy = new Date();
+      if (!a.fecha_fin_membresia) return { clase: 'badge-inactive', texto: '— Inactivo' };
+      const fin = new Date(a.fecha_fin_membresia);
+      const diff = Math.ceil((fin - hoy) / (1000*60*60*24));
+      if (diff < 0) return { clase: 'badge-inactive', texto: '— Inactivo' };
+      if (diff <= 7) return { clase: 'badge-warn', texto: '⏱ Próx. a vencer' };
+      return { clase: 'badge-active', texto: '✓ Activo' };
+    }
+
+    function renderTabla(data) {
+      const tbody = document.getElementById('tableBody');
+      if (!data.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#9ca3af;">No hay alumnos registrados</td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.map(function(a, i) {
+        const badge = estadoBadge(a);
+        const initials = (a.nombre||'').split(' ').map(function(p){return p[0];}).join('').substring(0,2).toUpperCase();
+        const disciplina = a.disciplina || a.id_disciplina || '—';
+        return '<tr data-id="'+a.id_alumno+'" onclick="selRow(this,'+JSON.stringify(a).replace(/"/g,'&quot;')+')" '+(i===0?'class="selected"':'')+'>'+
+          '<td><div class="alumno-name">'+(a.nombre||'')+'</div><div class="alumno-sub">Socio #'+String(a.id_alumno).padStart(4,'0')+'</div></td>'+
+          '<td>'+(a.sede||'Miraflores')+'</td>'+
+          '<td>'+disciplina+'</td>'+
+          '<td><span class="badge '+badge.clase+'">'+badge.texto+'</span></td>'+
+          '<td><div class="acc-time">'+formatFecha(a.fecha_fin_membresia)+'</div></td>'+
+          '<td>📱 QR</td>'+
+          '</tr>';
       }).join('');
     }
 
-    function selRow(tr, id) {
+    function formatFecha(f) {
+      if (!f) return '—';
+      const d = new Date(f);
+      return d.toLocaleDateString('es-PE', { day:'2-digit', month:'short', year:'numeric' });
+    }
+
+    function actualizarStats(data) {
+      const hoy = new Date();
+      let activos=0, proxVencer=0, inactivos=0;
+      data.forEach(function(a) {
+        if (!a.fecha_fin_membresia) { inactivos++; return; }
+        const fin = new Date(a.fecha_fin_membresia);
+        const diff = Math.ceil((fin - hoy) / (1000*60*60*24));
+        if (diff < 0) inactivos++;
+        else if (diff <= 7) proxVencer++;
+        else activos++;
+      });
+      const stats = document.querySelectorAll('.stat-val');
+      if (stats[0]) stats[0].textContent = data.length;
+      if (stats[1]) stats[1].textContent = activos;
+      if (stats[2]) stats[2].textContent = proxVencer;
+      if (stats[3]) stats[3].textContent = inactivos;
+      if (stats[4]) stats[4].textContent = 0;
+      // Actualizar tabs
+      const tabs = document.querySelectorAll('.tabs-row .tab');
+      if (tabs[0]) tabs[0].textContent = 'Todos (' + data.length + ')';
+      if (tabs[1]) tabs[1].textContent = 'Activo (' + activos + ')';
+      if (tabs[2]) tabs[2].textContent = 'Próx. a vencer (' + proxVencer + ')';
+      if (tabs[3]) tabs[3].textContent = 'Inactivo (' + inactivos + ')';
+      if (tabs[4]) tabs[4].textContent = 'Inhabilitado (0)';
+    }
+
+    function selRow(tr, alumno) {
       document.querySelectorAll('#tableBody tr').forEach(function(r){r.classList.remove('selected');});
-      tr.classList.add('selected');
-      var a=alumnos[id];
-      document.getElementById('sb-avatar').textContent=a.avatar;
-      document.getElementById('sb-name').textContent=a.name;
-      document.getElementById('sb-id').textContent=a.id;
-      document.getElementById('sb-disc').textContent=a.disc;
-      var vEl=document.getElementById('sb-vence'); vEl.textContent=a.vence; vEl.className='info-val '+a.venceC;
-      document.getElementById('sb-acceso').textContent=a.acceso;
-      document.getElementById('sb-metodo').textContent=a.metodo;
-      var aEl=document.getElementById('sb-asistencia'); aEl.textContent=a.asist; aEl.className='info-val '+a.asistC;
-      document.getElementById('sb-log').innerHTML=renderLog(a.log);
-      toast('🛡 '+a.name+' seleccionado/a');
+      if (tr) tr.classList.add('selected');
+      const a = alumno;
+      const initials = (a.nombre||'').split(' ').map(function(p){return p[0];}).join('').substring(0,2).toUpperCase();
+      document.getElementById('sb-avatar').textContent = initials;
+      document.getElementById('sb-name').textContent = a.nombre || '—';
+      document.getElementById('sb-id').textContent = 'Socio #'+String(a.id_alumno).padStart(4,'0')+' · '+(a.sede||'Miraflores');
+      document.getElementById('sb-disc').textContent = a.disciplina || '—';
+      const vEl = document.getElementById('sb-vence');
+      const badge = estadoBadge(a);
+      vEl.textContent = formatFecha(a.fecha_fin_membresia);
+      vEl.className = 'info-val ' + (badge.clase === 'badge-active' ? 'ok' : badge.clase === 'badge-warn' ? 'warn' : 'danger');
+      document.getElementById('sb-acceso').textContent = formatFecha(a.fecha_fin_membresia);
+      document.getElementById('sb-metodo').textContent = 'Código QR';
+      document.getElementById('sb-asistencia').textContent = '—';
+      document.getElementById('sb-log').innerHTML =
+        '<div class="log-item"><div class="log-dot dot-green"></div><span class="log-time">Hoy</span><span class="log-desc">Alumno activo en sistema</span></div>';
+      toast('🛡 ' + (a.nombre||'') + ' seleccionado/a');
     }
 
     function filtrarTab(badge, btn) {
       document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
       btn.classList.add('active');
       document.querySelectorAll('#tableBody tr').forEach(function(tr){
-        if(!badge||tr.querySelector('.'+badge)) tr.classList.remove('hidden');
+        if (!badge) { tr.classList.remove('hidden'); return; }
+        if (tr.querySelector('.'+badge)) tr.classList.remove('hidden');
         else tr.classList.add('hidden');
       });
-      toast(badge?'🔍 Filtrando por estado':'✅ Mostrando todos los socios');
+      toast(badge ? '🔍 Filtrando por estado' : '✅ Mostrando todos los socios');
     }
 
-    function toast(msg){
-      var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-      clearTimeout(t._timer); t._timer=setTimeout(function(){t.classList.remove('show');},2200);
+    function toast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function(){t.classList.remove('show');}, 2200);
     }
 
-    // Inicializar log del alumno 1
-    document.getElementById('sb-log').innerHTML=renderLog(alumnos[1].log);
-  </script>
+    cargarAccesos();
+</script>
 </body>
 </html>

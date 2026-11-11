@@ -240,56 +240,150 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    var pendingCount = 3;
+    const API = 'https://forca-fitness-backend.onrender.com';
 
-    function confirmar(id, nombre) {
-      var row = document.getElementById('prow-' + id);
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    if (usuario.nombre) {
+      document.querySelector('.user-info .name').textContent = usuario.nombre;
+      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
+      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    }
+
+    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+
+    // Mapa medio_pago → clase CSS y etiqueta
+    const medioMap = {
+      'yape':          { cls: 'pm-mp',       label: 'Yape' },
+      'plin':          { cls: 'pm-mp',       label: 'Plin' },
+      'efectivo':      { cls: 'pm-cash',     label: 'Efectivo' },
+      'transferencia': { cls: 'pm-transfer', label: 'Transferencia' },
+      'tarjeta':       { cls: 'pm-mp',       label: 'Tarjeta' }
+    };
+
+    function medioHtml(medio) {
+      const m = medioMap[medio] || { cls: 'pm-cash', label: medio };
+      return `<span class="pay-method-badge ${m.cls}">${m.label}</span>`;
+    }
+
+    function estadoHtml(estado) {
+      const map = {
+        'pendiente':  '<span class="status-badge sb-pending">⏱ Pendiente</span>',
+        'aprobado':   '<span class="status-badge sb-approved">✓ Aprobado</span>',
+        'rechazado':  '<span class="status-badge sb-rejected">✕ Rechazado</span>'
+      };
+      return map[estado] || `<span class="status-badge sb-annulled">${estado}</span>`;
+    }
+
+    function formatFecha(f) {
+      if (!f) return '—';
+      return new Date(f).toLocaleDateString('es-PE', { day:'2-digit', month:'short', year:'numeric' });
+    }
+
+    async function cargarPendientes() {
+      try {
+        const res = await fetch(API + '/api/pagos/pendientes', { headers });
+        const data = await res.json();
+        const tbody = document.getElementById('pendingBody');
+        tbody.innerHTML = '';
+
+        if (!data.length) {
+          tbody.innerHTML = '<tr class="empty-row"><td colspan="6">🎉 No hay pagos pendientes de aprobación</td></tr>';
+          document.getElementById('pending-badge').textContent = '✓ Sin pendientes';
+          document.getElementById('pending-badge').className = 'pending-badge empty';
+          document.getElementById('stat-pendientes').textContent = '0';
+          return;
+        }
+
+        document.getElementById('stat-pendientes').textContent = data.length;
+        document.getElementById('pending-badge').textContent = data.length + ' pendiente' + (data.length > 1 ? 's' : '');
+
+        data.forEach(function(p) {
+          const nombre = (p.alumno || 'Alumno').split(' ').slice(0,2).join(' ');
+          const tr = document.createElement('tr');
+          tr.id = 'prow-' + p.id;
+          tr.innerHTML = `
+            <td><div class="alumno-name">${p.alumno || '—'}</div><div class="alumno-sub">DNI ${p.dni || '—'}</div></td>
+            <td>${p.concepto || 'Pago'}</td>
+            <td><span class="amount">S/. ${parseFloat(p.monto).toFixed(2)}</span></td>
+            <td>${formatFecha(p.fecha_pago)}</td>
+            <td>${medioHtml(p.medio_pago)}</td>
+            <td>
+              <button class="btn-confirm" onclick="confirmar(${p.id},'${nombre}')">✓ Confirmar pago</button>
+              <button class="btn-reject" onclick="rechazar(${p.id},'${nombre}')">✕ Rechazar</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch(e) {
+        console.error('Error cargando pendientes:', e);
+      }
+    }
+
+    async function cargarHistorial() {
+      try {
+        const res = await fetch(API + '/api/pagos', { headers });
+        const data = await res.json();
+        const tbody = document.getElementById('historyBody');
+        tbody.innerHTML = '';
+
+        data.forEach(function(p) {
+          const estadoKey = p.estado === 'aprobado' ? 'sb-approved' : p.estado === 'pendiente' ? 'sb-pending' : 'sb-rejected';
+          const medioKey = p.medio_pago === 'efectivo' ? 'pm-cash' : p.medio_pago === 'transferencia' ? 'pm-transfer' : 'pm-mp';
+          const tr = document.createElement('tr');
+          tr.setAttribute('data-estado', estadoKey);
+          tr.setAttribute('data-medio', medioKey);
+          tr.innerHTML = `
+            <td><div class="alumno-name">${p.alumno || '—'}</div><div class="alumno-sub">DNI ${p.dni || '—'}</div></td>
+            <td>${p.concepto || 'Pago'}</td>
+            <td><span class="amount">S/. ${parseFloat(p.monto).toFixed(2)}</span></td>
+            <td>${formatFecha(p.fecha_pago)}</td>
+            <td>${medioHtml(p.medio_pago)}</td>
+            <td>${estadoHtml(p.estado)}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch(e) {
+        console.error('Error cargando historial:', e);
+      }
+    }
+
+    async function confirmar(id, nombre) {
+      const row = document.getElementById('prow-' + id);
       if (!row) return;
       row.classList.add('row-confirming');
-      toast('✅ Pago de ' + nombre + ' confirmado exitosamente');
-      setTimeout(function() {
-        row.style.opacity = '0';
-        row.style.transform = 'translateX(20px)';
-        row.style.transition = 'opacity .4s,transform .4s';
+      try {
+        const res = await fetch(API + '/api/pagos/' + id + '/confirmar', { method: 'PUT', headers });
+        if (!res.ok) throw new Error();
+        toast('✅ Pago de ' + nombre + ' confirmado exitosamente');
         setTimeout(function() {
-          row.remove();
-          pendingCount--;
-          actualizarBadge();
-        }, 400);
-      }, 500);
+          row.style.opacity = '0';
+          row.style.transition = 'opacity .4s';
+          setTimeout(function() { row.remove(); cargarPendientes(); cargarHistorial(); }, 400);
+        }, 500);
+      } catch(e) {
+        toast('❌ Error al confirmar el pago');
+        row.classList.remove('row-confirming');
+      }
     }
 
-    function rechazar(id, nombre) {
-      var row = document.getElementById('prow-' + id);
+    async function rechazar(id, nombre) {
+      const row = document.getElementById('prow-' + id);
       if (!row) return;
       row.classList.add('row-removing');
-      toast('❌ Pago de ' + nombre + ' rechazado');
-      setTimeout(function() {
-        row.style.opacity = '0';
-        row.style.transition = 'opacity .4s';
+      try {
+        const res = await fetch(API + '/api/pagos/' + id + '/rechazar', { method: 'PUT', headers });
+        if (!res.ok) throw new Error();
+        toast('❌ Pago de ' + nombre + ' rechazado');
         setTimeout(function() {
-          row.remove();
-          pendingCount--;
-          actualizarBadge();
-        }, 400);
-      }, 500);
-    }
-
-    function actualizarBadge() {
-      var badge = document.getElementById('pending-badge');
-      var stat = document.getElementById('stat-pendientes');
-      stat.textContent = pendingCount;
-      if (pendingCount === 0) {
-        badge.textContent = '✓ Sin pendientes';
-        badge.className = 'pending-badge empty';
-        // Mostrar fila vacía
-        var tbody = document.getElementById('pendingBody');
-        var emptyRow = document.createElement('tr');
-        emptyRow.className = 'empty-row';
-        emptyRow.innerHTML = '<td colspan="6">🎉 No hay pagos pendientes de aprobación</td>';
-        tbody.appendChild(emptyRow);
-      } else {
-        badge.textContent = pendingCount + ' pendiente' + (pendingCount > 1 ? 's' : '');
+          row.style.opacity = '0';
+          row.style.transition = 'opacity .4s';
+          setTimeout(function() { row.remove(); cargarPendientes(); cargarHistorial(); }, 400);
+        }, 500);
+      } catch(e) {
+        toast('❌ Error al rechazar el pago');
+        row.classList.remove('row-removing');
       }
     }
 
@@ -299,17 +393,8 @@
       document.querySelectorAll('#historyBody tr').forEach(function(tr) {
         var matchE = !estado || tr.dataset.estado === estado;
         var matchM = !medio || tr.dataset.medio === medio;
-        if (matchE && matchM) tr.classList.remove('hidden');
-        else tr.classList.add('hidden');
+        if (matchE && matchM) tr.classList.remove('hidden'); else tr.classList.add('hidden');
       });
-      var labels = {
-        'sb-approved': 'Aprobados', 'sb-pending': 'Pendientes',
-        'sb-rejected': 'Rechazados', 'sb-annulled': 'Anulados'
-      };
-      var medLabels = {'pm-mp': 'Mercado Pago', 'pm-cash': 'Efectivo', 'pm-transfer': 'Transferencia'};
-      if (estado || medio) {
-        toast('🔍 Filtrando: ' + (labels[estado] || 'Todos') + ' · ' + (medLabels[medio] || 'Todos los medios'));
-      }
     }
 
     function resetHistorial() {
@@ -326,6 +411,9 @@
       clearTimeout(t._timer);
       t._timer = setTimeout(function() { t.classList.remove('show'); }, 2500);
     }
-  </script>
+
+    cargarPendientes();
+    cargarHistorial();
+</script>
 </body>
 </html>

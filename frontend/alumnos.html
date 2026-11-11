@@ -221,43 +221,108 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    var alumnos = {
-      1:{avatar:'MG',name:'Martín Gómez Silva',id:'Socio #1042 · DNI 47123456',status:'badge-vencer',statusTxt:'⏱ Próx. a vencer',sede:'Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'28 Mar 2025',tel:'+51 987 654 321',email:'mgomez@email.com',edad:'28 años',inscripcion:'15 Ene 2024'},
-      2:{avatar:'SM',name:'Sofía Martínez Ruiz',id:'Socia #1055 · DNI 48234567',status:'badge-vencer',statusTxt:'⏱ Próx. a vencer',sede:'San Isidro',disc:'Muay Thai',vence:'31 Mar 2025',tel:'+51 976 543 210',email:'smartinez@email.com',edad:'24 años',inscripcion:'02 Feb 2024'},
-      3:{avatar:'LF',name:'Luis Fernando Torres',id:'Socio #1061 · DNI 49345678',status:'badge-active',statusTxt:'✓ Activo',sede:'Miraflores',disc:'Boxeo Clásico',vence:'15 Jun 2025',tel:'+51 965 432 109',email:'lftorres@email.com',edad:'31 años',inscripcion:'10 Oct 2024'},
-      4:{avatar:'CB',name:'Carla Sofía Benítez',id:'Socia #1072 · DNI 50456789',status:'badge-active',statusTxt:'✓ Activo',sede:'San Isidro',disc:'Capoeira',vence:'30 Abr 2025',tel:'+51 954 321 098',email:'csbenitez@email.com',edad:'22 años',inscripcion:'18 Sep 2024'},
-      5:{avatar:'CB',name:'Carlos Barrón Díaz',id:'Socio #0981 · DNI 44567890',status:'badge-vencida',statusTxt:'✕ Vencido',sede:'Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'01 Mar 2025',tel:'+51 943 210 987',email:'cbarron@email.com',edad:'35 años',inscripcion:'05 May 2023'}
-    };
+    const API = 'https://forca-fitness-backend.onrender.com';
+    let alumnosData = [];
+
+    // Proteger ruta: si no hay token, volver al login
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+
+    // Mostrar nombre del usuario logueado
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    if (usuario.nombre) {
+      document.querySelector('.user-info .name').textContent = usuario.nombre;
+      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
+      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    }
+
+    async function cargarAlumnos() {
+      try {
+        const res = await fetch(API + '/api/alumnos', {
+          headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+        });
+        const data = await res.json();
+        alumnosData = data;
+        renderTabla(data);
+        actualizarStats(data);
+      } catch(e) {
+        console.error('Error cargando alumnos:', e);
+      }
+    }
+
+    function estadoBadge(a) {
+      // Buscar matrícula activa (vendrá de la API más adelante; por ahora estado simple)
+      return { clase: 'badge-active', texto: '✓ Activo' };
+    }
+
+    function renderTabla(lista) {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      lista.forEach(function(a, i) {
+        const iniciales = (a.nombre[0] + (a.apellido_paterno[0] || '')).toUpperCase();
+        const nombre = a.nombre + ' ' + a.apellido_paterno + ' ' + (a.apellido_materno || '');
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-id', a.id);
+        tr.onclick = function(){ selRow(this, a.id); };
+        if (i === 0) tr.classList.add('selected');
+        tr.innerHTML = `
+          <td><div class="alumno-name">${nombre}</div><div class="alumno-disc">DNI ${a.dni}</div></td>
+          <td>${a.sede || 'Principal'}</td>
+          <td>—</td>
+          <td><span class="badge badge-active">✓ Activo</span></td>
+          <td>—</td>
+          <td><button class="btn-ver${i===0?' active-row':''}" onclick="event.stopPropagation();selRow(this.closest('tr'),${a.id})">Ver</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      if (lista.length > 0) selSidebar(lista[0]);
+    }
+
+    function actualizarStats(lista) {
+      document.querySelectorAll('.stat-val')[3].textContent = lista.length;
+    }
 
     function selRow(tr, id) {
       document.querySelectorAll('#tableBody tr').forEach(function(r){
         r.classList.remove('selected');
-        var b=r.querySelector('.btn-ver'); if(b) b.classList.remove('active-row');
+        var b = r.querySelector('.btn-ver'); if(b) b.classList.remove('active-row');
       });
       tr.classList.add('selected');
-      var btn=tr.querySelector('.btn-ver'); if(btn) btn.classList.add('active-row');
-      var a=alumnos[id];
-      document.getElementById('sb-avatar').textContent=a.avatar;
-      document.getElementById('sb-name').textContent=a.name;
-      document.getElementById('sb-id').textContent=a.id;
-      var s=document.getElementById('sb-status'); s.textContent=a.statusTxt; s.className='alumno-status '+a.status;
-      document.getElementById('sb-sede').textContent=a.sede;
-      document.getElementById('sb-disc').textContent=a.disc;
-      document.getElementById('sb-vence').textContent=a.vence;
-      document.getElementById('sb-tel').textContent=a.tel;
-      document.getElementById('sb-email').textContent=a.email;
-      document.getElementById('sb-edad').textContent=a.edad;
-      document.getElementById('sb-inscripcion').textContent=a.inscripcion;
-      toast('👤 '+a.name+' seleccionado/a');
+      var btn = tr.querySelector('.btn-ver'); if(btn) btn.classList.add('active-row');
+      const a = alumnosData.find(x => x.id == id);
+      if (a) selSidebar(a);
+      toast('👤 ' + a.nombre + ' ' + a.apellido_paterno + ' seleccionado/a');
+    }
+
+    function selSidebar(a) {
+      const iniciales = (a.nombre[0] + (a.apellido_paterno[0] || '')).toUpperCase();
+      const nombre = a.nombre + ' ' + a.apellido_paterno + ' ' + (a.apellido_materno || '');
+      document.getElementById('sb-avatar').textContent = iniciales;
+      document.getElementById('sb-name').textContent = nombre;
+      document.getElementById('sb-id').textContent = 'DNI ' + a.dni;
+      document.getElementById('sb-sede').textContent = a.sede || 'Principal';
+      document.getElementById('sb-disc').textContent = '—';
+      document.getElementById('sb-vence').textContent = '—';
+      document.getElementById('sb-tel').textContent = a.telefono || '—';
+      document.getElementById('sb-email').textContent = a.email || '—';
+      document.getElementById('sb-edad').textContent = a.fecha_nacimiento ? calcularEdad(a.fecha_nacimiento) + ' años' : '—';
+      document.getElementById('sb-inscripcion').textContent = a.fecha_inscripcion ? new Date(a.fecha_inscripcion).toLocaleDateString('es-PE') : '—';
+    }
+
+    function calcularEdad(fecha) {
+      const hoy = new Date();
+      const nac = new Date(fecha);
+      let edad = hoy.getFullYear() - nac.getFullYear();
+      if (hoy < new Date(hoy.getFullYear(), nac.getMonth(), nac.getDate())) edad--;
+      return edad;
     }
 
     function buscar() {
-      var q=document.getElementById('searchInput').value.toLowerCase();
-      var e=document.getElementById('filterEstado').value;
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const e = document.getElementById('filterEstado').value;
       document.querySelectorAll('#tableBody tr').forEach(function(tr){
-        var matchQ=!q||tr.textContent.toLowerCase().includes(q);
-        var matchE=!e||tr.querySelector('.'+e);
-        if(matchQ&&matchE) tr.classList.remove('hidden'); else tr.classList.add('hidden');
+        const matchQ = !q || tr.textContent.toLowerCase().includes(q);
+        const matchE = !e || tr.querySelector('.'+e);
+        if(matchQ && matchE) tr.classList.remove('hidden'); else tr.classList.add('hidden');
       });
     }
 
@@ -273,6 +338,8 @@
       var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
       clearTimeout(t._timer); t._timer=setTimeout(function(){t.classList.remove('show');},2200);
     }
+
+    cargarAlumnos();
   </script>
 </body>
 </html>
