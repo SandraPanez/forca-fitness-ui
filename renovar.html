@@ -13,7 +13,8 @@
     .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
     .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
     .logo-text p{font-size:10px;color:#9ca3af;}
-    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
     .nav-links a.active{color:#0d2d5e;font-weight:700;border-bottom:2px solid #0d2d5e;}
     .nav-right{display:flex;align-items:center;gap:10px;}
     .bell{position:relative;font-size:17px;}
@@ -22,26 +23,26 @@
     .user-info .name{font-size:13px;font-weight:600;}
     .user-info .role{font-size:11px;color:#9ca3af;}
     main{max-width:860px;margin:0 auto;padding:28px 32px;}
-    .back-link{font-size:13px;color:#374151;text-decoration:none;display:flex;align-items:center;gap:5px;margin-bottom:14px;}
+    .back-link{font-size:13px;color:#374151;text-decoration:none;display:flex;align-items:center;gap:5px;margin-bottom:14px;transition:color .18s;}
+    .back-link:hover{color:#0d2d5e;}
     .eyebrow{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:12px;}
     .eyebrow span{width:6px;height:6px;background:#1d4ed8;border-radius:50%;}
     h1{font-size:30px;font-weight:800;color:#0d2d5e;margin-bottom:8px;}
     .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;max-width:600px;line-height:1.5;}
-    /* MAIN CARD */
     .main-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px;margin-bottom:20px;}
     .section-label{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:14px;}
-    /* TIPO GESTIÓN */
+    /* TIPO CARDS */
     .tipo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
-    .tipo-card{border:2px solid #e5e7eb;border-radius:12px;padding:18px;cursor:pointer;position:relative;}
+    .tipo-card{border:2px solid #e5e7eb;border-radius:12px;padding:18px;cursor:pointer;position:relative;transition:border-color .18s,background .18s,box-shadow .18s;}
+    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
     .tipo-card.selected{border-color:#0d2d5e;background:#eff6ff;}
-    .tipo-badge{position:absolute;top:12px;right:12px;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;}
+    .tipo-badge{position:absolute;top:12px;left:18px;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;}
     .badge-current{background:#dcfce7;color:#15803d;}
     .badge-frozen{background:#ede9fe;color:#7c3aed;}
-    .tipo-check{position:absolute;top:12px;right:60px;}
-    .tipo-icon{font-size:22px;margin-bottom:8px;}
+    .tipo-icon{font-size:22px;margin-bottom:8px;margin-top:28px;}
     .tipo-title{font-size:14px;font-weight:800;color:#111;margin-bottom:6px;}
     .tipo-desc{font-size:12px;color:#6b7280;line-height:1.4;}
-    .check-box{width:20px;height:20px;border-radius:50%;position:absolute;top:12px;right:12px;}
+    .check-box{width:20px;height:20px;border-radius:50%;position:absolute;top:12px;right:12px;transition:all .18s;}
     .check-box.on{background:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;}
     .check-box.off{background:#fff;border:2px solid #e5e7eb;}
     /* DISCIPLINA */
@@ -58,62 +59,42 @@
     /* PERIODOS */
     .periodo-label{font-size:12px;font-weight:700;color:#374151;margin:16px 0 10px;}
     .periodo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-    .periodo-card{border:2px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;position:relative;}
+    .periodo-card{border:2px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;position:relative;transition:border-color .18s,background .18s,box-shadow .18s;}
+    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
     .periodo-card.selected{border-color:#0d2d5e;background:#eff6ff;}
-    .periodo-card .check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;}
+    .periodo-card .check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;opacity:0;transition:opacity .18s;}
+    .periodo-card.selected .check{opacity:1;}
+    .off-badge{position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:700;transition:opacity .18s;}
+    .periodo-card.selected .off-badge{opacity:0;}
     .periodo-title{font-size:14px;font-weight:700;color:#374151;margin-bottom:4px;}
     .periodo-price{font-size:20px;font-weight:800;color:#0d2d5e;}
     .periodo-orig{font-size:11px;color:#9ca3af;text-decoration:line-through;}
     .periodo-save{font-size:11px;color:#16a34a;font-weight:700;}
     .periodo-sub{font-size:11px;color:#9ca3af;margin-top:4px;}
-    .off-badge{position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:700;}
     /* TOTAL BAR */
-    .total-bar{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+    .total-bar{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;transition:all .25s;}
     .total-icon{font-size:22px;margin-right:12px;}
     .total-label{font-size:11px;color:#9ca3af;font-weight:700;margin-bottom:2px;}
-    .total-amt{font-size:28px;font-weight:800;color:#0d2d5e;}
+    .total-amt{font-size:28px;font-weight:800;color:#0d2d5e;transition:all .2s;}
     .total-currency{font-size:12px;color:#9ca3af;margin-left:4px;}
     .total-vence{font-size:11px;color:#9ca3af;margin-top:2px;}
     .total-vence strong{color:#374151;}
     .total-actions{display:flex;gap:10px;}
-    .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;}
-    .btn-pagar{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    /* TRUST */
+    .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;transition:background .18s,border-color .18s,transform .12s;}
+    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;transform:translateY(-1px);}
+    .btn-pagar{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .18s,transform .12s,box-shadow .18s;}
+    .btn-pagar:hover{background:#0a2448;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
     .trust-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-    .trust-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;}
+    .trust-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;transition:box-shadow .18s,transform .15s;}
+    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
     .trust-icon{font-size:20px;}
     .trust-title{font-size:12px;font-weight:700;color:#111;}
     .trust-sub{font-size:11px;color:#9ca3af;}
     footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:20px;}
     footer a{color:#0d2d5e;text-decoration:none;}
-    /* ── HOVER & TRANSITION EFFECTS ── */
-    a{transition:color .18s ease;}
-    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
-    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
-    button:active{transform:translateY(0);}
-    .btn-primary:hover{background:#0a2448;}
-    .btn-secondary:hover{background:#0a2448;}
-    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-pagar:hover{background:#0a2448;}
-    .btn-save:hover{background:#0a2448;}
-    .btn-confirm:hover{background:#0a2448;}
-    .btn-reject:hover{background:#f3f4f6;}
-    .btn-refresh:hover{background:#0a2448;}
-    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
-    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
-    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
-    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
-    .card-link:hover{opacity:.75;}
-    .comp-link:hover{opacity:.75;}
-    .back-link:hover{color:#0d2d5e;}
-    tbody tr{transition:background .15s ease;}
-    tbody tr:hover{background:#f9fafb;}
+    /* Toast */
+    .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
+    .toast.show{opacity:1;transform:translateY(0);}
   </style>
 </head>
 <body>
@@ -123,7 +104,7 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
     <div class="nav-links">
-      <a href="#">Inicio</a>
+      <a href="login.html">Inicio</a>
       <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
       <a href="disciplinas.html">Horarios & Clases</a>
       <a href="#">Historial de Pagos</a>
@@ -144,16 +125,16 @@
     <div class="main-card">
       <div class="section-label">1. SELECCIONA EL TIPO DE GESTIÓN</div>
       <div class="tipo-grid">
-        <div class="tipo-card selected">
+        <div class="tipo-card selected" onclick="selTipo(this,'renovar')" id="tipo-renovar">
           <span class="tipo-badge badge-current">● Matrícula actual</span>
-          <div class="check-box on" style="right:12px;top:12px;">✓</div>
+          <div class="check-box on" id="chk-renovar">✓</div>
           <div class="tipo-icon">🔄</div>
           <div class="tipo-title">Renovar mi matrícula</div>
           <div class="tipo-desc">Conserva tu disciplina y horario habitual. La renovación se activa automáticamente con la confirmación del pago.</div>
         </div>
-        <div class="tipo-card">
+        <div class="tipo-card" onclick="selTipo(this,'reservar')" id="tipo-reservar">
           <span class="tipo-badge badge-frozen">● Tarifa congelada</span>
-          <div class="check-box off" style="right:12px;top:12px;"></div>
+          <div class="check-box off" id="chk-reservar"></div>
           <div class="tipo-icon">🔒</div>
           <div class="tipo-title">Reservar cupo por adelantado</div>
           <div class="tipo-desc">Asegura tu vacante para los próximos dos meses con aforo garantizado y congelando el precio actual.</div>
@@ -182,21 +163,23 @@
 
         <div class="periodo-label">Elige el periodo de renovación</div>
         <div class="periodo-grid">
-          <div class="periodo-card selected">
+          <div class="periodo-card selected" onclick="selPeriodo(this,150,'1 mes','28 de Abril de 2025')" id="p1">
             <div class="check">✓</div>
             <div class="periodo-title">1 Mes</div>
             <div class="periodo-price">S/. 150.00</div>
             <div class="periodo-sub">Facturación mensual regular</div>
           </div>
-          <div class="periodo-card">
+          <div class="periodo-card" onclick="selPeriodo(this,405,'3 meses','28 de Junio de 2025')" id="p3">
             <span class="off-badge">10% OFF</span>
+            <div class="check">✓</div>
             <div class="periodo-title">3 Meses</div>
             <div class="periodo-price">S/. 405.00</div>
             <div class="periodo-orig">S/. 450.00</div>
             <div class="periodo-save">Ahorras S/. 45.00 (S/. 135/mes)</div>
           </div>
-          <div class="periodo-card">
+          <div class="periodo-card" onclick="selPeriodo(this,720,'6 meses','28 de Septiembre de 2025')" id="p6">
             <span class="off-badge">20% OFF</span>
+            <div class="check">✓</div>
             <div class="periodo-title">6 Meses Semestral</div>
             <div class="periodo-price">S/. 720.00</div>
             <div class="periodo-orig">S/. 900.00</div>
@@ -207,15 +190,15 @@
 
       <div class="total-bar">
         <div style="display:flex;align-items:center;">
-          <span class="total-icon">🔄</span>
+          <span class="total-icon" id="total-icon">🔄</span>
           <div>
             <div class="total-label">TOTAL A LIQUIDAR</div>
-            <div><span class="total-amt">S/. 150.00</span> <span class="total-currency">PEN (IGV incluido)</span></div>
-            <div class="total-vence">Nueva fecha de vencimiento: <strong>28 de Abril de 2025</strong></div>
+            <div><span class="total-amt" id="total-amt">S/. 150.00</span> <span class="total-currency">PEN (IGV incluido)</span></div>
+            <div class="total-vence">Nueva fecha de vencimiento: <strong id="total-vence">28 de Abril de 2025</strong></div>
           </div>
         </div>
         <div class="total-actions">
-          <button class="btn-cancel">Cancelar</button>
+          <button class="btn-cancel" onclick="location.href='mis-matriculas.html'">Cancelar</button>
           <button class="btn-pagar" onclick="location.href='pagos.html'">Continuar a pagar renovación →</button>
         </div>
       </div>
@@ -228,5 +211,62 @@
     </div>
   </main>
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── TIPO CARD SELECTION ──
+    function selTipo(card, tipo) {
+      document.querySelectorAll('.tipo-card').forEach(c => {
+        c.classList.remove('selected');
+      });
+      card.classList.add('selected');
+
+      // Actualizar check boxes
+      ['renovar','reservar'].forEach(t => {
+        const chk = document.getElementById('chk-' + t);
+        if (t === tipo) {
+          chk.className = 'check-box on';
+          chk.textContent = '✓';
+        } else {
+          chk.className = 'check-box off';
+          chk.textContent = '';
+        }
+      });
+
+      // Cambiar icono total
+      document.getElementById('total-icon').textContent = tipo === 'renovar' ? '🔄' : '🔒';
+
+      toast(tipo === 'renovar' ? '🔄 Renovación de matrícula seleccionada' : '🔒 Reserva de cupo seleccionada');
+    }
+
+    // ── PERIODO CARD SELECTION ──
+    function selPeriodo(card, monto, label, fechaVence) {
+      document.querySelectorAll('.periodo-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+
+      // Actualizar totales con animación
+      const amtEl = document.getElementById('total-amt');
+      amtEl.style.transform = 'scale(1.08)';
+      amtEl.style.color = '#16a34a';
+      amtEl.textContent = 'S/. ' + monto.toFixed(2);
+      setTimeout(() => {
+        amtEl.style.transform = 'scale(1)';
+        amtEl.style.color = '#0d2d5e';
+      }, 300);
+
+      document.getElementById('total-vence').textContent = fechaVence;
+
+      toast('✅ ' + label + ' seleccionado — Total: S/. ' + monto.toFixed(2));
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+  </script>
 </body>
 </html>
