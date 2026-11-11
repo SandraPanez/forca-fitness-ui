@@ -88,9 +88,9 @@
     .card-link:hover{opacity:.7;}
     footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:20px;}
     .hidden{display:none!important;}
-    /* Toast */
     .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
     .toast.show{opacity:1;transform:translateY(0);}
+    .loading{text-align:center;padding:32px;color:#9ca3af;font-size:13px;}
   </style>
 </head>
 <body>
@@ -100,23 +100,23 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
     <div class="nav-links">
-      <a href="login.html">Inicio</a>
+      <a href="index.html">Inicio</a>
       <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
       <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="#">Historial de Pagos</a>
+      <a href="tesoreria.html">Tesorería</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'" title="Ver perfil">MG</div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'" title="Ver perfil" style="cursor:pointer;">--</div>
       <div class="user-info">
-        <div class="name">Martín Gómez Silva</div>
-        <div class="role">Socio #1042</div>
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol">--</div>
       </div>
     </div>
   </nav>
 
   <main>
-    <div class="breadcrumb">MÓDULO DEL ALUMNO › <span>Plan Multisede</span></div>
+    <div class="breadcrumb">MÓDULO DEL ALUMNO › <span id="breadDisciplina">--</span></div>
     <div class="page-header">
       <div>
         <h1 class="page-title">Mis matrículas</h1>
@@ -125,113 +125,41 @@
       <button class="btn-primary" onclick="location.href='renovar.html'">+ Inscribir nueva disciplina / Renovar</button>
     </div>
 
-    <div class="alert-green" id="alertGreen">
-      <div><span>✅ </span><span class="text"><strong>¡Reserva de cupo confirmada con éxito!</strong><br>Tu lugar para el turno nocturno de <strong>Brazilian Jiu-Jitsu (Nivel Intermedio)</strong> ha sido asegurado.</span></div>
-      <div class="time" onclick="document.getElementById('alertGreen').remove()">✕ cerrar</div>
-    </div>
-    <div class="alert-orange">
-      <div class="title"><span>⏱ Pago pendiente de validación por Tesorería</span><a href="tesoreria.html" style="color:#0d2d5e;font-size:12px;text-decoration:none;">0P-849201 &nbsp;Ver detalles →</a></div>
-      <div class="body">Hemos recibido tu constancia de transferencia/Yape por <strong>S/. 250.00</strong> para el periodo Abril 2025. El comprobante oficial se emitirá en 2 a 4 horas hábiles.</div>
-    </div>
-
     <div class="stats">
-      <div class="stat"><div><div class="label">Disciplinas Activas</div><div class="value">2</div></div><div class="stat-icon">🥋</div></div>
-      <div class="stat"><div><div class="label">Próximas a Vencer (&lt; 7 días)</div><div class="value" style="color:#d97706;">1</div></div><div class="stat-icon">⚠️</div></div>
-      <div class="stat"><div><div class="label">Historial / Vencidas</div><div class="value">1</div></div><div class="stat-icon">🕐</div></div>
+      <div class="stat"><div><div class="label">Disciplinas Activas</div><div class="value" id="statActivas">--</div></div><div class="stat-icon">🥋</div></div>
+      <div class="stat"><div><div class="label">Próximas a Vencer (&lt; 7 días)</div><div class="value" style="color:#d97706;" id="statProximas">--</div></div><div class="stat-icon">⚠️</div></div>
+      <div class="stat"><div><div class="label">Pagos Pendientes</div><div class="value" id="statPendientes">--</div></div><div class="stat-icon">🕐</div></div>
     </div>
 
     <div class="table-wrap">
       <div class="table-header">
         <div>
           <h3>Estado de Matrículas e Inscripciones</h3>
-          <p>Historial activo de cuotas y fechas límites de renovación</p>
+          <p id="tableDesc">Cargando datos...</p>
         </div>
         <div class="filter-tabs">
-          <button class="tab active" onclick="filtrar('todas',this)">Todas (4)</button>
-          <button class="tab" onclick="filtrar('activa',this)">Activas (2)</button>
-          <button class="tab" onclick="filtrar('vencida',this)">Vencidas (1)</button>
+          <button class="tab active" onclick="filtrar('todas',this)">Todas</button>
+          <button class="tab" onclick="filtrar('activa',this)">Activas</button>
+          <button class="tab" onclick="filtrar('vencida',this)">Vencidas</button>
         </div>
       </div>
       <table>
         <thead>
           <tr>
+            <th>ALUMNO</th>
             <th>DISCIPLINA</th>
-            <th>FECHA DE INICIO</th>
-            <th>FECHA DE VENCIMIENTO</th>
+            <th>MEMBRESÍA HASTA</th>
             <th>ESTADO</th>
             <th>ACCIÓN</th>
           </tr>
         </thead>
         <tbody id="tablaBody">
-          <tr data-estado="activa">
-            <td>
-              <div class="disc-cell">
-                <div class="disc-logo bjj">BJJ</div>
-                <div>
-                  <div class="disc-name">Brazilian Jiu-Jitsu</div>
-                  <span class="disc-tag">Nivel Intermedio</span>
-                  <div class="disc-sede">Sede Central Miraflores</div>
-                </div>
-              </div>
-            </td>
-            <td><div>28 Feb 2025</div><div class="date-sub">Plan Mensual</div></td>
-            <td><div class="date-warn">⏱ 28 Mar 2025</div><div class="date-sub">Vence en 3 días</div></td>
-            <td><span class="badge-active">● Activa</span></td>
-            <td><button class="btn-renew" onclick="location.href='renovar.html'">↻ Renovar</button>&nbsp;<button class="btn-comp" onclick="location.href='comprobante.html'">📄 Comprobante</button></td>
-          </tr>
-          <tr data-estado="activa">
-            <td>
-              <div class="disc-cell">
-                <div class="disc-logo gym">GYM</div>
-                <div>
-                  <div class="disc-name">Musculación & Cross Training</div>
-                  <span class="disc-tag">Pase Libre</span>
-                  <div class="disc-sede">Acceso Total 06:00 a 22:00</div>
-                </div>
-              </div>
-            </td>
-            <td><div>15 Ene 2025</div><div class="date-sub">Plan Trimestral</div></td>
-            <td><div>15 Abr 2025</div><div class="date-sub">Vence en 21 días</div></td>
-            <td><span class="badge-active">● Activa</span></td>
-            <td><button class="btn-comp" onclick="location.href='comprobante.html'">👁 Ver comprobante</button></td>
-          </tr>
-          <tr data-estado="reservada">
-            <td>
-              <div class="disc-cell">
-                <div class="disc-logo box">BOX</div>
-                <div>
-                  <div class="disc-name">Boxeo Recreativo & Funcional</div>
-                  <span class="disc-tag">Turno Tarde</span>
-                  <div class="disc-sede">Cupo reservado</div>
-                </div>
-              </div>
-            </td>
-            <td><div>01 Abr 2025</div><div style="font-size:11px;color:#d97706;">Inicia próximamente</div></td>
-            <td><div>30 Abr 2025</div><div class="date-sub">Periodo de 30 días</div></td>
-            <td><span class="badge-reservada">● Reservada</span></td>
-            <td><button class="btn-pagar" onclick="location.href='pagos.html'">💳 Pagar cuota</button></td>
-          </tr>
-          <tr data-estado="vencida">
-            <td>
-              <div class="disc-cell">
-                <div class="disc-logo cyc">CYC</div>
-                <div>
-                  <div class="disc-name">Spinning Indoor Pro</div>
-                  <span class="disc-tag">12 Sesiones</span>
-                  <div class="disc-sede">Sede Miraflores</div>
-                </div>
-              </div>
-            </td>
-            <td><div>10 Ene 2025</div><div class="date-sub">Pase Mensual</div></td>
-            <td><div style="color:#dc2626;font-weight:600;">10 Feb 2025</div><div class="date-sub">Venció hace 45 días</div></td>
-            <td><span class="badge-vencida">● Vencida</span></td>
-            <td><button class="btn-renew" onclick="location.href='renovar.html'">↻ Renovar</button>&nbsp;<button class="btn-comp" onclick="location.href='comprobante.html'">👁 Comprobante</button></td>
-          </tr>
+          <tr><td colspan="5" class="loading">Cargando matrículas...</td></tr>
         </tbody>
       </table>
       <div class="table-footer">
         <span>⏱ Las renovaciones con transferencia se actualizan al validar el comprobante.</span>
-        <span><a href="#">Políticas de congelamiento</a> · <a href="#">Soporte</a></span>
+        <span><a href="#">Soporte</a></span>
       </div>
     </div>
 
@@ -255,24 +183,119 @@
   <div class="toast" id="toast"></div>
 
   <script>
+    const API = 'https://forca-fitness-backend.onrender.com';
+
+    // ── Auth guard ──
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+
+    // ── Poblar nav ──
+    if (usuario.nombre) {
+      const ini = usuario.nombre.substring(0,2).toUpperCase();
+      document.getElementById('navAvatar').textContent = ini;
+      document.getElementById('navNombre').textContent = usuario.nombre;
+      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+      document.getElementById('breadDisciplina').textContent = usuario.disciplina || 'Mi Plan';
+    }
+
+    // ── Estado badge ──
+    function estadoBadge(a) {
+      if (!a.fecha_fin_membresia) return { clase:'badge-vencida', texto:'● Sin membresía', estado:'vencida' };
+      const diff = Math.ceil((new Date(a.fecha_fin_membresia) - new Date()) / 86400000);
+      if (diff < 0) return { clase:'badge-vencida', texto:'● Vencida', estado:'vencida' };
+      if (diff <= 7) return { clase:'badge-reservada', texto:'⏱ Vence en ' + diff + ' días', estado:'proxima' };
+      return { clase:'badge-active', texto:'● Activa', estado:'activa' };
+    }
+
+    // ── Cargar alumnos y renderizar ──
+    async function cargarMatriculas() {
+      try {
+        const res = await fetch(API + '/api/alumnos', { headers });
+        if (!res.ok) throw new Error('Error al cargar datos');
+        const alumnos = await res.json();
+
+        let activas = 0, proximas = 0, vencidas = 0;
+        alumnos.forEach(a => {
+          const { estado } = estadoBadge(a);
+          if (estado === 'activa') activas++;
+          else if (estado === 'proxima') { activas++; proximas++; }
+          else vencidas++;
+        });
+
+        document.getElementById('statActivas').textContent = activas;
+        document.getElementById('statProximas').textContent = proximas;
+        document.getElementById('tableDesc').textContent = alumnos.length + ' registros en total';
+
+        // Pagos pendientes
+        try {
+          const resP = await fetch(API + '/api/pagos/pendientes', { headers });
+          if (resP.ok) {
+            const pagos = await resP.json();
+            document.getElementById('statPendientes').textContent = pagos.length || 0;
+          }
+        } catch(_) { document.getElementById('statPendientes').textContent = '0'; }
+
+        renderTabla(alumnos);
+      } catch(e) {
+        document.getElementById('tablaBody').innerHTML = '<tr><td colspan="5" class="loading">❌ No se pudieron cargar los datos: ' + e.message + '</td></tr>';
+      }
+    }
+
+    function renderTabla(alumnos) {
+      const tbody = document.getElementById('tablaBody');
+      if (!alumnos.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="loading">No hay registros para mostrar.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = alumnos.map(a => {
+        const badge = estadoBadge(a);
+        const fechaFin = a.fecha_fin_membresia
+          ? new Date(a.fecha_fin_membresia).toLocaleDateString('es-PE', {day:'2-digit',month:'short',year:'numeric'})
+          : 'Sin fecha';
+        const ini = (a.nombre || '--').substring(0,2).toUpperCase();
+        const estaVencida = badge.estado === 'vencida';
+        return `<tr data-estado="${badge.estado}">
+          <td>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:34px;height:34px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;">${ini}</div>
+              <div>
+                <div style="font-weight:600;color:#111;">${a.nombre || '--'}</div>
+                <div style="font-size:11px;color:#9ca3af;">${a.email || ''}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:600;">${a.disciplina || 'Sin disciplina'}</div>
+            <div style="font-size:11px;color:#9ca3af;">${a.turno || ''}</div>
+          </td>
+          <td>
+            <div style="${estaVencida ? 'color:#dc2626;' : badge.estado==='proxima' ? 'color:#d97706;' : ''}font-weight:600;">${fechaFin}</div>
+            <div style="font-size:11px;color:#9ca3af;">${badge.texto}</div>
+          </td>
+          <td><span class="${badge.clase}">${badge.texto}</span></td>
+          <td>
+            ${estaVencida
+              ? `<button class="btn-renew" onclick="location.href='renovar.html'">↻ Renovar</button>`
+              : `<button class="btn-comp" onclick="location.href='comprobante.html'">📄 Comprobante</button>`}
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
     function filtrar(estado, btn) {
-      // Actualizar tabs
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
-
-      // Filtrar filas
-      const filas = document.querySelectorAll('#tablaBody tr');
+      const filas = document.querySelectorAll('#tablaBody tr[data-estado]');
       filas.forEach(fila => {
         if (estado === 'todas') {
           fila.classList.remove('hidden');
         } else {
-          fila.dataset.estado === estado
+          fila.dataset.estado === estado || (estado === 'activa' && fila.dataset.estado === 'proxima')
             ? fila.classList.remove('hidden')
             : fila.classList.add('hidden');
         }
       });
-
-      // Toast informativo
       const labels = {todas:'Mostrando todas las matrículas',activa:'Filtrando: disciplinas activas',vencida:'Filtrando: disciplinas vencidas'};
       mostrarToast(labels[estado]);
     }
@@ -283,6 +306,8 @@
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
     }
+
+    cargarMatriculas();
   </script>
 </body>
 </html>

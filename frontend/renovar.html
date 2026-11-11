@@ -215,50 +215,90 @@
   <div class="toast" id="toast"></div>
 
   <script>
+    // Auth guard
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    if (usuario.nombre) {
+      document.querySelector('.user-info .name').textContent = usuario.nombre;
+      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    }
+
     // ── TIPO CARD SELECTION ──
     function selTipo(card, tipo) {
-      document.querySelectorAll('.tipo-card').forEach(c => {
-        c.classList.remove('selected');
-      });
+      document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
-
-      // Actualizar check boxes
       ['renovar','reservar'].forEach(t => {
         const chk = document.getElementById('chk-' + t);
-        if (t === tipo) {
-          chk.className = 'check-box on';
-          chk.textContent = '✓';
-        } else {
-          chk.className = 'check-box off';
-          chk.textContent = '';
-        }
+        if (t === tipo) { chk.className = 'check-box on'; chk.textContent = '✓'; }
+        else { chk.className = 'check-box off'; chk.textContent = ''; }
       });
-
-      // Cambiar icono total
       document.getElementById('total-icon').textContent = tipo === 'renovar' ? '🔄' : '🔒';
-
       toast(tipo === 'renovar' ? '🔄 Renovación de matrícula seleccionada' : '🔒 Reserva de cupo seleccionada');
     }
 
     // ── PERIODO CARD SELECTION ──
+    let montoSeleccionado = 150;
     function selPeriodo(card, monto, label, fechaVence) {
+      montoSeleccionado = monto;
       document.querySelectorAll('.periodo-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
-
-      // Actualizar totales con animación
       const amtEl = document.getElementById('total-amt');
       amtEl.style.transform = 'scale(1.08)';
       amtEl.style.color = '#16a34a';
       amtEl.textContent = 'S/. ' + monto.toFixed(2);
-      setTimeout(() => {
-        amtEl.style.transform = 'scale(1)';
-        amtEl.style.color = '#0d2d5e';
-      }, 300);
-
+      setTimeout(() => { amtEl.style.transform = 'scale(1)'; amtEl.style.color = '#0d2d5e'; }, 300);
       document.getElementById('total-vence').textContent = fechaVence;
-
       toast('✅ ' + label + ' seleccionado — Total: S/. ' + monto.toFixed(2));
     }
+
+    // ── CONFIRMAR PAGO ──
+    document.querySelector('.btn-pagar').onclick = async function(e) {
+      e.preventDefault();
+      const btn = this;
+      btn.textContent = 'Procesando...';
+      btn.disabled = true;
+
+      const id_alumno = usuario.id_alumno || usuario.id;
+      if (!id_alumno) {
+        toast('⚠️ Error: sesión no válida');
+        btn.textContent = 'Continuar a pagar renovación →';
+        btn.disabled = false;
+        return;
+      }
+
+      try {
+        const res = await fetch('https://forca-fitness-backend.onrender.com/api/pagos', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          },
+          body: JSON.stringify({
+            id_alumno: id_alumno,
+            monto: montoSeleccionado,
+            medio_pago: 'yape',
+            concepto: 'Renovación matrícula BJJ',
+            estado: 'pendiente'
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          toast('⚠️ ' + (data.error || 'Error al registrar pago'));
+          btn.textContent = 'Continuar a pagar renovación →';
+          btn.disabled = false;
+          return;
+        }
+
+        toast('✅ Pago registrado. Redirigiendo...');
+        setTimeout(() => location.href = 'pagos.html', 1500);
+
+      } catch(err) {
+        toast('⚠️ No se pudo conectar con el servidor');
+        btn.textContent = 'Continuar a pagar renovación →';
+        btn.disabled = false;
+      }
+    };
 
     function toast(msg) {
       const t = document.getElementById('toast');
@@ -267,6 +307,6 @@
       clearTimeout(t._timer);
       t._timer = setTimeout(() => t.classList.remove('show'), 2200);
     }
-  </script>
+</script>
 </body>
 </html>

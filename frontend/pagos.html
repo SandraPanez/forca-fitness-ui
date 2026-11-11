@@ -23,7 +23,6 @@
     .eyebrow{display:inline-block;background:#eff6ff;color:#1d4ed8;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:10px;}
     .page-title{font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
     .page-sub{font-size:13px;color:#6b7280;margin-bottom:24px;}
-    /* STEPS */
     .steps{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:0;}
     .step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;position:relative;}
     .step::after{content:'';position:absolute;top:19px;right:-50%;width:100%;height:2px;background:#e5e7eb;z-index:0;}
@@ -35,7 +34,6 @@
     .step-label{font-size:12px;font-weight:600;color:#0d2d5e;text-align:center;}
     .step-sub{font-size:11px;color:#9ca3af;}
     .step-sub.active-sub{color:#0d2d5e;}
-    /* CONTENT */
     .content-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;}
     .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;}
     .card-eyebrow{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:4px;}
@@ -70,7 +68,6 @@
     .btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
     .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;}
     .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    /* ORDER SUMMARY */
     .summary-title{font-size:14px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:4px;}
     .order-title{font-size:18px;font-weight:800;color:#111;margin-bottom:16px;}
     .order-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;color:#374151;}
@@ -89,34 +86,17 @@
     .sec-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#374151;}
     footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
     footer a{color:#0d2d5e;text-decoration:none;}
-    /* ── HOVER & TRANSITION EFFECTS ── */
     a{transition:color .18s ease;}
     button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
     button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
     button:active{transform:translateY(0);}
     .btn-primary:hover{background:#0a2448;}
-    .btn-secondary:hover{background:#0a2448;}
-    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
     .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-pagar:hover{background:#0a2448;}
-    .btn-save:hover{background:#0a2448;}
-    .btn-confirm:hover{background:#0a2448;}
-    .btn-reject:hover{background:#f3f4f6;}
-    .btn-refresh:hover{background:#0a2448;}
     .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
-    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
-    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
-    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
-    .card-link:hover{opacity:.75;}
-    .comp-link:hover{opacity:.75;}
-    .back-link:hover{color:#0d2d5e;}
     tbody tr{transition:background .15s ease;}
     tbody tr:hover{background:#f9fafb;}
+    .msg{background:#dcfce7;color:#166534;border-radius:8px;padding:12px 16px;font-size:13px;font-weight:600;margin-bottom:16px;display:none;}
+    .msg.error{background:#fee2e2;color:#dc2626;}
   </style>
 </head>
 <body>
@@ -126,7 +106,7 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DEPORTIVO</p></div>
     </div>
     <div class="nav-links">
-      <a href="login.html">Inicio</a>
+      <a href="index.html">Inicio</a>
       <a href="disciplinas.html">Consulta de Clases</a>
       <a href="mis-matriculas.html">Mis Matrículas</a>
       <a href="#" class="active">Pagos</a>
@@ -134,10 +114,10 @@
       <a href="alumnos.html">Alumnos</a>
     </div>
     <div class="nav-right">
-      <div class="avatar">MG</div>
+      <div class="avatar" id="navAvatar">--</div>
       <div class="user-info">
-        <div class="name">Martín Gómez Silva</div>
-        <div class="role">Socio #1042 · BJJ Azul</div>
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol">--</div>
       </div>
     </div>
   </nav>
@@ -146,6 +126,8 @@
     <div class="eyebrow">● PAGOS</div>
     <h1 class="page-title">Registrar pago</h1>
     <p class="page-sub">Procesa el cobro de una matrícula o una renovación pendiente.</p>
+
+    <div id="msgBox" class="msg"></div>
 
     <div class="steps">
       <div class="step">
@@ -174,37 +156,35 @@
         <label>ALUMNO TITULAR</label>
         <div class="alumno-row">
           <div style="display:flex;align-items:center;gap:12px;">
-            <div class="av">MG</div>
+            <div class="av" id="alumnoAv">--</div>
             <div>
-              <div class="alumno-name">Martín Gómez Silva</div>
-              <div class="alumno-sub">DNI: 74839210 · Sede Central Miraflores</div>
+              <div class="alumno-name" id="alumnoNombre">Cargando...</div>
+              <div class="alumno-sub" id="alumnoSub">--</div>
             </div>
           </div>
           <span class="badge-active">✓ Alumno Activo</span>
         </div>
 
         <div class="form-grid">
-          <div class="form-field"><label>CÓDIGO DE MATRÍCULA</label><input type="text" value="MAT-2025-08492"/></div>
-          <div class="form-field"><label>CORREO ELECTRÓNICO</label><input type="email" value="martin.gomez@gmail.com"/></div>
-          <div class="form-field"><label>CONCEPTO</label><input type="text" value="Mensualidad"/></div>
-          <div class="form-field"><label>MONTO</label><div class="monto-wrap"><input type="text" value="S/. 150.00"/><span class="currency">PEN</span></div></div>
+          <div class="form-field"><label>CONCEPTO</label><input type="text" id="inpConcepto" value="Mensualidad"/></div>
+          <div class="form-field"><label>MONTO</label><div class="monto-wrap"><input type="text" id="inpMonto" value="150.00"/><span class="currency">PEN</span></div></div>
         </div>
 
         <div class="payment-label">SELECCIONAR MEDIO DE PAGO</div>
         <div class="pay-options">
-          <div class="pay-opt selected">
-            <div class="check">✓</div>
+          <div class="pay-opt selected" id="optYape" onclick="selPago('yape')">
+            <div class="check" id="chkYape">✓</div>
             <span class="pay-opt-badge badge-safe">Pasarela segura</span>
-            <div class="pay-opt-title">Mercado Pago</div>
-            <div class="pay-opt-desc">Tarjeta o aplicación de pago mediante pasarela segura. Acreditación inmediata.</div>
+            <div class="pay-opt-title">Yape / Transferencia</div>
+            <div class="pay-opt-desc">Transferencia bancaria o aplicación de pago. Acreditación inmediata.</div>
             <div class="logos">
-              <span class="logo-pill">Visa</span>
-              <span class="logo-pill">Mastercard</span>
-              <span class="logo-pill">Yape / Plin</span>
+              <span class="logo-pill">Yape</span>
+              <span class="logo-pill">BCP</span>
+              <span class="logo-pill">Interbank</span>
             </div>
           </div>
-          <div class="pay-opt">
-            <div class="check empty"></div>
+          <div class="pay-opt" id="optEfectivo" onclick="selPago('efectivo')">
+            <div class="check empty" id="chkEfectivo"></div>
             <span class="pay-opt-badge badge-rec">Recepción</span>
             <div class="pay-opt-title">Efectivo</div>
             <div class="pay-opt-desc">Reserva válida por 48 horas. Se confirma en recepción antes del ingreso.</div>
@@ -214,27 +194,25 @@
 
         <div class="btn-row">
           <button class="btn-cancel" onclick="location.href='mis-matriculas.html'">← Cancelar</button>
-          <button class="btn-primary" onclick="location.href='comprobante.html'">Continuar al pago →</button>
+          <button class="btn-primary" id="btnPagar" onclick="registrarPago()">Registrar pago →</button>
         </div>
       </div>
 
       <div class="card">
         <div class="summary-title">RESUMEN DEL COBRO</div>
         <div class="order-title">Detalle de la orden</div>
-        <div class="order-row"><span class="label">Socio / Alumno:</span><span class="val">Martín Gómez Silva</span></div>
-        <div class="order-row"><span class="label">DNI:</span><span class="val">74839210</span></div>
-        <div class="order-row"><span class="label">Disciplina:</span><span class="val blue">BJJ Adultos (No-Gi)</span></div>
-        <div class="order-row"><span class="label">Período:</span><span class="val">Abril 2025</span></div>
+        <div class="order-row"><span class="label">Alumno:</span><span class="val" id="sumNombre">--</span></div>
+        <div class="order-row"><span class="label">Disciplina:</span><span class="val blue" id="sumDisc">--</span></div>
         <hr class="order-divider"/>
-        <div class="order-row"><span class="label">Concepto</span><span class="val">Mensualidad</span></div>
+        <div class="order-row"><span class="label">Concepto</span><span class="val" id="sumConcepto">Mensualidad</span></div>
         <div class="order-row"><span class="label">Estado</span><span class="val orange">● Pendiente</span></div>
-        <div class="order-row"><span class="label">Método seleccionado</span><span class="val">Mercado Pago</span></div>
+        <div class="order-row"><span class="label">Método</span><span class="val" id="sumMetodo">Yape / Transferencia</span></div>
         <hr class="order-divider"/>
-        <div class="subtotal-row"><span>Subtotal (sin IGV)</span><span>S/ 127.12</span></div>
-        <div class="subtotal-row"><span>IGV (18%)</span><span>S/ 22.88</span></div>
+        <div class="subtotal-row"><span>Subtotal (sin IGV)</span><span id="sumSubtotal">S/ 127.12</span></div>
+        <div class="subtotal-row"><span>IGV (18%)</span><span id="sumIgv">S/ 22.88</span></div>
         <div class="total-row">
           <span class="total-label">TOTAL A PAGAR</span>
-          <span><span class="total-val">S/ 150.00</span> <span class="total-currency">PEN</span></span>
+          <span><span class="total-val" id="sumTotal">S/ 150.00</span> <span class="total-currency">PEN</span></span>
         </div>
         <div class="order-note">Impuestos de ley incluidos</div>
         <div class="security-items">
@@ -244,6 +222,107 @@
       </div>
     </div>
   </main>
-  <footer>FORCA & FITNESS S.A.C. · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
+  <footer>FORCA & FITNESS S.A.C. · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
+
+  <script>
+    const API = 'https://forca-fitness-backend.onrender.com';
+
+    // ── Auth guard ──
+    if (!localStorage.getItem('token')) location.href = 'login.html';
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+
+    // ── Poblar nav y alumno ──
+    if (usuario.nombre) {
+      const ini = usuario.nombre.substring(0,2).toUpperCase();
+      document.getElementById('navAvatar').textContent = ini;
+      document.getElementById('navNombre').textContent = usuario.nombre;
+      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+
+      document.getElementById('alumnoAv').textContent = ini;
+      document.getElementById('alumnoNombre').textContent = usuario.nombre;
+      document.getElementById('alumnoSub').textContent = 'ID: ' + (usuario.id || '--') + ' · Forca & Fitness';
+
+      document.getElementById('sumNombre').textContent = usuario.nombre;
+      document.getElementById('sumDisc').textContent = usuario.disciplina || 'Sin disciplina';
+    }
+
+    // ── Selección de medio de pago ──
+    let medioPago = 'yape';
+    function selPago(metodo) {
+      medioPago = metodo;
+      document.getElementById('optYape').classList.toggle('selected', metodo === 'yape');
+      document.getElementById('optEfectivo').classList.toggle('selected', metodo === 'efectivo');
+      document.getElementById('chkYape').className = metodo === 'yape' ? 'check' : 'check empty';
+      document.getElementById('chkYape').textContent = metodo === 'yape' ? '✓' : '';
+      document.getElementById('chkEfectivo').className = metodo === 'efectivo' ? 'check' : 'check empty';
+      document.getElementById('chkEfectivo').textContent = metodo === 'efectivo' ? '✓' : '';
+      document.getElementById('sumMetodo').textContent = metodo === 'yape' ? 'Yape / Transferencia' : 'Efectivo';
+    }
+
+    // ── Actualizar resumen en tiempo real ──
+    document.getElementById('inpMonto').addEventListener('input', function() {
+      const monto = parseFloat(this.value) || 0;
+      const subtotal = (monto / 1.18).toFixed(2);
+      const igv = (monto - subtotal).toFixed(2);
+      document.getElementById('sumTotal').textContent = 'S/ ' + monto.toFixed(2);
+      document.getElementById('sumSubtotal').textContent = 'S/ ' + subtotal;
+      document.getElementById('sumIgv').textContent = 'S/ ' + igv;
+    });
+    document.getElementById('inpConcepto').addEventListener('input', function() {
+      document.getElementById('sumConcepto').textContent = this.value || 'Mensualidad';
+    });
+
+    // ── Registrar pago en la API ──
+    async function registrarPago() {
+      const btn = document.getElementById('btnPagar');
+      const msgBox = document.getElementById('msgBox');
+      const monto = parseFloat(document.getElementById('inpMonto').value);
+      const concepto = document.getElementById('inpConcepto').value || 'Mensualidad';
+
+      if (!monto || monto <= 0) {
+        msgBox.textContent = 'Por favor ingresa un monto válido.';
+        msgBox.className = 'msg error';
+        msgBox.style.display = 'block';
+        return;
+      }
+
+      btn.textContent = 'Registrando...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(API + '/api/pagos', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          },
+          body: JSON.stringify({
+            id_alumno: usuario.id,
+            monto: monto,
+            medio_pago: medioPago,
+            concepto: concepto,
+            estado: 'pendiente'
+          })
+        });
+
+        if (res.ok) {
+          msgBox.textContent = '✅ Pago registrado correctamente. Estado: pendiente de confirmación por Tesorería.';
+          msgBox.className = 'msg';
+          msgBox.style.display = 'block';
+          btn.textContent = '✓ Pago registrado';
+          setTimeout(() => location.href = 'mis-matriculas.html', 2500);
+        } else {
+          const err = await res.json();
+          throw new Error(err.error || 'Error al registrar el pago');
+        }
+      } catch (e) {
+        msgBox.textContent = '❌ ' + e.message;
+        msgBox.className = 'msg error';
+        msgBox.style.display = 'block';
+        btn.textContent = 'Registrar pago →';
+        btn.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
