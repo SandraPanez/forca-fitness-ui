@@ -79,6 +79,36 @@
     .card-text{font-size:12px;color:#6b7280;line-height:1.5;margin-bottom:12px;}
     .card-link{font-size:13px;font-weight:600;color:#0d2d5e;text-decoration:none;display:flex;align-items:center;gap:4px;}
     footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:20px;}
+    /* ── HOVER & TRANSITION EFFECTS ── */
+    .btn-renew:hover{background:#1e40af;}
+    .btn-comp:hover{background:#f3f4f6;}
+    a{transition:color .18s ease;}
+    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
+    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
+    button:active{transform:translateY(0);}
+    .btn-primary:hover{background:#0a2448;}
+    .btn-secondary:hover{background:#0a2448;}
+    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-pagar:hover{background:#0a2448;}
+    .btn-save:hover{background:#0a2448;}
+    .btn-confirm:hover{background:#0a2448;}
+    .btn-reject:hover{background:#f3f4f6;}
+    .btn-refresh:hover{background:#0a2448;}
+    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
+    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
+    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
+    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
+    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
+    .card-link:hover{opacity:.75;}
+    .comp-link:hover{opacity:.75;}
+    .back-link:hover{color:#0d2d5e;}
+    tbody tr{transition:background .15s ease;}
+    tbody tr:hover{background:#f9fafb;}
   </style>
 </head>
 <body>
@@ -90,7 +120,7 @@
     <div class="nav-links">
       <a href="#">Inicio</a>
       <a href="#" class="active">Mis Matrículas</a>
-      <a href="#">Horarios & Clases</a>
+      <a href="disciplinas.html">Horarios & Clases</a>
       <a href="#">Historial de Pagos</a>
     </div>
     <div class="nav-right">
@@ -110,7 +140,7 @@
         <h1 class="page-title">Mis matrículas</h1>
         <p class="page-sub">Consulta la vigencia y fecha de vencimiento de tus disciplinas.</p>
       </div>
-      <button class="btn-primary">+ Inscribir nueva disciplina / Renovar</button>
+      <button class="btn-primary" onclick="location.href='renovar.html'">+ Inscribir nueva disciplina / Renovar</button>
     </div>
 
     <div class="alert-green">
@@ -166,7 +196,7 @@
             <td><div>28 Feb 2025</div><div class="date-sub">Plan Mensual</div></td>
             <td><div class="date-warn">⏱ 28 Mar 2025</div><div class="date-sub">Vence en 3 días</div></td>
             <td><span class="badge-active">● Activa</span></td>
-            <td><button class="btn-renew">↻ Renovar matrícula</button>&nbsp;<button class="btn-comp">📄 Comprobante</button></td>
+            <td><button class="btn-renew" onclick="location.href='renovar.html'">↻ Renovar matrícula</button>&nbsp;<button class="btn-comp" onclick="location.href='comprobante.html'">📄 Comprobante</button></td>
           </tr>
           <tr>
             <td>
@@ -182,7 +212,7 @@
             <td><div>15 Ene 2025</div><div class="date-sub">Plan Trimestral</div></td>
             <td><div>15 Abr 2025</div><div class="date-sub">Vence en 21 días</div></td>
             <td><span class="badge-active">● Activa</span></td>
-            <td><button class="btn-comp">👁 Ver comprobante</button></td>
+            <td><button class="btn-comp" onclick="location.href='comprobante.html'">👁 Ver comprobante</button></td>
           </tr>
           <tr>
             <td>
@@ -214,7 +244,7 @@
             <td><div>10 Ene 2025</div><div class="date-sub">Pase Mensual</div></td>
             <td><div style="color:#dc2626;font-weight:600;">10 Feb 2025</div><div class="date-sub">Venció hace 45 días</div></td>
             <td><span class="badge-vencida">● Vencida</span></td>
-            <td><button class="btn-renew">↻ Renovar matrícula</button>&nbsp;<button class="btn-comp">👁 Ver comprobante</button></td>
+            <td><button class="btn-renew" onclick="location.href='renovar.html'">↻ Renovar matrícula</button>&nbsp;<button class="btn-comp" onclick="location.href='comprobante.html'">👁 Ver comprobante</button></td>
           </tr>
         </tbody>
       </table>
@@ -229,13 +259,13 @@
         <div class="card-icon">📱</div>
         <div class="card-title">Pase de Acceso Rápido (Código QR)</div>
         <div class="card-text">Muestra tu código QR en el torniquete de recepción para registrar tu asistencia automáticamente en cada sesión.</div>
-        <a class="card-link" href="#">Abrir carnet digital ›</a>
+        <a class="card-link" href="perfil.html">Abrir carnet digital ›</a>
       </div>
       <div class="card">
         <div class="card-icon">💬</div>
         <div class="card-title">¿Necesitas congelar o cambiar de turno?</div>
         <div class="card-text">Puedes solicitar prórrogas por viaje o motivos médicos directamente con la coordinación general de la academia vía WhatsApp.</div>
-        <a class="card-link" href="#">Contactar a Coordinación ↗</a>
+        <a class="card-link" href="tesoreria.html">Contactar a Coordinación ↗</a>
       </div>
     </div>
   </main>
