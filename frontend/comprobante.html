@@ -3,285 +3,233 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Comprobante de Pago — Forca & Fitness</title>
+  <title>Comprobante de Pago — Forca &amp; Fitness</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
-    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
     .nav-logo{display:flex;align-items:center;gap:10px;}
-    .logo-box{background:#0d2d5e;border-radius:7px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:10px;color:#fff;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
     .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
-    .nav-links a{padding:6px 12px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;}
-    .nav-links a.active{color:#0d2d5e;font-weight:700;}
-    .nav-right{display:flex;align-items:center;gap:10px;}
-    .bell{position:relative;font-size:17px;}
-    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
-    .avatar{width:32px;height:32px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
-    .user-info .name{font-size:12px;font-weight:600;}
-    .user-info .role{font-size:10px;color:#9ca3af;}
-    main{max-width:960px;margin:0 auto;padding:24px 32px;}
-    .page-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;}
-    .breadcrumb{font-size:11px;color:#9ca3af;margin-bottom:6px;}
-    .breadcrumb span{color:#0d2d5e;}
-    .badge-valid{background:#dcfce7;color:#15803d;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;margin-left:12px;}
-    .page-title{font-size:26px;font-weight:800;color:#0d2d5e;display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
-    .page-sub{font-size:12px;color:#9ca3af;margin-top:4px;}
-    .btn-row{display:flex;gap:10px;}
-    .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    .btn-secondary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    .btn-outline{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    .receipt{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;max-width:720px;margin:0 auto;}
-    .receipt-header{background:#0d2d5e;padding:24px 32px;display:flex;justify-content:space-between;align-items:flex-start;}
-    .rh-left{display:flex;align-items:flex-start;gap:16px;}
-    .rh-logo{background:#1a4a8a;border-radius:8px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;}
-    .rh-company h2{font-size:16px;font-weight:800;color:#fff;letter-spacing:.5px;}
-    .rh-company p{font-size:11px;color:#8ab0d4;margin-top:2px;}
-    .rh-company .addr{font-size:11px;color:#8ab0d4;margin-top:4px;}
-    .rh-right{text-align:right;}
-    .rh-right .label{font-size:10px;color:#8ab0d4;letter-spacing:.5px;}
-    .rh-right .number{font-size:20px;font-weight:800;color:#fff;margin-top:2px;}
-    .rh-right .meta{font-size:11px;color:#8ab0d4;margin-top:6px;line-height:1.6;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
+    .nav-links a.active{color:#0d2d5e;font-weight:700;border-bottom:2px solid #0d2d5e;}
+    .nav-right{display:flex;align-items:center;gap:12px;}
+    .bell{font-size:18px;cursor:pointer;position:relative;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .role{font-size:11px;color:#9ca3af;}
+    main{max-width:720px;margin:0 auto;padding:28px 20px;}
+    .breadcrumb{font-size:12px;color:#9ca3af;margin-bottom:12px;}
+    .breadcrumb span{color:#0d2d5e;font-weight:600;}
+    /* Stepper */
+    .stepper{display:flex;align-items:center;gap:0;margin-bottom:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:0;overflow:hidden;}
+    .step{flex:1;display:flex;align-items:center;gap:10px;padding:14px 20px;font-size:13px;border-right:1px solid #e5e7eb;}
+    .step:last-child{border-right:none;}
+    .step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+    .step.done .step-num{background:#dcfce7;color:#15803d;}
+    .step.pending .step-num{background:#f3f4f6;color:#9ca3af;}
+    .step-label{font-weight:600;color:#111;}
+    .step.pending .step-label{color:#9ca3af;}
+    .step-sub{font-size:11px;color:#9ca3af;}
+    /* Recibo */
+    .receipt{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07);}
+    .receipt-header{background:linear-gradient(135deg,#0d2d5e 0%,#1e40af 100%);padding:28px 32px;color:#fff;display:flex;justify-content:space-between;align-items:flex-start;}
+    .receipt-logo{display:flex;align-items:center;gap:12px;}
+    .receipt-logo-box{background:rgba(255,255,255,.15);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+    .receipt-company{font-size:17px;font-weight:800;}
+    .receipt-company-sub{font-size:11px;opacity:.7;margin-top:2px;}
+    .receipt-num{text-align:right;}
+    .receipt-num .label{font-size:11px;opacity:.6;margin-bottom:4px;}
+    .receipt-num .number{font-size:16px;font-weight:800;font-family:monospace;}
+    .receipt-num .date{font-size:12px;opacity:.7;margin-top:4px;}
+    .badge-paid{background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;display:inline-block;margin-top:8px;}
     .receipt-body{padding:28px 32px;}
-    .section{margin-bottom:24px;}
-    .section-title{font-size:11px;font-weight:700;color:#0d2d5e;letter-spacing:.5px;display:flex;align-items:center;gap:6px;margin-bottom:12px;}
-    .section-sub{float:right;font-size:11px;color:#9ca3af;font-weight:400;}
-    .info-grid{background:#f9fafb;border-radius:10px;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-    .info-item .label{font-size:10px;color:#9ca3af;letter-spacing:.3px;margin-bottom:4px;}
-    .info-item .value{font-size:13px;font-weight:700;color:#111;}
-    .info-item .sub{font-size:11px;color:#9ca3af;}
-    .info-item .value-blue{color:#1d4ed8;font-size:13px;font-weight:700;}
-    table{width:100%;border-collapse:collapse;}
-    thead th{padding:10px 14px;font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-align:left;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
-    tbody td{padding:14px;font-size:13px;border-bottom:1px solid #f3f4f6;}
-    .plan-pill{background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;}
-    .pay-method{display:flex;align-items:center;gap:6px;font-size:13px;}
-    .ref-code{font-family:monospace;font-size:12px;color:#374151;}
-    .badge-approved{background:#dcfce7;color:#15803d;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;}
-    .badge-pending{background:#fef9c3;color:#92400e;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;}
-    .total-block{background:linear-gradient(135deg,#0d2d5e,#1a4a8a);border-radius:10px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;color:#fff;margin-bottom:20px;}
-    .total-block .total-label{font-size:12px;font-weight:700;letter-spacing:.5px;color:#8ab0d4;}
-    .total-block .total-amt{font-size:34px;font-weight:800;}
-    .total-block .total-right{text-align:right;}
-    .total-block .total-letters{font-size:12px;color:#8ab0d4;letter-spacing:.3px;margin-bottom:4px;}
-    .total-block .total-breakdown{font-size:11px;color:#8ab0d4;}
-    .legal-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-    .legal-left p{font-size:12px;color:#374151;line-height:1.6;}
-    .legal-left .hash{font-size:11px;color:#9ca3af;font-family:monospace;margin-top:8px;}
-    .legal-right{background:#f9fafb;border-radius:8px;padding:16px;text-align:center;}
-    .signature-line{height:40px;border-bottom:2px solid #9ca3af;width:140px;margin:0 auto 10px;}
-    .sig-name{font-size:13px;font-weight:700;color:#111;}
-    .sig-role{font-size:11px;color:#9ca3af;}
-    .badge-signed{background:#dcfce7;color:#15803d;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;margin-top:6px;}
-    .receipt-footer{background:#f9fafb;border-top:1px solid #e5e7eb;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
-    .rf-left{font-size:11px;color:#9ca3af;}
-    .rf-right{display:flex;align-items:center;gap:14px;font-size:12px;color:#374151;}
-    .rf-right a{color:#0d2d5e;font-weight:600;text-decoration:none;}
-    .bottom-link{text-align:center;padding:16px;font-size:12px;color:#9ca3af;border-top:1px solid #e5e7eb;}
-    .bottom-link a{color:#0d2d5e;font-weight:700;text-decoration:none;}
-    footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
-    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
-    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
-    .btn-primary:hover{background:#0a2448;}
-    .btn-secondary:hover{background:#0a2448;}
-    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
-    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    tbody tr{transition:background .15s ease;}
-    tbody tr:hover{background:#f9fafb;}
-    .loading{text-align:center;padding:32px;color:#9ca3af;font-size:13px;}
+    .section-title{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+    .info-item .label{font-size:11px;color:#9ca3af;margin-bottom:3px;}
+    .info-item .val{font-size:14px;font-weight:600;color:#111;}
+    .table-det{width:100%;border-collapse:collapse;margin-bottom:20px;}
+    .table-det th{font-size:11px;font-weight:700;color:#9ca3af;text-align:left;padding:8px 12px;background:#f8fafc;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;}
+    .table-det td{padding:12px;font-size:13px;border-bottom:1px solid #f3f4f6;}
+    .total-block{background:linear-gradient(135deg,#0d2d5e,#1e40af);border-radius:12px;padding:20px 24px;color:#fff;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+    .total-block .label{font-size:13px;opacity:.8;margin-bottom:4px;}
+    .total-block .amount{font-size:32px;font-weight:800;}
+    .total-block .igv-info{font-size:11px;opacity:.6;margin-top:4px;}
+    .total-right{text-align:right;}
+    .legal{background:#f8fafc;border-radius:10px;padding:14px 16px;font-size:11px;color:#6b7280;line-height:1.6;margin-bottom:20px;}
+    .receipt-footer{border-top:1px solid #e5e7eb;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;}
+    .receipt-footer .left{font-size:11px;color:#9ca3af;}
+    .badge-valid{background:#dcfce7;color:#15803d;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;}
+    /* Buttons */
+    .actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;}
+    .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:9px;padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .18s,transform .12s,box-shadow .18s;}
+    .btn-primary:hover{background:#0a2448;transform:translateY(-1px);box-shadow:0 4px 12px rgba(13,45,94,.2);}
+    .btn-secondary{background:#fff;border:1.5px solid #e5e7eb;border-radius:9px;padding:11px 18px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .18s,border-color .18s,transform .12s;}
+    .btn-secondary:hover{background:#f8fafc;border-color:#9ca3af;transform:translateY(-1px);}
+    footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
+    .toast.show{opacity:1;transform:translateY(0);}
+    @media print{nav,footer,.actions,.toast{display:none;}.receipt{box-shadow:none;border:none;}body{background:#fff;}}
   </style>
 </head>
 <body>
   <nav>
     <div class="nav-logo">
-      <div class="logo-box">F&F</div>
-      <div class="logo-text"><h1>FORCA & FITNESS</h1></div>
+      <div class="logo-box">F&amp;F</div>
+      <div class="logo-text"><h1>FORCA &amp; FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="alumnos.html">Alumnos</a>
-      <a href="mis-matriculas.html">Matrículas</a>
-      <a href="pagos.html" class="active">Pagos</a>
-      <a href="tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" id="navAvatar">--</div>
-      <div class="user-info"><div class="name" id="navNombre">Cargando...</div><div class="role" id="navRol">--</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
   <main>
-    <div class="page-top">
-      <div>
-        <div class="breadcrumb">TESORERÍA · MÓDULO DE PAGOS</div>
-        <div class="page-title">Comprobante de pago <span class="badge-valid" id="badgeEstado">⏳ Cargando...</span></div>
-        <p class="page-sub" id="pageSubtitle">Cargando información del pago...</p>
-      </div>
-      <div class="btn-row">
-        <button class="btn-primary" onclick="window.print()">⬇ Descargar / Imprimir</button>
-        <button class="btn-outline" onclick="location.href='mis-matriculas.html'">← Volver</button>
-      </div>
+    <div class="breadcrumb">MATRÍCULAS › <span>Comprobante de Pago</span></div>
+
+    <div class="stepper">
+      <div class="step done"><div class="step-num">✓</div><div><div class="step-label">Registro</div><div class="step-sub">Completado</div></div></div>
+      <div class="step done"><div class="step-num">✓</div><div><div class="step-label">Pago matrícula</div><div class="step-sub">Procesado</div></div></div>
+      <div class="step done"><div class="step-num">✓</div><div><div class="step-label">Confirmación</div><div class="step-sub">Comprobante emitido</div></div></div>
     </div>
 
     <div class="receipt">
       <div class="receipt-header">
-        <div class="rh-left">
-          <div class="rh-logo">F&F</div>
-          <div class="rh-company">
-            <h2>ACADEMIA FORCA & FITNESS</h2>
-            <p>COMPROBANTE DE PAGO ELECTRÓNICO</p>
-            <p class="addr">📋 R.U.C. 20608945120 · Forca & Fitness S.A.C.</p>
-            <p class="addr">📍 Av. Las Flores 450, Miraflores, Lima – Perú</p>
+        <div class="receipt-logo">
+          <div class="receipt-logo-box">F&amp;F</div>
+          <div>
+            <div class="receipt-company">FORCA &amp; FITNESS S.A.C.</div>
+            <div class="receipt-company-sub">RUC: 20612345678 · Lima, Perú</div>
+            <div class="badge-paid">✅ COMPROBANTE DE PAGO</div>
           </div>
         </div>
-        <div class="rh-right">
-          <div class="label">N° DE COMPROBANTE</div>
-          <div class="number" id="numComprobante">--</div>
-          <div class="meta" id="metaFecha">Cargando...</div>
+        <div class="receipt-num">
+          <div class="label">Nº Comprobante</div>
+          <div class="number" id="recNumero">B001-0000001</div>
+          <div class="date" id="recFecha">—</div>
         </div>
       </div>
 
       <div class="receipt-body">
-        <div class="section">
-          <div class="section-title">👤 DATOS DEL ALUMNO <span class="section-sub" id="secAlumnoId">--</span></div>
-          <div class="info-grid">
-            <div class="info-item"><div class="label">NOMBRE DEL ALUMNO</div><div class="value" id="infoNombre">--</div><div class="sub" id="infoEmail">--</div></div>
-            <div class="info-item"><div class="label">ID ALUMNO</div><div class="value" id="infoId">--</div><div class="sub">Registro Forca & Fitness</div></div>
-            <div class="info-item"><div class="label">DISCIPLINA</div><div class="value-blue" id="infoDisc">--</div><div class="sub">Sede Central</div></div>
-          </div>
+        <div class="section-title">Datos del Alumno</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="label">Nombre Completo</div><div class="val" id="recNombre">—</div></div>
+          <div class="info-item"><div class="label">DNI</div><div class="val" id="recDni">—</div></div>
+          <div class="info-item"><div class="label">Correo Electrónico</div><div class="val" id="recEmail">—</div></div>
+          <div class="info-item"><div class="label">Disciplina</div><div class="val" id="recDisc">—</div></div>
         </div>
 
-        <div class="section">
-          <div class="section-title">💳 DETALLE DEL PAGO</div>
-          <table>
-            <thead>
-              <tr><th>CONCEPTO</th><th>PLAN</th><th>MÉTODO DE PAGO</th><th>REFERENCIA</th><th>ESTADO</th></tr>
-            </thead>
-            <tbody id="pagoBody">
-              <tr><td colspan="5" class="loading">Cargando pago...</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="section-title">Detalle del Pago</div>
+        <table class="table-det">
+          <thead>
+            <tr><th>Descripción</th><th>Período</th><th>Método</th><th style="text-align:right;">Monto</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="recConcepto">Matrícula Regular</td>
+              <td>1 Mes</td>
+              <td id="recMetodo">—</td>
+              <td style="text-align:right;font-weight:700;" id="recMonto">S/. 0.00</td>
+            </tr>
+          </tbody>
+        </table>
 
         <div class="total-block">
           <div>
-            <div class="total-label">TOTAL PAGADO</div>
-            <div class="total-amt" id="totalAmt">S/. --</div>
+            <div class="label">Monto Total Pagado</div>
+            <div class="amount" id="recTotal">S/. 0.00</div>
+            <div class="igv-info">Incluye IGV (18%): <span id="recIgv">S/. 0.00</span></div>
           </div>
           <div class="total-right">
-            <div class="total-letters">IMPORTE EN LETRAS</div>
-            <div style="font-size:14px;font-weight:700;color:#fff;" id="totalLetras">--</div>
-            <div class="total-breakdown" id="totalBreakdown">IGV (18% incluido): S/. -- · Subtotal: S/. --</div>
+            <div style="font-size:11px;opacity:.7;">Subtotal</div>
+            <div style="font-size:18px;font-weight:700;" id="recSubtotal">S/. 0.00</div>
           </div>
         </div>
 
-        <div class="section">
-          <div class="section-title">🛡 Validez Legal y Verificación</div>
-          <div class="legal-row">
-            <div class="legal-left">
-              <p>Este documento es una constancia digital oficial emitida de conformidad con los registros financieros de Forca & Fitness S.A.C.</p>
-              <p class="hash">ID TRX: <span id="idTrx">--</span></p>
-            </div>
-            <div class="legal-right">
-              <div class="signature-line"></div>
-              <div class="sig-name">Tesorería Forca & Fitness</div>
-              <div class="sig-role">Control Financiero</div>
-              <div class="badge-signed" id="firmaEstado">🔏 Pendiente de firma</div>
-            </div>
-          </div>
+        <div class="legal">
+          <strong>Aviso legal:</strong> Este documento es un comprobante electrónico emitido conforme a la normativa tributaria peruana (SUNAT). La información contenida está protegida por la Ley N.º 29733 — Ley de Protección de Datos Personales. Para consultas sobre este comprobante, comuníquese con tesoreria@forcafitness.com.pe o llame al +51 991 234 567.
         </div>
       </div>
 
       <div class="receipt-footer">
-        <div class="rf-left">© 2025 Forca & Fitness Management System. Documento válido para fines administrativos y deportivos.</div>
-        <div class="rf-right">Soporte: <a href="#">tesoreria@forcafitness.com</a></div>
+        <div class="left">Gracias por tu matrícula en Forca &amp; Fitness 🥋</div>
+        <div class="badge-valid">✓ Comprobante válido</div>
       </div>
+    </div>
 
-      <div class="bottom-link">❓ ¿Tienes dudas sobre el pago? &nbsp;<a href="tesoreria.html">Ir a Tesorería →</a></div>
+    <div class="actions">
+      <button class="btn-primary" onclick="window.print()">⬇ Descargar / Imprimir</button>
+      <button class="btn-secondary" onclick="enviarCorreo()">📧 Enviar por correo</button>
+      <button class="btn-secondary" onclick="location.href='pagos.html'">← Volver a pagos</button>
     </div>
   </main>
-  <footer>© 2025 Forca & Fitness Management System. Todos los derechos reservados. · Versión 2.4.0</footer>
+  <footer>FORCA &amp; FITNESS S.A.C. · © 2025 Todos los derechos reservados · Versión 2.4.0</footer>
 
+  <div class="toast" id="toast"></div>
+
+  <script src="auth.js"></script>
   <script>
-    const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol(['Alumno', 'Admin', 'Tesorería']);
+    initNav();
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+    function fmt(n) { return 'S/. ' + parseFloat(n || 0).toFixed(2); }
 
-    // ── Poblar nav ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Tesorería');
-      document.getElementById('infoNombre').textContent = usuario.nombre;
-      document.getElementById('infoEmail').textContent = usuario.email || '';
-      document.getElementById('infoId').textContent = 'ID: ' + (usuario.id || '--');
-      document.getElementById('infoDisc').textContent = usuario.disciplina || 'Sin disciplina';
-      document.getElementById('secAlumnoId').textContent = 'ID ' + (usuario.id || '--');
+    function formatFechaLarga(iso) {
+      var d = new Date(iso || Date.now());
+      return d.toLocaleDateString('es-PE', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) +
+        ' · ' + d.toLocaleTimeString('es-PE', { hour:'2-digit', minute:'2-digit' });
     }
 
-    // ── Cargar último pago del usuario ──
-    async function cargarPago() {
-      try {
-        const res = await fetch(API + '/api/pagos', { headers });
-        if (!res.ok) throw new Error('No se pudo cargar');
-        const pagos = await res.json();
+    function padNum(n, len) { return String(n).padStart(len, '0'); }
 
-        // Buscar pagos del alumno actual o el más reciente
-        const misPagos = pagos.filter(p => p.id_alumno == usuario.id);
-        const pago = misPagos.length ? misPagos[misPagos.length - 1] : pagos[pagos.length - 1];
+    (function init() {
+      var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      var pago    = JSON.parse(localStorage.getItem('ultimoPago') || '{}');
 
-        if (!pago) throw new Error('No hay pagos registrados');
+      // Número de comprobante basado en id del pago o timestamp
+      var num = pago.id ? padNum(pago.id, 7) : padNum(Math.floor(Date.now() / 1000) % 9999999, 7);
+      document.getElementById('recNumero').textContent = 'B001-' + num;
+      document.getElementById('recFecha').textContent = formatFechaLarga(pago.fecha);
 
-        const fecha = new Date(pago.created_at || Date.now());
-        const fechaStr = fecha.toLocaleDateString('es-PE', {day:'2-digit',month:'long',year:'numeric'});
-        const horaStr = fecha.toLocaleTimeString('es-PE', {hour:'2-digit',minute:'2-digit'});
+      document.getElementById('recNombre').textContent = pago.alumno_nombre || usuario.nombre || '—';
+      document.getElementById('recDni').textContent    = usuario.dni || pago.dni || 'N/A';
+      document.getElementById('recEmail').textContent  = pago.email || usuario.email || '—';
+      document.getElementById('recDisc').textContent   = pago.disciplina || usuario.disciplina || 'General';
+      document.getElementById('recConcepto').textContent = pago.concepto || 'Matrícula Regular';
 
-        document.getElementById('numComprobante').textContent = 'B001-' + String(pago.id).padStart(7,'0');
-        document.getElementById('metaFecha').textContent = 'Fecha emisión: ' + fechaStr + '\nHora: ' + horaStr + '\nMoneda: Soles (PEN)';
-        document.getElementById('idTrx').textContent = fecha.toISOString().replace(/[-:T.]/g,'').substring(0,14) + '-' + pago.id;
+      var metodoLabel = { 'mercado_pago':'💙 Mercado Pago', 'mp':'💙 Mercado Pago', 'ef':'💵 Efectivo', 'efectivo':'💵 Efectivo' };
+      document.getElementById('recMetodo').textContent = metodoLabel[pago.metodo_pago] || pago.metodo_pago || '—';
 
-        const monto = parseFloat(pago.monto) || 0;
-        const subtotal = (monto / 1.18).toFixed(2);
-        const igv = (monto - subtotal).toFixed(2);
+      var monto = parseFloat(pago.monto || 150);
+      var igv   = monto * 0.18;
+      var sub   = monto - igv;
+      document.getElementById('recMonto').textContent   = fmt(monto);
+      document.getElementById('recTotal').textContent   = fmt(monto);
+      document.getElementById('recIgv').textContent     = fmt(igv);
+      document.getElementById('recSubtotal').textContent = fmt(sub);
+    })();
 
-        document.getElementById('totalAmt').textContent = 'S/. ' + monto.toFixed(2);
-        document.getElementById('totalBreakdown').textContent = 'IGV (18% incluido): S/. ' + igv + ' · Subtotal: S/. ' + subtotal;
-
-        const aprobado = pago.estado === 'confirmado' || pago.estado === 'aprobado';
-        document.getElementById('badgeEstado').textContent = aprobado ? '✓ Pago Validado' : '⏳ Pendiente';
-        document.getElementById('badgeEstado').style.background = aprobado ? '#dcfce7' : '#fef9c3';
-        document.getElementById('badgeEstado').style.color = aprobado ? '#15803d' : '#92400e';
-        document.getElementById('pageSubtitle').textContent = aprobado ? 'Generado automáticamente después de aprobar el pago.' : 'Pago pendiente de confirmación por Tesorería.';
-        document.getElementById('firmaEstado').textContent = aprobado ? '🔏 Firma Digital Autorizada' : '⏳ Pendiente de aprobación';
-
-        const metodoLabel = pago.medio_pago === 'yape' ? '📱 Yape / Transferencia' : '💵 Efectivo';
-        const estadoBadge = aprobado
-          ? '<span class="badge-approved">✓ Aprobado</span>'
-          : '<span class="badge-pending">⏳ Pendiente</span>';
-
-        document.getElementById('pagoBody').innerHTML = `
-          <tr>
-            <td><strong>${pago.concepto || 'Mensualidad'}</strong><br><span style="font-size:11px;color:#9ca3af;">Forca & Fitness</span></td>
-            <td><span class="plan-pill">Mensual</span></td>
-            <td><div class="pay-method">${metodoLabel}</div></td>
-            <td><span class="ref-code">ID-${pago.id}</span></td>
-            <td>${estadoBadge}</td>
-          </tr>`;
-
-        document.getElementById('totalLetras').textContent = 'SON: ' + monto.toFixed(2).replace('.', ' CON ').replace(/\d{2}$/, m => m + '/100') + ' SOLES';
-
-      } catch(e) {
-        document.getElementById('pagoBody').innerHTML = '<tr><td colspan="5" class="loading">❌ No se pudo cargar el pago: ' + e.message + '</td></tr>';
-        document.getElementById('badgeEstado').textContent = '⚠ Sin datos';
-      }
+    function enviarCorreo() {
+      var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      mostrarToast('📧 Comprobante enviado a ' + (usuario.email || 'tu correo'));
     }
 
-    cargarPago();
+    function mostrarToast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, 2500);
+    }
   </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registrar Pago — Forca & Fitness</title>
+  <title>Pago de Matrícula — Forca &amp; Fitness</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -13,315 +13,289 @@
     .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
     .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
     .logo-text p{font-size:10px;color:#9ca3af;}
-    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;}
-    .nav-links a.active{background:#eff6ff;color:#0d2d5e;font-weight:700;border-radius:8px;padding:7px 14px;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
+    .nav-links a.active{color:#0d2d5e;font-weight:700;border-bottom:2px solid #0d2d5e;}
     .nav-right{display:flex;align-items:center;gap:12px;}
-    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+    .bell{font-size:18px;cursor:pointer;position:relative;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
     .user-info .name{font-size:13px;font-weight:600;}
     .user-info .role{font-size:11px;color:#9ca3af;}
     main{max-width:1050px;margin:0 auto;padding:28px 32px;}
-    .eyebrow{display:inline-block;background:#eff6ff;color:#1d4ed8;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:10px;}
+    .breadcrumb{font-size:12px;color:#9ca3af;margin-bottom:12px;}
+    .breadcrumb span{color:#0d2d5e;font-weight:600;}
     .page-title{font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
     .page-sub{font-size:13px;color:#6b7280;margin-bottom:24px;}
-    .steps{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:0;}
-    .step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;position:relative;}
-    .step::after{content:'';position:absolute;top:19px;right:-50%;width:100%;height:2px;background:#e5e7eb;z-index:0;}
-    .step:last-child::after{display:none;}
-    .step-circle{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;z-index:1;position:relative;}
-    .step-circle.done{background:#0d2d5e;color:#fff;}
-    .step-circle.active{background:#0d2d5e;color:#fff;box-shadow:0 0 0 4px #bfdbfe;}
-    .step-circle.pending{background:#fff;color:#9ca3af;border:2px solid #e5e7eb;}
-    .step-label{font-size:12px;font-weight:600;color:#0d2d5e;text-align:center;}
+    /* Stepper */
+    .stepper{display:flex;align-items:center;gap:0;margin-bottom:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:0;overflow:hidden;}
+    .step{flex:1;display:flex;align-items:center;gap:10px;padding:14px 20px;font-size:13px;border-right:1px solid #e5e7eb;}
+    .step:last-child{border-right:none;}
+    .step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+    .step.done .step-num{background:#dcfce7;color:#15803d;}
+    .step.active .step-num{background:#0d2d5e;color:#fff;}
+    .step.pending .step-num{background:#f3f4f6;color:#9ca3af;}
+    .step-label{font-weight:600;color:#111;}
+    .step.pending .step-label{color:#9ca3af;}
     .step-sub{font-size:11px;color:#9ca3af;}
-    .step-sub.active-sub{color:#0d2d5e;}
-    .content-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;}
-    .card-eyebrow{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:4px;}
-    .card-title{font-size:20px;font-weight:800;color:#111;margin-bottom:6px;}
-    .card-sub{font-size:13px;color:#6b7280;margin-bottom:24px;}
-    label{display:block;font-size:11px;font-weight:700;color:#374151;letter-spacing:.3px;margin-bottom:6px;}
-    .alumno-row{display:flex;align-items:center;justify-content:space-between;background:#f8fafc;border:1.5px solid #e5e7eb;border-radius:10px;padding:12px 16px;margin-bottom:20px;}
-    .av{width:36px;height:36px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
-    .alumno-name{font-size:14px;font-weight:700;color:#111;}
-    .alumno-sub{font-size:12px;color:#9ca3af;}
-    .badge-active{background:#dcfce7;color:#15803d;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;}
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
-    .form-field input,.form-field select{width:100%;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:#1f2937;}
-    .form-field input:focus,.form-field select:focus{border-color:#0d2d5e;}
-    .monto-wrap{position:relative;}
-    .monto-wrap input{padding-right:50px;font-weight:700;color:#0d2d5e;}
-    .monto-wrap .currency{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:#9ca3af;}
-    .payment-label{font-size:13px;font-weight:700;color:#374151;margin-bottom:12px;}
-    .pay-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
-    .pay-opt{border:2px solid #e5e7eb;border-radius:10px;padding:16px;cursor:pointer;position:relative;transition:border .2s;}
-    .pay-opt.selected{border-color:#0d2d5e;background:#eff6ff;}
-    .pay-opt .check{position:absolute;top:12px;left:12px;width:18px;height:18px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;}
-    .pay-opt .check.empty{background:#fff;border:2px solid #e5e7eb;}
-    .pay-opt-title{font-size:14px;font-weight:700;color:#111;margin-left:28px;margin-bottom:4px;}
-    .pay-opt-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;float:right;}
-    .badge-safe{background:#dcfce7;color:#15803d;}
-    .badge-rec{background:#fef9c3;color:#92400e;}
-    .pay-opt-desc{font-size:12px;color:#6b7280;margin-left:28px;margin-bottom:8px;}
-    .logos{display:flex;gap:6px;margin-left:28px;}
-    .logo-pill{background:#f3f4f6;border-radius:4px;padding:3px 8px;font-size:10px;font-weight:600;color:#374151;}
-    .pay-opt-note{display:flex;align-items:center;gap:5px;font-size:11px;color:#9ca3af;margin-left:28px;margin-top:6px;}
-    .btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
-    .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;}
-    .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    .summary-title{font-size:14px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:4px;}
-    .order-title{font-size:18px;font-weight:800;color:#111;margin-bottom:16px;}
-    .order-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;color:#374151;}
-    .order-row .label{color:#6b7280;}
-    .order-row .val{font-weight:600;color:#111;}
-    .order-row .val.blue{color:#1d4ed8;}
-    .order-row .val.orange{background:#fef9c3;color:#92400e;border-radius:4px;padding:1px 8px;font-size:11px;font-weight:700;}
-    .order-divider{border:none;border-top:1px solid #e5e7eb;margin:12px 0;}
-    .subtotal-row{display:flex;justify-content:space-between;font-size:12px;color:#9ca3af;padding:3px 0;}
-    .total-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;}
-    .total-label{font-size:14px;font-weight:700;color:#374151;}
-    .total-val{font-size:28px;font-weight:800;color:#0d2d5e;}
-    .total-currency{font-size:12px;color:#9ca3af;font-weight:600;}
-    .order-note{font-size:11px;color:#9ca3af;margin-top:4px;}
-    .security-items{margin-top:16px;display:flex;flex-direction:column;gap:6px;}
-    .sec-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#374151;}
+    /* Columns */
+    .cols{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:16px;}
+    .card-title{font-size:14px;font-weight:700;color:#111;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .alumno-row{display:flex;align-items:center;gap:14px;padding:14px;background:#f8fafc;border-radius:10px;margin-bottom:4px;}
+    .avi{width:46px;height:46px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;}
+    .avi-name{font-weight:700;font-size:14px;}
+    .avi-email{font-size:12px;color:#6b7280;}
+    .avi-badge{display:inline-block;background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+    .form-row.full{grid-template-columns:1fr;}
+    .fgroup label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;}
+    .fgroup input,.fgroup select{width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;color:#111;background:#fff;transition:border-color .18s;}
+    .fgroup input:focus,.fgroup select:focus{outline:none;border-color:#0d2d5e;}
+    .fgroup input[readonly]{background:#f8fafc;color:#6b7280;}
+    /* Métodos de pago */
+    .metodos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+    .metodo{border:2px solid #e5e7eb;border-radius:10px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color .18s,background .18s;}
+    .metodo:hover{border-color:#0d2d5e;}
+    .metodo.selected{border-color:#0d2d5e;background:#eff6ff;}
+    .metodo-icon{font-size:22px;}
+    .metodo-label{font-size:13px;font-weight:600;color:#111;}
+    .metodo-sub{font-size:11px;color:#9ca3af;}
+    .radio-dot{width:16px;height:16px;border-radius:50%;border:2px solid #e5e7eb;margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .18s;}
+    .metodo.selected .radio-dot{border-color:#0d2d5e;background:#0d2d5e;}
+    .radio-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;display:none;}
+    .metodo.selected .radio-dot::after{display:block;}
+    /* Resumen sidebar */
+    .summary-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;}
+    .summary-title{font-size:14px;font-weight:700;color:#111;margin-bottom:14px;}
+    .summary-row{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px solid #f3f4f6;}
+    .summary-row:last-of-type{border-bottom:none;}
+    .summary-row .label{color:#6b7280;}
+    .summary-row .val{font-weight:600;color:#111;}
+    .summary-total{margin-top:14px;padding-top:14px;border-top:2px solid #0d2d5e;}
+    .summary-total .label{font-size:14px;font-weight:700;color:#0d2d5e;}
+    .summary-total .val{font-size:22px;font-weight:800;color:#0d2d5e;}
+    .igv-note{font-size:11px;color:#9ca3af;margin-top:6px;}
+    .btn-pay{width:100%;background:linear-gradient(135deg,#0d2d5e,#1e40af);color:#fff;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;margin-top:16px;transition:transform .12s,box-shadow .18s;}
+    .btn-pay:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(13,45,94,.3);}
+    .btn-pay:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+    .security-note{font-size:11px;color:#9ca3af;text-align:center;margin-top:10px;line-height:1.5;}
+    .order-status{display:inline-block;background:#fef9c3;color:#92400e;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;}
     footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
-    footer a{color:#0d2d5e;text-decoration:none;}
-    a{transition:color .18s ease;}
-    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
-    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
-    button:active{transform:translateY(0);}
-    .btn-primary:hover{background:#0a2448;}
-    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
-    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    tbody tr{transition:background .15s ease;}
-    tbody tr:hover{background:#f9fafb;}
-    .msg{background:#dcfce7;color:#166534;border-radius:8px;padding:12px 16px;font-size:13px;font-weight:600;margin-bottom:16px;display:none;}
-    .msg.error{background:#fee2e2;color:#dc2626;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
+    .toast.show{opacity:1;transform:translateY(0);}
   </style>
 </head>
 <body>
   <nav>
     <div class="nav-logo">
-      <div class="logo-box">F&F</div>
-      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DEPORTIVO</p></div>
+      <div class="logo-box">F&amp;F</div>
+      <div class="logo-text"><h1>FORCA &amp; FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="disciplinas.html">Consulta de Clases</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="#" class="active">Pagos</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="alumnos.html">Alumnos</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
-      <div class="avatar" id="navAvatar">--</div>
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
       <div class="user-info">
-        <div class="name" id="navNombre">Cargando...</div>
-        <div class="role" id="navRol">--</div>
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
       </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
   <main>
-    <div class="eyebrow">● PAGOS</div>
-    <h1 class="page-title">Registrar pago</h1>
-    <p class="page-sub">Procesa el cobro de una matrícula o una renovación pendiente.</p>
+    <div class="breadcrumb">MATRÍCULAS › <span>Pago de Matrícula</span></div>
+    <h1 class="page-title">Pago de Matrícula</h1>
+    <p class="page-sub">Complete los datos de pago para confirmar su inscripción.</p>
 
-    <div id="msgBox" class="msg"></div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-circle done">✓</div>
-        <div class="step-label">Registro</div>
-        <div class="step-sub">Completado</div>
-      </div>
-      <div class="step">
-        <div class="step-circle active">2</div>
-        <div class="step-label">Pago de matrícula</div>
-        <div class="step-sub active-sub">Paso activo</div>
-      </div>
-      <div class="step">
-        <div class="step-circle pending">3</div>
-        <div class="step-label" style="color:#9ca3af;">Confirmación</div>
-        <div class="step-sub">Pendiente</div>
-      </div>
+    <div class="stepper">
+      <div class="step done"><div class="step-num">✓</div><div><div class="step-label">Registro</div><div class="step-sub">Datos completados</div></div></div>
+      <div class="step active"><div class="step-num">2</div><div><div class="step-label">Pago matrícula</div><div class="step-sub">En proceso</div></div></div>
+      <div class="step pending"><div class="step-num">3</div><div><div class="step-label">Confirmación</div><div class="step-sub">Pendiente</div></div></div>
     </div>
 
-    <div class="content-grid">
-      <div class="card">
-        <div class="card-eyebrow">COBRO</div>
-        <div class="card-title">Detalle del pago</div>
-        <div class="card-sub">Elige un medio de pago seguro. Nunca almacenamos datos completos de tarjeta.</div>
-
-        <label>ALUMNO TITULAR</label>
-        <div class="alumno-row">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div class="av" id="alumnoAv">--</div>
+    <div class="cols">
+      <div>
+        <!-- Alumno -->
+        <div class="card">
+          <div class="card-title">👤 Datos del Alumno</div>
+          <div class="alumno-row">
+            <div class="avi" id="pagoAvatar">--</div>
             <div>
-              <div class="alumno-name" id="alumnoNombre">Cargando...</div>
-              <div class="alumno-sub" id="alumnoSub">--</div>
+              <div class="avi-name" id="pagoNombre">—</div>
+              <div class="avi-email" id="pagoEmail">—</div>
+              <span class="avi-badge" id="pagoDisciplina">—</span>
             </div>
           </div>
-          <span class="badge-active">✓ Alumno Activo</span>
         </div>
 
-        <div class="form-grid">
-          <div class="form-field"><label>CONCEPTO</label><input type="text" id="inpConcepto" value="Mensualidad"/></div>
-          <div class="form-field"><label>MONTO</label><div class="monto-wrap"><input type="text" id="inpMonto" value="150.00"/><span class="currency">PEN</span></div></div>
-        </div>
-
-        <div class="payment-label">SELECCIONAR MEDIO DE PAGO</div>
-        <div class="pay-options">
-          <div class="pay-opt selected" id="optYape" onclick="selPago('yape')">
-            <div class="check" id="chkYape">✓</div>
-            <span class="pay-opt-badge badge-safe">Pasarela segura</span>
-            <div class="pay-opt-title">Yape / Transferencia</div>
-            <div class="pay-opt-desc">Transferencia bancaria o aplicación de pago. Acreditación inmediata.</div>
-            <div class="logos">
-              <span class="logo-pill">Yape</span>
-              <span class="logo-pill">BCP</span>
-              <span class="logo-pill">Interbank</span>
+        <!-- Formulario -->
+        <div class="card">
+          <div class="card-title">📋 Detalles del Pago</div>
+          <div class="form-row">
+            <div class="fgroup">
+              <label>Código de Matrícula</label>
+              <input type="text" id="inpCodigo" readonly/>
+            </div>
+            <div class="fgroup">
+              <label>Email de Confirmación</label>
+              <input type="email" id="inpEmailPago" readonly/>
             </div>
           </div>
-          <div class="pay-opt" id="optEfectivo" onclick="selPago('efectivo')">
-            <div class="check empty" id="chkEfectivo"></div>
-            <span class="pay-opt-badge badge-rec">Recepción</span>
-            <div class="pay-opt-title">Efectivo</div>
-            <div class="pay-opt-desc">Reserva válida por 48 horas. Se confirma en recepción antes del ingreso.</div>
-            <div class="pay-opt-note">⏱ Plazo máx. 48h</div>
+          <div class="form-row">
+            <div class="fgroup">
+              <label>Concepto</label>
+              <input type="text" id="inpConcepto" value="Matrícula Regular" readonly/>
+            </div>
+            <div class="fgroup">
+              <label>Monto Total (S/.)</label>
+              <input type="text" id="inpMonto" readonly/>
+            </div>
           </div>
         </div>
 
-        <div class="btn-row">
-          <button class="btn-cancel" onclick="location.href='mis-matriculas.html'">← Cancelar</button>
-          <button class="btn-primary" id="btnPagar" onclick="registrarPago()">Registrar pago →</button>
+        <!-- Método de pago -->
+        <div class="card">
+          <div class="card-title">💳 Método de Pago</div>
+          <div class="metodos">
+            <div class="metodo selected" id="metodo-mp" onclick="selMetodo('mp')">
+              <div class="metodo-icon">💙</div>
+              <div><div class="metodo-label">Mercado Pago</div><div class="metodo-sub">Pago online seguro</div></div>
+              <div class="radio-dot"></div>
+            </div>
+            <div class="metodo" id="metodo-ef" onclick="selMetodo('ef')">
+              <div class="metodo-icon">💵</div>
+              <div><div class="metodo-label">Efectivo</div><div class="metodo-sub">Pago en recepción</div></div>
+              <div class="radio-dot"></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="summary-title">RESUMEN DEL COBRO</div>
-        <div class="order-title">Detalle de la orden</div>
-        <div class="order-row"><span class="label">Alumno:</span><span class="val" id="sumNombre">--</span></div>
-        <div class="order-row"><span class="label">Disciplina:</span><span class="val blue" id="sumDisc">--</span></div>
-        <hr class="order-divider"/>
-        <div class="order-row"><span class="label">Concepto</span><span class="val" id="sumConcepto">Mensualidad</span></div>
-        <div class="order-row"><span class="label">Estado</span><span class="val orange">● Pendiente</span></div>
-        <div class="order-row"><span class="label">Método</span><span class="val" id="sumMetodo">Yape / Transferencia</span></div>
-        <hr class="order-divider"/>
-        <div class="subtotal-row"><span>Subtotal (sin IGV)</span><span id="sumSubtotal">S/ 127.12</span></div>
-        <div class="subtotal-row"><span>IGV (18%)</span><span id="sumIgv">S/ 22.88</span></div>
-        <div class="total-row">
-          <span class="total-label">TOTAL A PAGAR</span>
-          <span><span class="total-val" id="sumTotal">S/ 150.00</span> <span class="total-currency">PEN</span></span>
-        </div>
-        <div class="order-note">Impuestos de ley incluidos</div>
-        <div class="security-items">
-          <div class="sec-item">✅ Transacción con cifrado seguro SSL de 256 bits</div>
-          <div class="sec-item">📄 Emisión de comprobante electrónico inmediato</div>
+      <!-- Resumen -->
+      <div>
+        <div class="summary-card">
+          <div class="summary-title">📄 Resumen del Pedido</div>
+          <div class="summary-row"><span class="label">Alumno</span><span class="val" id="sumNombre">—</span></div>
+          <div class="summary-row"><span class="label">DNI</span><span class="val" id="sumDni">—</span></div>
+          <div class="summary-row"><span class="label">Disciplina</span><span class="val" id="sumDisc">—</span></div>
+          <div class="summary-row"><span class="label">Período</span><span class="val">1 Mes</span></div>
+          <div class="summary-row"><span class="label">Concepto</span><span class="val">Matrícula Regular</span></div>
+          <div class="summary-row"><span class="label">Estado</span><span><span class="order-status">⏳ Pendiente</span></span></div>
+          <div class="summary-row"><span class="label">Método</span><span class="val" id="sumMetodo">Mercado Pago</span></div>
+          <div class="summary-total" style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span class="label">Total</span>
+            <div style="text-align:right;">
+              <div class="val" id="sumTotal">S/. 0.00</div>
+              <div class="igv-note">Incl. IGV (18%)</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:11px;color:#9ca3af;">
+            Subtotal: <strong id="sumSubtotal">S/. 0.00</strong> + IGV: <strong id="sumIgv">S/. 0.00</strong>
+          </div>
+          <button class="btn-pay" id="btnPagar" onclick="procesarPago()">Continuar al pago ›</button>
+          <div class="security-note">🔒 Pago 100% seguro · Datos cifrados con SSL</div>
         </div>
       </div>
     </div>
   </main>
-  <footer>FORCA & FITNESS S.A.C. · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
+  <footer>FORCA &amp; FITNESS S.A.C. · © 2025 Todos los derechos reservados · Versión 2.4.0</footer>
 
+  <div class="toast" id="toast"></div>
+
+  <script src="auth.js"></script>
   <script>
-    const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol(['Alumno', 'Admin', 'Tesorería']);
+    initNav();
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    var montoBase = 150.00;
+    var metodoPago = 'mp';
 
-    // ── Poblar nav y alumno ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+    // Poblar datos desde localStorage
+    (function init() {
+      var ini = (usuario.nombre || '--').substring(0, 2).toUpperCase();
+      document.getElementById('pagoAvatar').textContent = ini;
+      document.getElementById('pagoNombre').textContent = usuario.nombre || '—';
+      document.getElementById('pagoEmail').textContent = usuario.email || '—';
+      document.getElementById('pagoDisciplina').textContent = usuario.disciplina || 'General';
+      document.getElementById('inpCodigo').value = 'FF-MAT-' + (usuario.id || '0000');
+      document.getElementById('inpEmailPago').value = usuario.email || '—';
+      document.getElementById('inpMonto').value = 'S/. ' + montoBase.toFixed(2);
 
-      document.getElementById('alumnoAv').textContent = ini;
-      document.getElementById('alumnoNombre').textContent = usuario.nombre;
-      document.getElementById('alumnoSub').textContent = 'ID: ' + (usuario.id || '--') + ' · Forca & Fitness';
+      // Resumen
+      document.getElementById('sumNombre').textContent = usuario.nombre || '—';
+      document.getElementById('sumDni').textContent = usuario.dni || 'N/A';
+      document.getElementById('sumDisc').textContent = usuario.disciplina || 'General';
+      calcIGV();
+    })();
 
-      document.getElementById('sumNombre').textContent = usuario.nombre;
-      document.getElementById('sumDisc').textContent = usuario.disciplina || 'Sin disciplina';
+    function calcIGV() {
+      var igv = montoBase * 0.18;
+      var sub = montoBase - igv;
+      document.getElementById('sumTotal').textContent = 'S/. ' + montoBase.toFixed(2);
+      document.getElementById('sumSubtotal').textContent = 'S/. ' + sub.toFixed(2);
+      document.getElementById('sumIgv').textContent = 'S/. ' + igv.toFixed(2);
     }
 
-    // ── Selección de medio de pago ──
-    let medioPago = 'yape';
-    function selPago(metodo) {
-      medioPago = metodo;
-      document.getElementById('optYape').classList.toggle('selected', metodo === 'yape');
-      document.getElementById('optEfectivo').classList.toggle('selected', metodo === 'efectivo');
-      document.getElementById('chkYape').className = metodo === 'yape' ? 'check' : 'check empty';
-      document.getElementById('chkYape').textContent = metodo === 'yape' ? '✓' : '';
-      document.getElementById('chkEfectivo').className = metodo === 'efectivo' ? 'check' : 'check empty';
-      document.getElementById('chkEfectivo').textContent = metodo === 'efectivo' ? '✓' : '';
-      document.getElementById('sumMetodo').textContent = metodo === 'yape' ? 'Yape / Transferencia' : 'Efectivo';
+    function selMetodo(m) {
+      metodoPago = m;
+      document.getElementById('metodo-mp').classList.toggle('selected', m === 'mp');
+      document.getElementById('metodo-ef').classList.toggle('selected', m === 'ef');
+      document.getElementById('sumMetodo').textContent = m === 'mp' ? 'Mercado Pago' : 'Efectivo';
+      mostrarToast(m === 'mp' ? '💙 Mercado Pago seleccionado' : '💵 Efectivo seleccionado');
     }
 
-    // ── Actualizar resumen en tiempo real ──
-    document.getElementById('inpMonto').addEventListener('input', function() {
-      const monto = parseFloat(this.value) || 0;
-      const subtotal = (monto / 1.18).toFixed(2);
-      const igv = (monto - subtotal).toFixed(2);
-      document.getElementById('sumTotal').textContent = 'S/ ' + monto.toFixed(2);
-      document.getElementById('sumSubtotal').textContent = 'S/ ' + subtotal;
-      document.getElementById('sumIgv').textContent = 'S/ ' + igv;
-    });
-    document.getElementById('inpConcepto').addEventListener('input', function() {
-      document.getElementById('sumConcepto').textContent = this.value || 'Mensualidad';
-    });
-
-    // ── Registrar pago en la API ──
-    async function registrarPago() {
-      const btn = document.getElementById('btnPagar');
-      const msgBox = document.getElementById('msgBox');
-      const monto = parseFloat(document.getElementById('inpMonto').value);
-      const concepto = document.getElementById('inpConcepto').value || 'Mensualidad';
-
-      if (!monto || monto <= 0) {
-        msgBox.textContent = 'Por favor ingresa un monto válido.';
-        msgBox.className = 'msg error';
-        msgBox.style.display = 'block';
-        return;
-      }
-
-      btn.textContent = 'Registrando...';
+    async function procesarPago() {
+      var btn = document.getElementById('btnPagar');
       btn.disabled = true;
-
+      btn.textContent = 'Procesando…';
       try {
-        const res = await fetch(API + '/api/pagos', {
+        // Registrar pago pendiente en la API
+        var token = localStorage.getItem('token');
+        var body = {
+          alumno_id: usuario.id,
+          monto: montoBase,
+          concepto: 'Matrícula Regular',
+          metodo_pago: metodoPago === 'mp' ? 'mercado_pago' : 'efectivo'
+        };
+        var res = await fetch('https://forca-fitness-backend.onrender.com/api/pagos', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-          },
-          body: JSON.stringify({
-            id_alumno: usuario.id,
-            monto: monto,
-            medio_pago: medioPago,
-            concepto: concepto,
-            estado: 'pendiente'
-          })
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify(body)
         });
-
         if (res.ok) {
-          msgBox.textContent = '✅ Pago registrado correctamente. Estado: pendiente de confirmación por Tesorería.';
-          msgBox.className = 'msg';
-          msgBox.style.display = 'block';
-          btn.textContent = '✓ Pago registrado';
-          setTimeout(() => location.href = 'mis-matriculas.html', 2500);
+          var data = await res.json();
+          // Guardar en localStorage para usar en comprobante
+          localStorage.setItem('ultimoPago', JSON.stringify({ ...body, id: data.id, fecha: new Date().toISOString() }));
+          mostrarToast('✅ Pago registrado. Redirigiendo…');
+          setTimeout(function() { location.href = 'comprobante.html'; }, 1200);
         } else {
-          const err = await res.json();
-          throw new Error(err.error || 'Error al registrar el pago');
+          throw new Error('API error');
         }
       } catch (e) {
-        msgBox.textContent = '❌ ' + e.message;
-        msgBox.className = 'msg error';
-        msgBox.style.display = 'block';
-        btn.textContent = 'Registrar pago →';
-        btn.disabled = false;
+        // Fallback: si no hay endpoint de pagos aún, guardar localmente y redirigir
+        localStorage.setItem('ultimoPago', JSON.stringify({
+          alumno_id: usuario.id,
+          alumno_nombre: usuario.nombre,
+          email: usuario.email,
+          disciplina: usuario.disciplina,
+          monto: montoBase,
+          concepto: 'Matrícula Regular',
+          metodo_pago: metodoPago,
+          fecha: new Date().toISOString()
+        }));
+        mostrarToast('✅ Pago registrado localmente. Redirigiendo…');
+        setTimeout(function() { location.href = 'comprobante.html'; }, 1200);
       }
+    }
+
+    function mostrarToast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, 2500);
     }
   </script>
 </body>

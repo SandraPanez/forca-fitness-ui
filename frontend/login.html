@@ -8,7 +8,6 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Inter',sans-serif;height:100vh;display:flex;}
-    /* LEFT PANEL */
     .left{background:#0d2d5e;width:45%;display:flex;flex-direction:column;justify-content:space-between;padding:32px 40px;color:#fff;}
     .logo{display:flex;align-items:center;gap:12px;}
     .logo-box{background:#1a4a8a;border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;border:1px solid #2a5fa0;}
@@ -24,7 +23,6 @@
     .feat-text h4{font-size:12px;font-weight:600;}
     .feat-text p{font-size:11px;color:#8ab0d4;margin-top:2px;}
     .left-footer{font-size:11px;color:#5a7a9a;}
-    /* RIGHT PANEL */
     .right{flex:1;display:flex;align-items:center;justify-content:center;padding:40px;}
     .form-box{width:100%;max-width:420px;}
     .form-box .eyebrow{font-size:11px;font-weight:600;color:#5a7a9a;letter-spacing:1px;margin-bottom:8px;}
@@ -37,12 +35,13 @@
     .input-wrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:#9ca3af;}
     .input-wrap .eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:14px;color:#9ca3af;cursor:pointer;}
     .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+    .row2{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
     .remember{display:flex;align-items:center;gap:8px;font-size:13px;color:#374151;}
     .remember input{width:14px;height:14px;}
     .forgot{font-size:13px;color:#0d2d5e;font-weight:600;text-decoration:none;}
     .cifrado{font-size:12px;color:#16a34a;display:flex;align-items:center;gap:5px;}
     .btn-primary{width:100%;background:#0d2d5e;color:#fff;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
-    .btn-primary:hover{background:#1a3f7a;}
+    .btn-primary:hover{background:#0a2448;}
     .divider{text-align:center;font-size:12px;color:#9ca3af;margin:20px 0;position:relative;}
     .divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:#e5e7eb;}
     .divider::before{left:0;}.divider::after{right:0;}
@@ -52,35 +51,6 @@
     .register a{color:#0d2d5e;font-weight:700;text-decoration:none;}
     .footer-links{text-align:center;margin-top:16px;}
     .footer-links a{font-size:12px;color:#9ca3af;text-decoration:none;margin:0 8px;}
-    .row2{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
-    /* ── HOVER & TRANSITION EFFECTS ── */
-    a{transition:color .18s ease;}
-    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
-    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
-    button:active{transform:translateY(0);}
-    .btn-primary:hover{background:#0a2448;}
-    .btn-secondary:hover{background:#0a2448;}
-    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
-    .btn-pagar:hover{background:#0a2448;}
-    .btn-save:hover{background:#0a2448;}
-    .btn-confirm:hover{background:#0a2448;}
-    .btn-reject:hover{background:#f3f4f6;}
-    .btn-refresh:hover{background:#0a2448;}
-    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
-    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
-    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
-    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
-    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
-    .card-link:hover{opacity:.75;}
-    .comp-link:hover{opacity:.75;}
-    .back-link:hover{color:#0d2d5e;}
-    tbody tr{transition:background .15s ease;}
-    tbody tr:hover{background:#f9fafb;}
   </style>
 </head>
 <body>
@@ -88,10 +58,7 @@
     <div>
       <div class="logo">
         <div class="logo-box">F&F</div>
-        <div class="logo-text">
-          <h1>FORCA & FITNESS</h1>
-          <p>CENTRO DE RENDIMIENTO DEPORTIVO</p>
-        </div>
+        <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DEPORTIVO</p></div>
       </div>
     </div>
     <div>
@@ -103,17 +70,11 @@
       <div class="features">
         <div class="feature">
           <div class="feat-icon">⊖</div>
-          <div class="feat-text">
-            <h4>Gestión de Matrículas</h4>
-            <p>Control de cuotas y vigencias</p>
-          </div>
+          <div class="feat-text"><h4>Gestión de Matrículas</h4><p>Control de cuotas y vigencias</p></div>
         </div>
         <div class="feature">
           <div class="feat-icon">⚡</div>
-          <div class="feat-text">
-            <h4>BJJ & Acondicionamiento</h4>
-            <p>Asistencias y tatami en vivo</p>
-          </div>
+          <div class="feat-text"><h4>BJJ & Acondicionamiento</h4><p>Asistencias y tatami en vivo</p></div>
         </div>
       </div>
     </div>
@@ -129,7 +90,7 @@
       <label>CORREO ELECTRÓNICO</label>
       <div class="input-wrap">
         <span class="icon">@</span>
-        <input type="email" placeholder="correo@ejemplo.com"/>
+        <input type="email" id="inpEmail" placeholder="correo@ejemplo.com"/>
       </div>
 
       <div class="row2">
@@ -138,8 +99,8 @@
       </div>
       <div class="input-wrap">
         <span class="icon">🔒</span>
-        <input type="password" value=".........."/>
-        <span class="eye">👁</span>
+        <input type="password" id="inpPassword" placeholder="••••••••"/>
+        <span class="eye" onclick="togglePwd()">👁</span>
       </div>
 
       <div class="row">
@@ -151,7 +112,6 @@
       <p id="login-error" style="color:#dc2626;font-size:13px;text-align:center;margin-top:10px;display:none;"></p>
 
       <div class="divider">O CONTINÚA CON</div>
-
       <button class="btn-dni" onclick="location.href='mis-matriculas.html'">🪪 Acceso con DNI / Expediente de Socio</button>
 
       <p class="register">¿No tienes una cuenta? <a href="index.html">Regístrate aquí</a></p>
@@ -160,12 +120,21 @@
       </div>
     </div>
   </div>
+
   <script>
+    // Si ya tiene sesión activa, redirigir al dashboard
+    if (localStorage.getItem('token')) location.href = 'index.html';
+
+    function togglePwd() {
+      var inp = document.getElementById('inpPassword');
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    }
+
     async function login() {
-      const email = document.querySelector('input[type="email"]').value.trim();
-      const password = document.querySelector('input[type="password"]').value.trim();
-      const btnLogin = document.getElementById('btnLogin');
-      const errorEl = document.getElementById('login-error');
+      var email    = document.getElementById('inpEmail').value.trim();
+      var password = document.getElementById('inpPassword').value.trim();
+      var btnLogin = document.getElementById('btnLogin');
+      var errorEl  = document.getElementById('login-error');
 
       if (!email || !password) {
         errorEl.textContent = 'Ingresa tu correo y contraseña.';
@@ -178,12 +147,12 @@
       errorEl.style.display = 'none';
 
       try {
-        const res = await fetch('https://forca-fitness-backend.onrender.com/api/auth/login', {
+        var res = await fetch('https://forca-fitness-backend.onrender.com/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email: email, password: password })
         });
-        const data = await res.json();
+        var data = await res.json();
 
         if (!res.ok) {
           errorEl.textContent = data.error || 'Credenciales incorrectas.';
@@ -195,7 +164,15 @@
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
-        location.href = 'alumnos.html';
+
+        // Redirigir según rol
+        var rol = (data.usuario.rol || '').trim();
+        if (rol === 'Admin' || rol === 'Tesorería') {
+          location.href = 'index.html';
+        } else {
+          location.href = 'index.html';
+        }
+
       } catch (e) {
         errorEl.textContent = 'No se pudo conectar con el servidor.';
         errorEl.style.display = 'block';

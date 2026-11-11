@@ -84,6 +84,7 @@
     footer a{color:#0d2d5e;text-decoration:none;}
     .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
     .toast.show{opacity:1;transform:translateY(0);}
+    .loading{color:#9ca3af;font-size:12px;padding:16px;text-align:center;}
   </style>
 </head>
 <body>
@@ -92,17 +93,15 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Dashboard</a>
-      <a href="#" class="active">👥 Alumnos</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="tesoreria.html">Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
-      <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
@@ -113,10 +112,10 @@
       <p class="page-sub">Registro completo de socios activos, próximos a vencer y vencidos.</p>
 
       <div class="stats-row">
-        <div class="stat-card"><div class="stat-label">SOCIOS ACTIVOS</div><div class="stat-val">3</div><div class="stat-sub">↑ 2 esta semana</div></div>
-        <div class="stat-card"><div class="stat-label">PRÓX. A VENCER</div><div class="stat-val">2</div><div class="stat-sub">En los próx. 7 días</div></div>
-        <div class="stat-card"><div class="stat-label">VENCIDOS</div><div class="stat-val">1</div><div class="stat-sub">Requieren contacto</div></div>
-        <div class="stat-card"><div class="stat-label">TOTAL SOCIOS</div><div class="stat-val">5</div><div class="stat-sub">Ciclo 2025</div></div>
+        <div class="stat-card"><div class="stat-label">SOCIOS ACTIVOS</div><div class="stat-val" id="stat-activos">—</div><div class="stat-sub">Membresía vigente</div></div>
+        <div class="stat-card"><div class="stat-label">PRÓX. A VENCER</div><div class="stat-val" id="stat-prox">—</div><div class="stat-sub">En los próx. 7 días</div></div>
+        <div class="stat-card"><div class="stat-label">VENCIDOS</div><div class="stat-val" id="stat-vencidos">—</div><div class="stat-sub">Requieren contacto</div></div>
+        <div class="stat-card"><div class="stat-label">TOTAL SOCIOS</div><div class="stat-val" id="stat-total">—</div><div class="stat-sub">Ciclo 2025</div></div>
       </div>
 
       <div class="toolbar">
@@ -152,41 +151,7 @@
             </tr>
           </thead>
           <tbody id="tableBody">
-            <tr class="selected" data-id="1" onclick="selRow(this,1)">
-              <td><div class="alumno-name">Martín Gómez Silva</div><div class="alumno-disc">Socio #1042 · DNI 47123456</div></td>
-              <td>Miraflores</td><td>Brazilian Jiu-Jitsu</td>
-              <td><span class="badge badge-vencer">⏱ Próx. a vencer</span></td>
-              <td>28 Mar 2025</td>
-              <td><button class="btn-ver active-row" onclick="event.stopPropagation();selRow(this.closest('tr'),1)">Ver</button></td>
-            </tr>
-            <tr data-id="2" onclick="selRow(this,2)">
-              <td><div class="alumno-name">Sofía Martínez Ruiz</div><div class="alumno-disc">Socia #1055 · DNI 48234567</div></td>
-              <td>San Isidro</td><td>Muay Thai</td>
-              <td><span class="badge badge-vencer">⏱ Próx. a vencer</span></td>
-              <td>31 Mar 2025</td>
-              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),2)">Ver</button></td>
-            </tr>
-            <tr data-id="3" onclick="selRow(this,3)">
-              <td><div class="alumno-name">Luis Fernando Torres</div><div class="alumno-disc">Socio #1061 · DNI 49345678</div></td>
-              <td>Miraflores</td><td>Boxeo Clásico</td>
-              <td><span class="badge badge-active">✓ Activo</span></td>
-              <td>15 Jun 2025</td>
-              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),3)">Ver</button></td>
-            </tr>
-            <tr data-id="4" onclick="selRow(this,4)">
-              <td><div class="alumno-name">Carla Sofía Benítez</div><div class="alumno-disc">Socia #1072 · DNI 50456789</div></td>
-              <td>San Isidro</td><td>Capoeira</td>
-              <td><span class="badge badge-active">✓ Activo</span></td>
-              <td>30 Abr 2025</td>
-              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),4)">Ver</button></td>
-            </tr>
-            <tr data-id="5" onclick="selRow(this,5)">
-              <td><div class="alumno-name">Carlos Barrón Díaz</div><div class="alumno-disc">Socio #0981 · DNI 44567890</div></td>
-              <td>Miraflores</td><td>Brazilian Jiu-Jitsu</td>
-              <td><span class="badge badge-vencida">✕ Vencido</span></td>
-              <td>01 Mar 2025</td>
-              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),5)">Ver</button></td>
-            </tr>
+            <tr><td colspan="6" class="loading">Cargando alumnos...</td></tr>
           </tbody>
         </table>
       </div>
@@ -195,19 +160,19 @@
     <div class="right-col">
       <div class="sidebar-title">DETALLE DEL ALUMNO SELECCIONADO</div>
       <div class="alumno-card">
-        <div class="alumno-avatar" id="sb-avatar">MG</div>
-        <div class="alumno-full-name" id="sb-name">Martín Gómez Silva</div>
-        <div class="alumno-id" id="sb-id">Socio #1042 · DNI 47123456</div>
-        <span class="alumno-status badge-vencer" id="sb-status">⏱ Próx. a vencer</span>
+        <div class="alumno-avatar" id="sb-avatar">--</div>
+        <div class="alumno-full-name" id="sb-name">Selecciona un alumno</div>
+        <div class="alumno-id" id="sb-id">—</div>
+        <span class="alumno-status badge-active" id="sb-status">—</span>
       </div>
       <div class="section-sep"></div>
-      <div class="info-row"><span class="info-label">📍 Sede</span><span class="info-val" id="sb-sede">Miraflores</span></div>
-      <div class="info-row"><span class="info-label">🥋 Disciplina</span><span class="info-val blue" id="sb-disc">Brazilian Jiu-Jitsu</span></div>
-      <div class="info-row"><span class="info-label">📅 Vence</span><span class="info-val" id="sb-vence">28 Mar 2025</span></div>
-      <div class="info-row"><span class="info-label">📱 Teléfono</span><span class="info-val" id="sb-tel">+51 987 654 321</span></div>
-      <div class="info-row"><span class="info-label">📧 Correo</span><span class="info-val" id="sb-email">mgomez@email.com</span></div>
-      <div class="info-row"><span class="info-label">🎂 Edad</span><span class="info-val" id="sb-edad">28 años</span></div>
-      <div class="info-row"><span class="info-label">📋 Inscripción</span><span class="info-val" id="sb-inscripcion">15 Ene 2024</span></div>
+      <div class="info-row"><span class="info-label">📍 Sede</span><span class="info-val" id="sb-sede">—</span></div>
+      <div class="info-row"><span class="info-label">🥋 Disciplina</span><span class="info-val blue" id="sb-disc">—</span></div>
+      <div class="info-row"><span class="info-label">📅 Vence</span><span class="info-val" id="sb-vence">—</span></div>
+      <div class="info-row"><span class="info-label">📱 Teléfono</span><span class="info-val" id="sb-tel">—</span></div>
+      <div class="info-row"><span class="info-label">📧 Correo</span><span class="info-val" id="sb-email">—</span></div>
+      <div class="info-row"><span class="info-label">🎂 Edad</span><span class="info-val" id="sb-edad">—</span></div>
+      <div class="info-row"><span class="info-label">📋 Inscripción</span><span class="info-val" id="sb-inscripcion">—</span></div>
       <div class="section-sep"></div>
       <div class="sidebar-actions">
         <button class="btn-side btn-side-primary" onclick="location.href='renovar.html'">🔄 Renovar matrícula</button>
@@ -220,88 +185,105 @@
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a></footer>
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
-    let alumnosData = [];
+    var alumnosData = [];
 
-    // Proteger ruta: si no hay token, volver al login
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-
-    // Mostrar nombre del usuario logueado
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
-    }
+    requireRol(['Admin', 'Tesorería']);
+    initNav();
 
     async function cargarAlumnos() {
       try {
-        const res = await fetch(API + '/api/alumnos', {
+        var res = await fetch(API + '/api/alumnos', {
           headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
         });
-        const data = await res.json();
+        var data = await res.json();
         alumnosData = data;
         renderTabla(data);
         actualizarStats(data);
       } catch(e) {
-        console.error('Error cargando alumnos:', e);
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" class="loading" style="color:#dc2626">Error cargando alumnos</td></tr>';
       }
     }
 
     function estadoBadge(a) {
-      // Buscar matrícula activa (vendrá de la API más adelante; por ahora estado simple)
+      var hoy = new Date();
+      if (!a.fecha_fin_membresia) return { clase: 'badge-vencida', texto: '✕ Sin membresía' };
+      var fin = new Date(a.fecha_fin_membresia);
+      var diff = Math.ceil((fin - hoy) / (1000*60*60*24));
+      if (diff < 0) return { clase: 'badge-vencida', texto: '✕ Vencido' };
+      if (diff <= 7) return { clase: 'badge-vencer', texto: '⏱ Próx. a vencer' };
       return { clase: 'badge-active', texto: '✓ Activo' };
     }
 
     function renderTabla(lista) {
-      const tbody = document.getElementById('tableBody');
+      var tbody = document.getElementById('tableBody');
       tbody.innerHTML = '';
+      if (!lista.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="loading">No hay alumnos registrados</td></tr>';
+        return;
+      }
       lista.forEach(function(a, i) {
-        const iniciales = (a.nombre[0] + (a.apellido_paterno[0] || '')).toUpperCase();
-        const nombre = a.nombre + ' ' + a.apellido_paterno + ' ' + (a.apellido_materno || '');
-        const tr = document.createElement('tr');
-        tr.setAttribute('data-id', a.id);
-        tr.onclick = function(){ selRow(this, a.id); };
+        var iniciales = (a.nombre[0] + (a.apellido_paterno ? a.apellido_paterno[0] : '')).toUpperCase();
+        var nombre = a.nombre + ' ' + (a.apellido_paterno || '') + ' ' + (a.apellido_materno || '');
+        var badge = estadoBadge(a);
+        var vence = a.fecha_fin_membresia ? new Date(a.fecha_fin_membresia).toLocaleDateString('es-PE') : '—';
+        var tr = document.createElement('tr');
+        tr.setAttribute('data-id', a.id_alumno || a.id);
+        tr.onclick = function(){ selRow(this, a.id_alumno || a.id); };
         if (i === 0) tr.classList.add('selected');
-        tr.innerHTML = `
-          <td><div class="alumno-name">${nombre}</div><div class="alumno-disc">DNI ${a.dni}</div></td>
-          <td>${a.sede || 'Principal'}</td>
-          <td>—</td>
-          <td><span class="badge badge-active">✓ Activo</span></td>
-          <td>—</td>
-          <td><button class="btn-ver${i===0?' active-row':''}" onclick="event.stopPropagation();selRow(this.closest('tr'),${a.id})">Ver</button></td>
-        `;
+        tr.innerHTML = '<td><div class="alumno-name">' + nombre.trim() + '</div><div class="alumno-disc">DNI ' + (a.dni || '—') + '</div></td>' +
+          '<td>' + (a.sede || 'Principal') + '</td>' +
+          '<td>' + (a.disciplina || '—') + '</td>' +
+          '<td><span class="badge ' + badge.clase + '">' + badge.texto + '</span></td>' +
+          '<td>' + vence + '</td>' +
+          '<td><button class="btn-ver' + (i===0?' active-row':'') + '" onclick="event.stopPropagation();selRow(this.closest(\'tr\'),' + (a.id_alumno||a.id) + ')">Ver</button></td>';
         tbody.appendChild(tr);
       });
       if (lista.length > 0) selSidebar(lista[0]);
     }
 
     function actualizarStats(lista) {
-      document.querySelectorAll('.stat-val')[3].textContent = lista.length;
+      var hoy = new Date();
+      var activos = 0, prox = 0, vencidos = 0;
+      lista.forEach(function(a) {
+        if (!a.fecha_fin_membresia) { vencidos++; return; }
+        var fin = new Date(a.fecha_fin_membresia);
+        var diff = Math.ceil((fin - hoy) / (1000*60*60*24));
+        if (diff < 0) vencidos++;
+        else if (diff <= 7) prox++;
+        else activos++;
+      });
+      document.getElementById('stat-activos').textContent = activos;
+      document.getElementById('stat-prox').textContent = prox;
+      document.getElementById('stat-vencidos').textContent = vencidos;
+      document.getElementById('stat-total').textContent = lista.length;
     }
 
     function selRow(tr, id) {
-      document.querySelectorAll('#tableBody tr').forEach(function(r){
+      document.querySelectorAll('#tableBody tr').forEach(function(r) {
         r.classList.remove('selected');
         var b = r.querySelector('.btn-ver'); if(b) b.classList.remove('active-row');
       });
       tr.classList.add('selected');
       var btn = tr.querySelector('.btn-ver'); if(btn) btn.classList.add('active-row');
-      const a = alumnosData.find(x => x.id == id);
-      if (a) selSidebar(a);
-      toast('👤 ' + a.nombre + ' ' + a.apellido_paterno + ' seleccionado/a');
+      var a = alumnosData.find(function(x) { return (x.id_alumno||x.id) == id; });
+      if (a) { selSidebar(a); toast('👤 ' + a.nombre + ' ' + (a.apellido_paterno||'') + ' seleccionado/a'); }
     }
 
     function selSidebar(a) {
-      const iniciales = (a.nombre[0] + (a.apellido_paterno[0] || '')).toUpperCase();
-      const nombre = a.nombre + ' ' + a.apellido_paterno + ' ' + (a.apellido_materno || '');
+      var iniciales = (a.nombre[0] + (a.apellido_paterno ? a.apellido_paterno[0] : '')).toUpperCase();
+      var nombre = (a.nombre + ' ' + (a.apellido_paterno||'') + ' ' + (a.apellido_materno||'')).trim();
+      var badge = estadoBadge(a);
       document.getElementById('sb-avatar').textContent = iniciales;
       document.getElementById('sb-name').textContent = nombre;
-      document.getElementById('sb-id').textContent = 'DNI ' + a.dni;
+      document.getElementById('sb-id').textContent = 'DNI ' + (a.dni||'—');
+      document.getElementById('sb-status').textContent = badge.texto;
+      document.getElementById('sb-status').className = 'alumno-status ' + badge.clase;
       document.getElementById('sb-sede').textContent = a.sede || 'Principal';
-      document.getElementById('sb-disc').textContent = '—';
-      document.getElementById('sb-vence').textContent = '—';
+      document.getElementById('sb-disc').textContent = a.disciplina || '—';
+      document.getElementById('sb-vence').textContent = a.fecha_fin_membresia ? new Date(a.fecha_fin_membresia).toLocaleDateString('es-PE') : '—';
       document.getElementById('sb-tel').textContent = a.telefono || '—';
       document.getElementById('sb-email').textContent = a.email || '—';
       document.getElementById('sb-edad').textContent = a.fecha_nacimiento ? calcularEdad(a.fecha_nacimiento) + ' años' : '—';
@@ -309,34 +291,35 @@
     }
 
     function calcularEdad(fecha) {
-      const hoy = new Date();
-      const nac = new Date(fecha);
-      let edad = hoy.getFullYear() - nac.getFullYear();
+      var hoy = new Date(), nac = new Date(fecha);
+      var edad = hoy.getFullYear() - nac.getFullYear();
       if (hoy < new Date(hoy.getFullYear(), nac.getMonth(), nac.getDate())) edad--;
       return edad;
     }
 
     function buscar() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const e = document.getElementById('filterEstado').value;
-      document.querySelectorAll('#tableBody tr').forEach(function(tr){
-        const matchQ = !q || tr.textContent.toLowerCase().includes(q);
-        const matchE = !e || tr.querySelector('.'+e);
-        if(matchQ && matchE) tr.classList.remove('hidden'); else tr.classList.add('hidden');
+      var q = document.getElementById('searchInput').value.toLowerCase();
+      var e = document.getElementById('filterEstado').value;
+      document.querySelectorAll('#tableBody tr').forEach(function(tr) {
+        var matchQ = !q || tr.textContent.toLowerCase().includes(q);
+        var matchE = !e || tr.querySelector('.' + e);
+        if (matchQ && matchE) tr.classList.remove('hidden'); else tr.classList.add('hidden');
       });
     }
 
-    function filtrarEstado(){ buscar(); }
-    function resetFiltros(){
-      document.getElementById('searchInput').value='';
-      document.getElementById('filterEstado').value='';
-      document.querySelectorAll('#tableBody tr').forEach(function(tr){tr.classList.remove('hidden');});
+    function filtrarEstado() { buscar(); }
+    function resetFiltros() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('filterEstado').value = '';
+      document.querySelectorAll('#tableBody tr').forEach(function(tr) { tr.classList.remove('hidden'); });
       toast('↺ Filtros eliminados');
     }
 
-    function toast(msg){
-      var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-      clearTimeout(t._timer); t._timer=setTimeout(function(){t.classList.remove('show');},2200);
+    function toast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function() { t.classList.remove('show'); }, 2200);
     }
 
     cargarAlumnos();
