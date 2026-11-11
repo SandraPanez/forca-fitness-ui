@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alumnos — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    /* NAV */
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links{display:flex;gap:4px;}
+    .nav-links a{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:all .2s;}
+    .nav-links a:hover{background:#f3f4f6;color:#111;}
+    .nav-links a.active{color:#0d2d5e;font-weight:700;border-bottom:2px solid #0d2d5e;border-radius:0;}
+    .nav-right{display:flex;align-items:center;gap:16px;}
+    .bell{position:relative;cursor:pointer;font-size:18px;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#e0e7ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#4f46e5;}
+    .user-info{text-align:right;}
+    .user-info .name{font-size:13px;font-weight:600;color:#111;}
+    .user-info .role{font-size:11px;color:#9ca3af;}
+    /* LAYOUT */
+    .layout{display:flex;height:calc(100vh - 60px);}
+    .main{flex:1;overflow-y:auto;padding:28px 32px;}
+    .sidebar{width:340px;background:#fff;border-left:1px solid #e5e7eb;padding:24px;overflow-y:auto;}
+    /* PAGE HEADER */
+    .eyebrow{font-size:11px;font-weight:600;color:#9ca3af;letter-spacing:.5px;margin-bottom:4px;}
+    .page-title{font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
+    .page-sub{font-size:13px;color:#6b7280;margin-bottom:24px;}
+    .header-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;}
+    .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .btn-secondary{background:#fff;color:#374151;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;}
+    /* STATS */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+    .stat{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;}
+    .stat .label{font-size:11px;font-weight:600;color:#9ca3af;letter-spacing:.5px;margin-bottom:8px;}
+    .stat .value{font-size:28px;font-weight:800;color:#0d2d5e;}
+    .stat .sub{font-size:11px;color:#9ca3af;margin-top:4px;}
+    .stat .sub.green{color:#16a34a;font-weight:600;}
+    .stat .sub.orange{color:#d97706;font-weight:600;}
+    .stat .sub.red{color:#dc2626;font-weight:600;}
+    .stat-icon{float:right;font-size:20px;}
+    /* FILTERS */
+    .filters{display:flex;gap:12px;margin-bottom:20px;align-items:center;}
+    .search-wrap{position:relative;flex:1;max-width:260px;}
+    .search-wrap input{width:100%;padding:9px 12px 9px 36px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;}
+    .search-wrap .icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;}
+    .chip{display:flex;align-items:center;gap:6px;background:#fef9c3;border:1px solid #fde68a;border-radius:6px;padding:7px 12px;font-size:12px;font-weight:600;color:#92400e;cursor:pointer;}
+    .select-filter{padding:8px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#374151;background:#fff;}
+    .clear{font-size:12px;color:#0d2d5e;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;}
+    /* TABLE */
+    .table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;}
+    table{width:100%;border-collapse:collapse;}
+    thead th{padding:12px 16px;font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-align:left;border-bottom:1px solid #e5e7eb;background:#f9fafb;}
+    tbody tr{border-bottom:1px solid #f3f4f6;transition:background .15s;}
+    tbody tr:hover{background:#f8fafc;}
+    tbody tr.selected{background:#eff6ff;}
+    td{padding:14px 16px;font-size:13px;vertical-align:middle;}
+    .alumno-cell{display:flex;align-items:center;gap:10px;}
+    .av{width:32px;height:32px;background:#e0e7ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#4f46e5;flex-shrink:0;}
+    .alumno-name{font-weight:600;color:#111;font-size:13px;}
+    .alumno-email{font-size:11px;color:#9ca3af;}
+    .alumno-id{font-size:11px;color:#6b7280;}
+    .disc-tag{display:inline-block;background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;margin-bottom:3px;margin-right:3px;}
+    .date-warn{color:#d97706;font-weight:600;}
+    .date-ok{color:#374151;}
+    .date-sub{font-size:11px;color:#9ca3af;margin-top:2px;}
+    .badge-active{background:#dcfce7;color:#15803d;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;}
+    .badge-vencer{background:#fef9c3;color:#92400e;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;}
+    .badge-vencida{background:#fee2e2;color:#dc2626;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;}
+    .btn-ver{background:#fff;border:1.5px solid #e5e7eb;border-radius:7px;padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;}
+    .pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border-top:1px solid #e5e7eb;}
+    .pag-info{font-size:12px;color:#9ca3af;}
+    .pag-btns{display:flex;gap:4px;}
+    .pag-btn{width:30px;height:30px;border-radius:6px;border:1.5px solid #e5e7eb;background:#fff;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .pag-btn.active{background:#0d2d5e;color:#fff;border-color:#0d2d5e;}
+    /* SIDEBAR */
+    .sb-title{font-size:14px;font-weight:700;color:#0d2d5e;margin-bottom:4px;}
+    .sb-sub{font-size:11px;color:#9ca3af;margin-bottom:16px;}
+    .close-btn{float:right;background:none;border:none;font-size:16px;cursor:pointer;color:#9ca3af;}
+    .sb-card{background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:14px;}
+    .sb-name{font-size:15px;font-weight:700;color:#111;}
+    .sb-socio{font-size:11px;color:#9ca3af;}
+    .sb-badge{display:inline-block;background:#eff6ff;color:#1d4ed8;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;margin-top:6px;}
+    .alert-box{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:14px;font-size:12px;}
+    .alert-box .alert-title{font-weight:700;color:#92400e;margin-bottom:3px;display:flex;align-items:center;gap:5px;}
+    .alert-box .alert-date{color:#d97706;font-weight:600;}
+    .sb-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+    .sb-metric{background:#f8fafc;border-radius:8px;padding:12px;}
+    .sb-metric .m-label{font-size:10px;color:#9ca3af;font-weight:600;letter-spacing:.3px;margin-bottom:4px;}
+    .sb-metric .m-value{font-size:16px;font-weight:700;color:#111;}
+    .sb-metric .m-sub{font-size:11px;color:#16a34a;font-weight:600;}
+    .sb-section-title{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:10px;display:flex;justify-content:space-between;}
+    .sb-section-title a{color:#0d2d5e;font-weight:600;font-size:11px;text-decoration:none;}
+    .payment-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid #f3f4f6;}
+    .payment-row:last-child{border-bottom:none;}
+    .pay-title{font-size:12px;font-weight:600;color:#111;}
+    .pay-date{font-size:11px;color:#9ca3af;}
+    .pay-amt{font-size:13px;font-weight:700;color:#111;text-align:right;}
+    .pay-status{font-size:11px;color:#16a34a;font-weight:600;}
+    .sb-actions{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+    .btn-renew{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+    .btn-whats{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO & TATAMI</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="#" class="active">Alumnos</a>
+      <a href="pagos.html">Matrículas</a>
+      <a href="pagos.html">Pagos</a>
+      <a href="#">Tesorería</a>
+    </div>
+    <div class="nav-right">
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar">VR</div>
+      <div class="user-info">
+        <div class="name">Valeria Rossi</div>
+        <div class="role">Coordinación General</div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <div class="main">
+      <div class="header-row">
+        <div>
+          <p class="eyebrow">PANEL DE DIRECCIÓN</p>
+          <h1 class="page-title">Alumnos y vigencia de matrículas</h1>
+          <p class="page-sub">Control integral del alumnado, monitorización del estado de cuotas activas, alertas de vencimiento e historial de renovación deportiva.</p>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="btn-secondary">⬇ Exportar reporte</button>
+          <button class="btn-primary">✦ Nuevo Alumno</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-icon">👥</span>
+          <div class="label">TOTAL ALUMNOS</div>
+          <div class="value">428</div>
+          <div class="sub green">↑ +14 nuevos este mes</div>
+        </div>
+        <div class="stat">
+          <span class="stat-icon">✅</span>
+          <div class="label">MATRÍCULAS ACTIVAS</div>
+          <div class="value">364</div>
+          <div class="sub green">85.1% del total · al día</div>
+        </div>
+        <div class="stat">
+          <span class="stat-icon">⚠️</span>
+          <div class="label">PRÓXIMAS A VENCER</div>
+          <div class="value" style="color:#d97706;">38</div>
+          <div class="sub orange">⏱ En los próximos 7 días</div>
+        </div>
+        <div class="stat">
+          <span class="stat-icon">❌</span>
+          <div class="label">MATRÍCULAS VENCIDAS</div>
+          <div class="value" style="color:#dc2626;">26</div>
+          <div class="sub red">⚠ Requieren regularización</div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <div class="search-wrap">
+          <span class="icon">🔍</span>
+          <input type="text" value="Martín Gómez"/>
+        </div>
+        <div class="chip">⚠ Matrículas por vencer &nbsp;38</div>
+        <select class="select-filter"><option>Por vencer (&lt; 7 días)</option></select>
+        <select class="select-filter"><option>Todas las disciplinas</option></select>
+        <span class="clear">✕ Limpiar filtro</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ALUMNO</th>
+              <th>DISCIPLINA(S)</th>
+              <th>FECHA DE VENCIMIENTO</th>
+              <th>ESTADO MATRÍCULA</th>
+              <th>ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="selected">
+              <td>
+                <div class="alumno-cell">
+                  <div class="av">MG</div>
+                  <div>
+                    <div class="alumno-name">Martín Gómez <span style="font-size:10px;color:#6b7280;font-weight:400;">ID #1042</span></div>
+                    <div class="alumno-email">martin.gomez@gmail.com · DNI 41.203.984</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="disc-tag">CrossFit Elite</span><br><span class="disc-tag">Musculación</span></td>
+              <td><div class="date-warn">⏱ 28 Mar 2025</div><div class="date-sub">Vence en 3 días</div></td>
+              <td><span class="badge-vencer">● Por vencer</span></td>
+              <td><button class="btn-ver">Ver detalle ›</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="alumno-cell">
+                  <div class="av">LF</div>
+                  <div>
+                    <div class="alumno-name">Lucía Fernández</div>
+                    <div class="alumno-email">lfernandez@outlook.com · DNI 38.891.124</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="disc-tag">Spinning Pro</span><br><span class="disc-tag">Pilates</span></td>
+              <td><div class="date-ok">15 May 2025</div><div class="date-sub">Vence en 51 días</div></td>
+              <td><span class="badge-active">● Activa</span></td>
+              <td><button class="btn-ver">Ver detalle ›</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="alumno-cell">
+                  <div class="av">CB</div>
+                  <div>
+                    <div class="alumno-name">Carlos Benítez</div>
+                    <div class="alumno-email">carlos.b@hotmail.com · DNI 35.120.449</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="disc-tag">Musculación Full</span></td>
+              <td><div style="color:#dc2626;font-weight:600;">⏱ 10 Mar 2025</div><div class="date-sub">Venció hace 15 días</div></td>
+              <td><span class="badge-vencida">● Vencida</span></td>
+              <td><button class="btn-ver">Ver detalle ›</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="alumno-cell">
+                  <div class="av">CS</div>
+                  <div>
+                    <div class="alumno-name">Camila Soria</div>
+                    <div class="alumno-email">camila.soria@gmail.com · DNI 44.502.119</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="disc-tag">Entrenamiento Funcional</span><br><span class="disc-tag">Yoga Core</span></td>
+              <td><div class="date-ok">22 Jun 2025</div><div class="date-sub">Vence en 89 días</div></td>
+              <td><span class="badge-active">● Activa</span></td>
+              <td><button class="btn-ver">Ver detalle ›</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="alumno-cell">
+                  <div class="av">SM</div>
+                  <div>
+                    <div class="alumno-name">Santiago Morales</div>
+                    <div class="alumno-email">santi.morales@gym.ar · DNI 39.441.770</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="disc-tag">CrossFit</span><br><span class="disc-tag">Boxeo Recreativo</span></td>
+              <td><div class="date-warn">⏱ 30 Mar 2025</div><div class="date-sub">Vence en 5 días</div></td>
+              <td><span class="badge-vencer">● Por vencer</span></td>
+              <td><button class="btn-ver">Ver detalle ›</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <span class="pag-info">Mostrando 1 a 5 de 428 alumnos registrados</span>
+          <div class="pag-btns">
+            <button class="pag-btn">‹ Anterior</button>
+            <button class="pag-btn active">1</button>
+            <button class="pag-btn">2</button>
+            <button class="pag-btn">3</button>
+            <button class="pag-btn">...</button>
+            <button class="pag-btn">43</button>
+            <button class="pag-btn">Siguiente ›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <button class="close-btn">✕</button>
+      <div class="sb-title">Vigencia de matrícula</div>
+      <div class="sb-sub">Expediente y control financiero</div>
+
+      <div class="sb-card">
+        <div class="sb-name">Martín Gómez</div>
+        <div class="sb-socio">Socio desde: 12 Feb 2023</div>
+        <span style="font-size:11px;color:#9ca3af;">Socio #1042</span><br>
+        <span class="sb-badge">Plan Trimestral Pase Libre</span>
+      </div>
+
+      <div class="alert-box">
+        <div class="alert-title">⚠ Matrícula por expirar en 3 días</div>
+        <div>Fecha límite: <span class="alert-date">28 de Marzo de 2025</span>. El alumno tiene aviso automático por WhatsApp activado.</div>
+      </div>
+
+      <div class="sb-grid">
+        <div class="sb-metric">
+          <div class="m-label">ÚLTIMO PAGO</div>
+          <div class="m-value">$ 28.500 ARS</div>
+          <div style="font-size:10px;color:#9ca3af;margin-top:2px;">28 Dic 2024 · Transferencia</div>
+        </div>
+        <div class="sb-metric">
+          <div class="m-label">ASISTENCIAS MES</div>
+          <div class="m-value" style="color:#0d2d5e;">18 sesiones</div>
+          <div class="m-sub">92% frecuencia</div>
+        </div>
+      </div>
+
+      <div class="sb-section-title">
+        <span>HISTORIAL DE PAGOS Y CUOTAS</span>
+        <a href="#">Ver todos (8)</a>
+      </div>
+      <div class="payment-row">
+        <div><div class="pay-title">Trimestre Verano 2025</div><div class="pay-date">28/12/2024 · Factura A-00431</div></div>
+        <div><div class="pay-amt">$ 28.500</div><div class="pay-status">Acreditado</div></div>
+      </div>
+      <div class="payment-row">
+        <div><div class="pay-title">Trimestre Primavera 2024</div><div class="pay-date">26/09/2024 · Factura A-00318</div></div>
+        <div><div class="pay-amt">$ 24.000</div><div class="pay-status">Acreditado</div></div>
+      </div>
+      <div class="payment-row">
+        <div><div class="pay-title">Trimestre Invierno 2024</div><div class="pay-date">24/06/2024 · Factura A-00210</div></div>
+        <div><div class="pay-amt">$ 21.000</div><div class="pay-status">Acreditado</div></div>
+      </div>
+
+      <div class="sb-actions">
+        <button class="btn-renew">↻ Renovar Matrícula Ahora</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="btn-whats">📱 Aviso WhatsApp</button>
+          <button class="btn-whats">📄 Ver Ficha</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

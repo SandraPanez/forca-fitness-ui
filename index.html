@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nueva Matrícula — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links{display:flex;align-items:center;gap:4px;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;border-radius:6px;}
+    .nav-links a.active{background:#eff6ff;color:#0d2d5e;font-weight:700;}
+    .nav-right{display:flex;align-items:center;gap:14px;}
+    .nav-badge{background:#dcfce7;color:#15803d;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;}
+    .nav-badge span{width:6px;height:6px;background:#16a34a;border-radius:50%;}
+    .btn-portal{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .banner{background:linear-gradient(90deg,#0d2d5e,#1a4a8a);color:#fff;text-align:center;padding:10px;font-size:13px;font-weight:600;letter-spacing:.3px;}
+    main{max-width:860px;margin:0 auto;padding:32px 24px;}
+    h1.page-title{font-size:34px;font-weight:800;color:#0d2d5e;text-align:center;margin-bottom:6px;}
+    .page-sub{text-align:center;font-size:14px;color:#6b7280;margin-bottom:28px;}
+    /* STEPS */
+    .steps{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:32px;}
+    .step{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;position:relative;}
+    .step::after{content:'';position:absolute;top:19px;right:-50%;width:100%;height:2px;background:#e5e7eb;z-index:0;}
+    .step.done::after{background:#0d2d5e;}
+    .step:last-child::after{display:none;}
+    .step-circle{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;z-index:1;position:relative;}
+    .step-circle.done{background:#0d2d5e;color:#fff;}
+    .step-circle.pending{background:#fff;color:#9ca3af;border:2px solid #e5e7eb;}
+    .step-label{font-size:12px;font-weight:700;color:#0d2d5e;}
+    .step-sub{font-size:11px;color:#9ca3af;}
+    .step-sub.active-sub{color:#0d2d5e;}
+    /* FORM CARD */
+    .form-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px;margin-bottom:20px;}
+    .form-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+    .step-eyebrow{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:4px;}
+    .form-section-title{font-size:20px;font-weight:800;color:#111;display:flex;align-items:center;gap:8px;}
+    .badge-required{background:#fef9c3;color:#92400e;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;}
+    .section-block{margin-bottom:24px;}
+    .section-label{font-size:14px;font-weight:700;color:#374151;display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+    .section-label .icon{font-size:16px;}
+    .form-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+    .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    label{display:block;font-size:11px;font-weight:700;color:#374151;letter-spacing:.3px;margin-bottom:5px;}
+    .req{color:#dc2626;}
+    input,select{width:100%;padding:10px 13px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:#1f2937;}
+    input:focus,select:focus{border-color:#0d2d5e;}
+    .input-ok{border-color:#16a34a!important;}
+    .input-ok-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#16a34a;font-size:14px;}
+    .input-wrap{position:relative;}
+    .full-row{margin-bottom:14px;}
+    /* DISCIPLINES */
+    .disc-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+    .multi-badge{background:#eff6ff;color:#1d4ed8;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;}
+    .disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .disc-card{border:2px solid #e5e7eb;border-radius:10px;padding:16px;cursor:pointer;transition:border .15s;}
+    .disc-card.selected{border-color:#0d2d5e;background:#eff6ff;}
+    .disc-card-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+    .disc-check{width:18px;height:18px;border-radius:4px;border:2px solid #e5e7eb;flex-shrink:0;}
+    .disc-check.checked{background:#0d2d5e;border-color:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;}
+    .disc-name-badge{display:flex;align-items:center;gap:8px;}
+    .disc-name{font-size:14px;font-weight:700;color:#111;}
+    .disc-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;}
+    .tag-blue{background:#1d4ed8;color:#fff;}
+    .tag-red{background:#dc2626;color:#fff;}
+    .tag-orange{background:#ea580c;color:#fff;}
+    .tag-green{background:#15803d;color:#fff;}
+    .disc-desc{font-size:12px;color:#6b7280;line-height:1.4;margin-bottom:10px;}
+    .turno-label{font-size:10px;font-weight:700;color:#374151;letter-spacing:.3px;margin-bottom:6px;}
+    .turno-opts{display:flex;gap:16px;}
+    .turno-opt{display:flex;align-items:center;gap:5px;font-size:12px;color:#374151;cursor:pointer;}
+    .radio{width:14px;height:14px;border-radius:50%;border:2px solid #e5e7eb;flex-shrink:0;}
+    .radio.checked{border-color:#0d2d5e;background:#0d2d5e;box-shadow:inset 0 0 0 3px #fff;}
+    /* EMERGENCY */
+    .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+    /* TERMS */
+    .terms-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;}
+    .terms-row input[type=checkbox]{width:16px;height:16px;margin-top:2px;flex-shrink:0;}
+    .terms-row p{font-size:12px;color:#374151;line-height:1.5;}
+    .terms-row a{color:#0d2d5e;font-weight:600;}
+    /* BOTTOM */
+    .form-footer{display:flex;justify-content:space-between;align-items:center;}
+    .btn-back{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 18px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .btn-next{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .trust-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;}
+    .trust-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;text-align:center;font-size:12px;color:#374151;display:flex;align-items:center;gap:10px;}
+    .trust-icon{font-size:20px;}
+    footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
+    footer a{color:#0d2d5e;text-decoration:none;}
+    .divider{border:none;border-top:1px solid #f3f4f6;margin:20px 0;}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO & TATAMI</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="#" class="active">Nueva Matrícula</a>
+      <a href="disciplinas.html">Disciplinas y Horarios</a>
+      <a href="#">Sedes</a>
+      <a href="#">Preguntas Frecuentes</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-badge"><span></span> Inscripciones Abiertas 2025</div>
+      <button class="btn-portal">🔒 Portal Alumnos</button>
+    </div>
+  </nav>
+  <div class="banner">● ¡ÚNETE A LA FAMILIA FORCA & FITNESS! TU PRÓXIMO NIVEL EMPIEZA AQUÍ.</div>
+
+  <main>
+    <h1 class="page-title">Nueva matrícula</h1>
+    <p class="page-sub">Completa tu información para iniciar tu matrícula en Forca & Fitness.</p>
+
+    <div class="steps">
+      <div class="step done">
+        <div class="step-circle done">✓</div>
+        <div class="step-label">Registro</div>
+        <div class="step-sub active-sub">Paso 1</div>
+      </div>
+      <div class="step">
+        <div class="step-circle pending">2</div>
+        <div class="step-label" style="color:#9ca3af;">Pago de matrícula</div>
+        <div class="step-sub">Paso 2</div>
+      </div>
+      <div class="step">
+        <div class="step-circle pending">3</div>
+        <div class="step-label" style="color:#9ca3af;">Confirmación</div>
+        <div class="step-sub">Paso 3</div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <div>
+          <div class="step-eyebrow">PASO 1 DE 3</div>
+          <div class="form-section-title">Registro del alumno</div>
+        </div>
+        <span class="badge-required">* Campos obligatorios</span>
+      </div>
+
+      <!-- DATOS PERSONALES -->
+      <div class="section-block">
+        <div class="section-label"><span class="icon">👤</span> Datos personales</div>
+        <div class="form-row">
+          <div><label>TIPO DE DOCUMENTO <span class="req">*</span></label><select><option>DNI (Documento Nacional)</option></select></div>
+          <div><label>NÚMERO DE DOCUMENTO <span class="req">*</span></label>
+            <div class="input-wrap"><input type="text" value="74839210" class="input-ok"/><span class="input-ok-icon">✓</span></div>
+          </div>
+          <div><label>GÉNERO <span class="req">*</span></label><select><option>Masculino</option><option>Femenino</option></select></div>
+        </div>
+        <div class="form-row">
+          <div><label>NOMBRES <span class="req">*</span></label><input type="text" value="Martín"/></div>
+          <div><label>APELLIDO PATERNO <span class="req">*</span></label><input type="text" value="Gómez"/></div>
+          <div><label>APELLIDO MATERNO <span class="req">*</span></label><input type="text" value="Silva"/></div>
+        </div>
+        <div class="form-row">
+          <div><label>FECHA DE NACIMIENTO <span class="req">*</span></label><input type="text" value="05/14/1998"/></div>
+          <div><label>CORREO ELECTRÓNICO <span class="req">*</span></label><input type="email" value="martin.gomez@gmail.com"/></div>
+          <div><label>CELULAR / WHATSAPP <span class="req">*</span></label><input type="text" value="+51 984 210 592"/></div>
+        </div>
+        <div class="full-row"><label>DIRECCIÓN DE RESIDENCIA <span class="req">*</span></label><input type="text" value="Av. Angamos Oeste 450, Miraflores, Lima"/></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- DISCIPLINAS -->
+      <div class="section-block">
+        <div class="disc-label-row">
+          <div class="section-label"><span class="icon">⚡</span> Disciplinas de entrenamiento<br><span style="font-size:12px;color:#6b7280;font-weight:400;margin-left:28px;">Selecciona una o más disciplinas y el turno de tu preferencia.</span></div>
+          <span class="multi-badge">Múltiple disciplina disponible</span>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-card selected">
+            <div class="disc-card-header">
+              <div class="disc-check checked">✓</div>
+              <div class="disc-name-badge">
+                <span class="disc-name">Brazilian Jiu-Jitsu (BJJ)</span>
+                <span class="disc-tag tag-blue">TATAMI PRO</span>
+              </div>
+            </div>
+            <div class="disc-desc">Técnicas de sumisión, control y combate cuerpo a cuerpo Gi & No-Gi.</div>
+            <div class="turno-label">TURNO PREFERENTE:</div>
+            <div class="turno-opts">
+              <label class="turno-opt"><div class="radio"></div> Mañana</label>
+              <label class="turno-opt"><div class="radio"></div> Tarde</label>
+              <label class="turno-opt"><div class="radio checked"></div> Noche</label>
+            </div>
+          </div>
+          <div class="disc-card">
+            <div class="disc-card-header">
+              <div class="disc-check"></div>
+              <div class="disc-name-badge">
+                <span class="disc-name">Muay Thai</span>
+                <span class="disc-tag tag-red">STRIKING</span>
+              </div>
+            </div>
+            <div class="disc-desc">El arte de las 8 extremidades: golpeo, clinch, patadas y codos.</div>
+            <div class="turno-label">TURNO PREFERENTE:</div>
+            <div class="turno-opts">
+              <label class="turno-opt"><div class="radio"></div> Mañana</label>
+              <label class="turno-opt"><div class="radio checked"></div> Tarde</label>
+              <label class="turno-opt"><div class="radio"></div> Noche</label>
+            </div>
+          </div>
+          <div class="disc-card">
+            <div class="disc-card-header">
+              <div class="disc-check"></div>
+              <div class="disc-name-badge">
+                <span class="disc-name">Boxeo Clásico & Competitivo</span>
+                <span class="disc-tag tag-orange">RING</span>
+              </div>
+            </div>
+            <div class="disc-desc">Desplazamiento, técnica de puños, esquivas y resistencia aeróbica de ring.</div>
+            <div class="turno-label">TURNO PREFERENTE:</div>
+            <div class="turno-opts">
+              <label class="turno-opt"><div class="radio checked"></div> Mañana</label>
+              <label class="turno-opt"><div class="radio"></div> Tarde</label>
+              <label class="turno-opt"><div class="radio"></div> Noche</label>
+            </div>
+          </div>
+          <div class="disc-card">
+            <div class="disc-card-header">
+              <div class="disc-check"></div>
+              <div class="disc-name-badge">
+                <span class="disc-name">Acondicionamiento Físico</span>
+                <span class="disc-tag tag-green">FUERZA / HIIT</span>
+              </div>
+            </div>
+            <div class="disc-desc">Circuitos de potencia funcional, hipertrofia y resistencia muscular para deportistas.</div>
+            <div class="turno-label">TURNO PREFERENTE:</div>
+            <div class="turno-opts">
+              <label class="turno-opt"><div class="radio"></div> Mañana</label>
+              <label class="turno-opt"><div class="radio"></div> Tarde</label>
+              <label class="turno-opt"><div class="radio checked"></div> Noche</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- EMERGENCIA -->
+      <div class="section-block">
+        <div class="section-label"><span class="icon">⚠️</span> Contacto de emergencia<br><span style="font-size:12px;color:#6b7280;font-weight:400;margin-left:28px;">Persona de contacto ante cualquier eventualidad médica en sede o tatami.</span></div>
+        <div class="form-row-3">
+          <div><label>NOMBRE DEL CONTACTO <span class="req">*</span></label><input type="text" value="Rosa Silva"/></div>
+          <div><label>PARENTESCO <span class="req">*</span></label><input type="text" value="Madre"/></div>
+          <div><label>TELÉFONO DE EMERGENCIA <span class="req">*</span></label><input type="text" value="+51 993 112 004"/></div>
+        </div>
+      </div>
+
+      <div class="terms-row">
+        <input type="checkbox" checked/>
+        <p>Declaro que los datos ingresados son verídicos y acepto los <a href="#">Términos y Condiciones</a>, el reglamento interno del tatami y la política de tratamiento de datos personales de Forca & Fitness S.A.C.</p>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-back">← Volver al inicio</button>
+        <button class="btn-next">Continuar al pago →</button>
+      </div>
+    </div>
+
+    <div class="trust-bar">
+      <div class="trust-item"><span class="trust-icon">🔒</span> Proceso seguro y encriptado</div>
+      <div class="trust-item"><span class="trust-icon">⚡</span> Activación inmediata de matrícula</div>
+      <div class="trust-item"><span class="trust-icon">💬</span> Soporte por WhatsApp 24/7</div>
+    </div>
+  </main>
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
+</body>
+</html>

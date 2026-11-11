@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tesorería — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links{display:flex;gap:4px;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;border-radius:6px;}
+    .nav-links a.active{background:#0d2d5e;color:#fff;font-weight:700;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .bell{position:relative;font-size:17px;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .role{font-size:11px;color:#9ca3af;}
+    main{max-width:1100px;margin:0 auto;padding:28px 32px;}
+    .eyebrow{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:14px;}
+    .eyebrow span{width:6px;height:6px;background:#1d4ed8;border-radius:50%;}
+    h1{font-size:30px;font-weight:800;color:#0d2d5e;margin-bottom:6px;}
+    .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;}
+    /* STAT CARDS */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+    .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 22px;}
+    .stat-label{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:8px;}
+    .stat-val{font-size:26px;font-weight:800;color:#0d2d5e;}
+    .stat-val.orange{color:#f59e0b;}
+    .stat-sub{font-size:12px;color:#9ca3af;margin-top:4px;}
+    .stat-sub.green{color:#16a34a;font-weight:600;}
+    .stat-icon{float:right;font-size:22px;margin-top:-4px;}
+    /* PENDING SECTION */
+    .section-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:24px;}
+    .section-head{padding:18px 24px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
+    .section-title-row{display:flex;align-items:center;gap:10px;}
+    .section-icon{font-size:20px;}
+    .section-title{font-size:16px;font-weight:700;color:#0d2d5e;}
+    .section-desc{font-size:12px;color:#9ca3af;margin-top:2px;}
+    .pending-badge{background:#fef9c3;color:#92400e;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+    .alert-info{display:flex;align-items:center;gap:8px;background:#fffbeb;border-radius:8px;padding:8px 14px;font-size:12px;color:#92400e;}
+    /* TABLES */
+    table{width:100%;border-collapse:collapse;}
+    thead th{padding:11px 20px;font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.4px;text-align:left;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
+    tbody tr{border-bottom:1px solid #f3f4f6;}
+    tbody td{padding:14px 20px;font-size:13px;vertical-align:middle;}
+    .alumno-cell{display:flex;align-items:center;gap:10px;}
+    .av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+    .av-blue{background:#1d4ed8;}
+    .av-purple{background:#7c3aed;}
+    .av-green{background:#15803d;}
+    .av-orange{background:#ea580c;}
+    .av-teal{background:#0891b2;}
+    .av-gray{background:#374151;}
+    .alumno-name{font-size:13px;font-weight:700;color:#111;}
+    .alumno-sub{font-size:11px;color:#9ca3af;}
+    .disc-pill{display:inline-flex;align-items:center;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;margin-bottom:3px;}
+    .pill-blue{background:#eff6ff;color:#1d4ed8;}
+    .pill-red{background:#fee2e2;color:#dc2626;}
+    .pill-green{background:#dcfce7;color:#15803d;}
+    .disc-turno{font-size:11px;color:#9ca3af;}
+    .monto{font-size:16px;font-weight:800;color:#111;}
+    .fecha-cell .date{font-size:13px;color:#374151;}
+    .fecha-cell .time{font-size:11px;color:#9ca3af;}
+    .vence-badge{border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;}
+    .vence-orange{background:#fef9c3;color:#92400e;}
+    .vence-red{background:#fee2e2;color:#dc2626;}
+    .vence-green{background:#d1fae5;color:#065f46;}
+    .btn-confirm{background:#0d2d5e;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+    .btn-reject{background:#fff;border:1.5px solid #e5e7eb;border-radius:7px;padding:7px 12px;font-size:12px;font-weight:500;cursor:pointer;color:#374151;white-space:nowrap;}
+    .action-cell{display:flex;gap:7px;align-items:center;}
+    .table-footer{padding:12px 20px;font-size:12px;color:#9ca3af;border-top:1px solid #f3f4f6;background:#fafafa;}
+    /* HISTORIAL */
+    .hist-controls{padding:16px 20px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:10px;}
+    .search-box{display:flex;align-items:center;gap:8px;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-size:13px;color:#9ca3af;flex:1;max-width:280px;}
+    .filter-select{border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-size:13px;color:#374151;background:#fff;cursor:pointer;}
+    .btn-refresh{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;margin-left:auto;}
+    .export-btn{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;}
+    .hist-head-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 0;}
+    .pay-method-badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;}
+    .pm-mp{background:#eff6ff;color:#1d4ed8;}
+    .pm-cash{background:#f0fdf4;color:#15803d;}
+    .status-badge{border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;}
+    .sb-approved{background:#dcfce7;color:#15803d;}
+    .sb-pending{background:#fef9c3;color:#92400e;}
+    .sb-rejected{background:#fee2e2;color:#dc2626;}
+    .sb-annulled{background:#f3f4f6;color:#374151;}
+    .comp-link{font-size:12px;color:#0d2d5e;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:4px;}
+    .no-comp{font-size:12px;color:#9ca3af;}
+    .pagination{display:flex;align-items:center;gap:6px;padding:12px 20px;border-top:1px solid #e5e7eb;justify-content:space-between;}
+    .pag-info{font-size:12px;color:#9ca3af;}
+    .pag-btns{display:flex;gap:5px;}
+    .pag-btn{width:28px;height:28px;border:1.5px solid #e5e7eb;border-radius:6px;background:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .pag-btn.active{background:#0d2d5e;color:#fff;border-color:#0d2d5e;}
+    footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:8px;}
+    footer a{color:#0d2d5e;text-decoration:none;}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO & GESTIÓN</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="alumnos.html">Alumnos</a>
+      <a href="#">Matrículas</a>
+      <a href="control_acceso.html">Control de Acceso</a>
+      <a href="pagos.html">Pagos</a>
+      <a href="tesoreria.html" class="active">Tesorería</a>
+    </div>
+    <div class="nav-right">
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar">VR</div>
+      <div class="user-info"><div class="name">Valeria Rossi</div><div class="role">Tesorero & Finanzas</div></div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="eyebrow"><span></span> TESORERÍA</div>
+    <h1>Gestión de cobros</h1>
+    <p class="page-sub">Consulta solicitudes, confirma pagos en efectivo y revisa el historial de cobros.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">POR VALIDAR (EFECTIVO) <span class="stat-icon">🕐</span></div>
+        <div class="stat-val orange">3 solicitudes</div>
+        <div class="stat-sub">Total: S/. 450.00</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">RECAUDADO HOY <span class="stat-icon">💳</span></div>
+        <div class="stat-val">S/. 1,820.00</div>
+        <div class="stat-sub green">+14% vs ayer</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">COBROS DEL MES <span class="stat-icon">📊</span></div>
+        <div class="stat-val">S/. 42,950.00</div>
+        <div class="stat-sub">Abril 2025 (286 pagos)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">TASA DE APROBACIÓN <span class="stat-icon">📈</span></div>
+        <div class="stat-val" style="color:#16a34a;">98.4%</div>
+        <div class="stat-sub">1.6% solicitudes rechazadas</div>
+      </div>
+    </div>
+
+    <!-- PAGOS POR APROBAR -->
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-title-row">
+          <span class="section-icon">🪙</span>
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="section-title">Pagos por aprobar</span>
+              <span class="pending-badge">3 pendientes</span>
+            </div>
+            <div class="section-desc">Solicitudes de pago en efectivo pendientes de confirmación (válidas 48 h)</div>
+          </div>
+        </div>
+        <div class="alert-info">⚠ El acceso al tatami permanece restringido hasta la confirmación de tesorería.</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ALUMNO / MATRÍCULA</th>
+            <th>DISCIPLINAS</th>
+            <th>MONTO</th>
+            <th>FECHA DE SOLICITUD</th>
+            <th>VENCE (RESTANTE)</th>
+            <th>ACCIÓN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="alumno-cell">
+                <div class="av av-blue">MG</div>
+                <div>
+                  <div class="alumno-name">Martín Gómez Silva</div>
+                  <div class="alumno-sub">MAT-2025-08492 · DNI 74839210</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div><span class="disc-pill pill-blue">BJJ Adultos (No-Gi)</span> <span style="font-size:11px;color:#6b7280;">Turno Noche</span></div>
+            </td>
+            <td><div class="monto">S/.<br>150.00</div></td>
+            <td class="fecha-cell"><div class="date">28 Mar 2025</div><div class="time">10:15 AM (Recepción)</div></td>
+            <td><span class="vence-badge vence-orange">🕐 14h restantes</span></td>
+            <td>
+              <div class="action-cell">
+                <button class="btn-confirm">✓ Confirmar pago</button>
+                <button class="btn-reject">✕ Rechazar</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alumno-cell">
+                <div class="av av-purple">CB</div>
+                <div>
+                  <div class="alumno-name">Carlos Benítez Morales</div>
+                  <div class="alumno-sub">MAT-2025-08311 · DNI 35128449</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div><span class="disc-pill pill-red">Boxeo Clásico & Sparring</span></div>
+              <div class="disc-turno">Turno Mañana</div>
+            </td>
+            <td><div class="monto">S/.<br>150.00</div></td>
+            <td class="fecha-cell"><div class="date">28 Mar 2025</div><div class="time">11:40 AM (Caja Sede)</div></td>
+            <td><span class="vence-badge vence-orange">🕐 29h restantes</span></td>
+            <td>
+              <div class="action-cell">
+                <button class="btn-confirm">✓ Confirmar pago</button>
+                <button class="btn-reject">✕ Rechazar</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alumno-cell">
+                <div class="av av-green">LF</div>
+                <div>
+                  <div class="alumno-name">Lucía Fernández Vega</div>
+                  <div class="alumno-sub">MAT-2025-08184 · DNI 38891124</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div><span class="disc-pill pill-green">Muay Thai + Acondicionamiento</span></div>
+              <div class="disc-turno">Turno Tarde</div>
+            </td>
+            <td><div class="monto">S/.<br>150.00</div></td>
+            <td class="fecha-cell"><div class="date">27 Mar 2025</div><div class="time">04:20 PM (Recepción)</div></td>
+            <td><span class="vence-badge vence-red">⚠ 6h restantes (Próximo a expirar)</span></td>
+            <td>
+              <div class="action-cell">
+                <button class="btn-confirm">✓ Confirmar pago</button>
+                <button class="btn-reject">✕ Rechazar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-footer" style="display:flex;justify-content:space-between;">
+        <span>Mostrando 3 de 3 solicitudes en efectivo pendientes de validación</span>
+        <span>Al confirmar, el sistema emite automáticamente el comprobante B001 y desbloquea el torniquete QR.</span>
+      </div>
+    </div>
+
+    <!-- HISTORIAL DE COBROS -->
+    <div class="section-card">
+      <div class="hist-head-row">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="section-icon">📋</span>
+            <div>
+              <div class="section-title">Historial de cobros</div>
+              <div class="section-desc">Todos los pagos registrados con filtros de búsqueda</div>
+            </div>
+          </div>
+        </div>
+        <button class="export-btn">⬇ Exportar Excel</button>
+      </div>
+      <div class="hist-controls">
+        <div class="search-box">🔍 &nbsp;Buscar alumno o matrícula...</div>
+        <select class="filter-select"><option>Todos los estados</option></select>
+        <select class="filter-select"><option>Todos los medios</option></select>
+        <button class="btn-refresh">🔄 Actualizar</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ALUMNO</th>
+            <th>DISCIPLINA</th>
+            <th>CÓDIGO OPERACIÓN</th>
+            <th>MONTO</th>
+            <th>FECHA / HORA</th>
+            <th>MEDIO DE PAGO</th>
+            <th>ESTADO</th>
+            <th>COMPROBANTE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="alumno-name">Martín Gómez Silva</div>
+              <div class="alumno-sub">Socio #1042</div>
+            </td>
+            <td>
+              <div style="font-size:13px;font-weight:600;">BJJ Adultos (No-Gi)</div>
+              <div class="alumno-sub">Mensualidad</div>
+            </td>
+            <td><span style="font-family:monospace;font-size:12px;">OP-849201</span></td>
+            <td><strong>S/. 250.00</strong></td>
+            <td class="fecha-cell"><div class="date">28 Mar 2025</div><div class="time">11:42 AM</div></td>
+            <td><span class="pay-method-badge pm-mp">● Mercado Pago</span></td>
+            <td><span class="status-badge sb-approved">✓ Aprobado</span></td>
+            <td><a class="comp-link" href="comprobante.html">👁 Ver comprobante</a></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alumno-name">Camila Soria Vera</div>
+              <div class="alumno-sub">Socia #1104</div>
+            </td>
+            <td>
+              <div style="font-size:13px;font-weight:600;">BJJ + Acondicionamiento</div>
+              <div class="alumno-sub">Plan Semestral</div>
+            </td>
+            <td><span style="font-family:monospace;font-size:12px;">OP-849182</span></td>
+            <td><strong>S/. 720.00</strong></td>
+            <td class="fecha-cell"><div class="date">28 Mar 2025</div><div class="time">09:15 AM</div></td>
+            <td><span class="pay-method-badge pm-cash">● Efectivo</span></td>
+            <td><span class="status-badge sb-approved">✓ Aprobado</span></td>
+            <td><a class="comp-link" href="comprobante.html">👁 Ver comprobante</a></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alumno-name">Martín Gómez Silva</div>
+              <div class="alumno-sub">Socio #1042</div>
+            </td>
+            <td>
+              <div style="font-size:13px;font-weight:600;">BJJ Adultos (No-Gi)</div>
+              <div class="alumno-sub">Renovación regular</div>
+            </td>
+            <td><span style="font-family:monospace;font-size:12px;">OP-849284</span></td>
+            <td><strong>S/. 150.00</strong></td>
+            <td class="fecha-cell"><div class="date">28 Mar 2025</div><div class="time">10:15 AM</div></td>
+            <td><span class="pay-method-badge pm-cash">● Efectivo</span></td>
+            <td><span class="status-badge sb-pending">● Pendiente</span></td>
+            <td><span class="no-comp">No emitido</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alumno-name">Santiago Morales Rios</div>
+              <div class="alumno-sub">Socio #1055</div>
+            </td>
+            <td>
+              <div style="font-size:13px;font-weight:600;">BJJ Fundamentos</div>
+              <div class="alumno-sub">Plan Mensual</div>
+            </td>
+            <td><span style="font-family:monospace;font-size:12px;">OP-849150</span></td>
+            <td><strong>S/. 150.00</strong></td>
+            <td class="fecha-cell"><div class="date">27 Mar 2025</div><div class="time">07:50 PM</div></td>
+            <td><span class="pay-method-badge pm-mp">● Mercado Pago</span></td>
+            <td><span class="status-badge sb-approved">✓ Aprobado</span></td>
+            <td><a class="comp-link" href="comprobante.html">👁 Ver comprobante</a></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alumno-name">Rodrigo De La Torre</div>
+              <div class="alumno-sub">Socio #8854</div>
+            </td>
+            <td>
+              <div style="font-size:13px;font-weight:600;">BJJ Competición</div>
+              <div class="alumno-sub">Membresía Anual</div>
+            </td>
+            <td><span style="font-family:monospace;font-size:12px;">OP-849020</span></td>
+            <td><strong>S/. 1,350.00</strong></td>
+            <td class="fecha-cell"><div class="date">26 Mar 2025</div><div class="time">03:10 PM</div></td>
+            <td><span class="pay-method-badge pm-cash">● Efectivo</span></td>
+            <td><span class="status-badge sb-rejected">✕ Rechazado</span></td>
+            <td><span class="no-comp">Expirado 48h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="alumno-name">Mateo Valdez Ramos</div>
+              <div class="alumno-sub">Socio #1201</div>
+            </td>
+            <td>
+              <div style="font-size:13px;font-weight:600;">BJJ Fundamentos</div>
+              <div class="alumno-sub">Plan Estudiante</div>
+            </td>
+            <td><span style="font-family:monospace;font-size:12px;">OP-848890</span></td>
+            <td><strong>S/. 135.00</strong></td>
+            <td class="fecha-cell"><div class="date">25 Mar 2025</div><div class="time">11:00 AM</div></td>
+            <td><span class="pay-method-badge pm-mp">● Mercado Pago</span></td>
+            <td><span class="status-badge sb-annulled">Anulado</span></td>
+            <td><span class="no-comp">Nota de Crédito</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <span class="pag-info">Mostrando 1 a 6 de <strong>286</strong> cobros registrados</span>
+        <div class="pag-btns">
+          <button class="pag-btn">←</button>
+          <button class="pag-btn active">1</button>
+          <button class="pag-btn">2</button>
+          <button class="pag-btn">3</button>
+          <button class="pag-btn" style="width:auto;padding:0 8px;">...</button>
+          <button class="pag-btn" style="width:auto;padding:0 8px;">48</button>
+          <button class="pag-btn">→</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Soporte Tesorería</a> · <a href="#">Políticas de Cobranza</a> · Versión 2.4.0 (Módulo Tesorería)</footer>
+</body>
+</html>

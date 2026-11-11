@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Renovar Matrícula — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;}
+    .nav-links a.active{color:#0d2d5e;font-weight:700;border-bottom:2px solid #0d2d5e;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .bell{position:relative;font-size:17px;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .role{font-size:11px;color:#9ca3af;}
+    main{max-width:860px;margin:0 auto;padding:28px 32px;}
+    .back-link{font-size:13px;color:#374151;text-decoration:none;display:flex;align-items:center;gap:5px;margin-bottom:14px;}
+    .eyebrow{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:12px;}
+    .eyebrow span{width:6px;height:6px;background:#1d4ed8;border-radius:50%;}
+    h1{font-size:30px;font-weight:800;color:#0d2d5e;margin-bottom:8px;}
+    .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;max-width:600px;line-height:1.5;}
+    /* MAIN CARD */
+    .main-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px;margin-bottom:20px;}
+    .section-label{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:14px;}
+    /* TIPO GESTIÓN */
+    .tipo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
+    .tipo-card{border:2px solid #e5e7eb;border-radius:12px;padding:18px;cursor:pointer;position:relative;}
+    .tipo-card.selected{border-color:#0d2d5e;background:#eff6ff;}
+    .tipo-badge{position:absolute;top:12px;right:12px;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;}
+    .badge-current{background:#dcfce7;color:#15803d;}
+    .badge-frozen{background:#ede9fe;color:#7c3aed;}
+    .tipo-check{position:absolute;top:12px;right:60px;}
+    .tipo-icon{font-size:22px;margin-bottom:8px;}
+    .tipo-title{font-size:14px;font-weight:800;color:#111;margin-bottom:6px;}
+    .tipo-desc{font-size:12px;color:#6b7280;line-height:1.4;}
+    .check-box{width:20px;height:20px;border-radius:50%;position:absolute;top:12px;right:12px;}
+    .check-box.on{background:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;}
+    .check-box.off{background:#fff;border:2px solid #e5e7eb;}
+    /* DISCIPLINA */
+    .disc-block{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-bottom:20px;}
+    .disc-top{display:flex;align-items:center;justify-content:space-between;}
+    .disc-left{display:flex;align-items:center;gap:14px;}
+    .disc-logo{background:#1d4ed8;color:#fff;border-radius:8px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;}
+    .disc-name{font-size:14px;font-weight:800;color:#111;}
+    .disc-level{background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;margin-left:8px;}
+    .disc-meta{font-size:11px;color:#6b7280;margin-top:3px;display:flex;gap:14px;}
+    .disc-meta span{display:flex;align-items:center;gap:4px;}
+    .vence-badge{background:#fef9c3;color:#92400e;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:700;text-align:right;}
+    .vence-badge .sub{font-size:10px;color:#9ca3af;margin-top:2px;font-weight:400;}
+    /* PERIODOS */
+    .periodo-label{font-size:12px;font-weight:700;color:#374151;margin:16px 0 10px;}
+    .periodo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .periodo-card{border:2px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;position:relative;}
+    .periodo-card.selected{border-color:#0d2d5e;background:#eff6ff;}
+    .periodo-card .check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;}
+    .periodo-title{font-size:14px;font-weight:700;color:#374151;margin-bottom:4px;}
+    .periodo-price{font-size:20px;font-weight:800;color:#0d2d5e;}
+    .periodo-orig{font-size:11px;color:#9ca3af;text-decoration:line-through;}
+    .periodo-save{font-size:11px;color:#16a34a;font-weight:700;}
+    .periodo-sub{font-size:11px;color:#9ca3af;margin-top:4px;}
+    .off-badge{position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:700;}
+    /* TOTAL BAR */
+    .total-bar{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+    .total-icon{font-size:22px;margin-right:12px;}
+    .total-label{font-size:11px;color:#9ca3af;font-weight:700;margin-bottom:2px;}
+    .total-amt{font-size:28px;font-weight:800;color:#0d2d5e;}
+    .total-currency{font-size:12px;color:#9ca3af;margin-left:4px;}
+    .total-vence{font-size:11px;color:#9ca3af;margin-top:2px;}
+    .total-vence strong{color:#374151;}
+    .total-actions{display:flex;gap:10px;}
+    .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;}
+    .btn-pagar{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    /* TRUST */
+    .trust-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .trust-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;}
+    .trust-icon{font-size:20px;}
+    .trust-title{font-size:12px;font-weight:700;color:#111;}
+    .trust-sub{font-size:11px;color:#9ca3af;}
+    footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:20px;}
+    footer a{color:#0d2d5e;text-decoration:none;}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
+      <a href="disciplinas.html">Horarios & Clases</a>
+      <a href="#">Historial de Pagos</a>
+    </div>
+    <div class="nav-right">
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar">MG</div>
+      <div class="user-info"><div class="name">Martín Gómez Silva</div><div class="role">Socio #1042 · BJJ Azul</div></div>
+    </div>
+  </nav>
+
+  <main>
+    <a class="back-link" href="mis-matriculas.html">← Volver a Mis Matrículas</a>
+    <div class="eyebrow"><span></span> RENOVACIÓN Y RESERVA</div>
+    <h1>Renovar matrícula o reservar cupo</h1>
+    <p class="page-sub">Renueva tu matrícula actual conservando tu horario o asegura tu vacante para los próximos meses con tarifa congelada.</p>
+
+    <div class="main-card">
+      <div class="section-label">1. SELECCIONA EL TIPO DE GESTIÓN</div>
+      <div class="tipo-grid">
+        <div class="tipo-card selected">
+          <span class="tipo-badge badge-current">● Matrícula actual</span>
+          <div class="check-box on" style="right:12px;top:12px;">✓</div>
+          <div class="tipo-icon">🔄</div>
+          <div class="tipo-title">Renovar mi matrícula</div>
+          <div class="tipo-desc">Conserva tu disciplina y horario habitual. La renovación se activa automáticamente con la confirmación del pago.</div>
+        </div>
+        <div class="tipo-card">
+          <span class="tipo-badge badge-frozen">● Tarifa congelada</span>
+          <div class="check-box off" style="right:12px;top:12px;"></div>
+          <div class="tipo-icon">🔒</div>
+          <div class="tipo-title">Reservar cupo por adelantado</div>
+          <div class="tipo-desc">Asegura tu vacante para los próximos dos meses con aforo garantizado y congelando el precio actual.</div>
+        </div>
+      </div>
+
+      <div class="section-label">2. MATRÍCULA ACTUAL Y PERIODO A RENOVAR <span style="float:right;font-size:11px;color:#9ca3af;font-weight:400;">Expediente Socio: <strong style="color:#374151;">#1042</strong></span></div>
+      <div class="disc-block">
+        <div class="disc-top">
+          <div class="disc-left">
+            <div class="disc-logo">BJJ</div>
+            <div>
+              <div class="disc-name">Brazilian Jiu-Jitsu (Gi & No-Gi) <span class="disc-level">Nivel Intermedio</span></div>
+              <div class="disc-meta">
+                <span>⏱ Turno Noche: 19:00 – 20:30 PM (Lun a Vie)</span>
+                <span>👤 Profesor: Renzo Gracie</span>
+              </div>
+              <div class="disc-meta" style="margin-top:4px;"><span>📍 Sede Central Miraflores (Tatami Principal)</span></div>
+            </div>
+          </div>
+          <div class="vence-badge">
+            ⏱ Vence: 28 Mar 2025 (en 3 días)
+            <div class="sub">Tarifa base regular: S/. 150.00 / mes</div>
+          </div>
+        </div>
+
+        <div class="periodo-label">Elige el periodo de renovación</div>
+        <div class="periodo-grid">
+          <div class="periodo-card selected">
+            <div class="check">✓</div>
+            <div class="periodo-title">1 Mes</div>
+            <div class="periodo-price">S/. 150.00</div>
+            <div class="periodo-sub">Facturación mensual regular</div>
+          </div>
+          <div class="periodo-card">
+            <span class="off-badge">10% OFF</span>
+            <div class="periodo-title">3 Meses</div>
+            <div class="periodo-price">S/. 405.00</div>
+            <div class="periodo-orig">S/. 450.00</div>
+            <div class="periodo-save">Ahorras S/. 45.00 (S/. 135/mes)</div>
+          </div>
+          <div class="periodo-card">
+            <span class="off-badge">20% OFF</span>
+            <div class="periodo-title">6 Meses Semestral</div>
+            <div class="periodo-price">S/. 720.00</div>
+            <div class="periodo-orig">S/. 900.00</div>
+            <div class="periodo-save">Ahorras S/. 180.00 (S/. 120/mes)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="total-bar">
+        <div style="display:flex;align-items:center;">
+          <span class="total-icon">🔄</span>
+          <div>
+            <div class="total-label">TOTAL A LIQUIDAR</div>
+            <div><span class="total-amt">S/. 150.00</span> <span class="total-currency">PEN (IGV incluido)</span></div>
+            <div class="total-vence">Nueva fecha de vencimiento: <strong>28 de Abril de 2025</strong></div>
+          </div>
+        </div>
+        <div class="total-actions">
+          <button class="btn-cancel">Cancelar</button>
+          <button class="btn-pagar">Continuar a pagar renovación →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-bar">
+      <div class="trust-item"><div class="trust-icon">✅</div><div><div class="trust-title">Cupo y Turno Garantizado</div><div class="trust-sub">Mantiene tu vacante sin interrupción en el tatami.</div></div></div>
+      <div class="trust-item"><div class="trust-icon">⚡</div><div><div class="trust-title">Activación Inmediata</div><div class="trust-sub">Validación instantánea en los torniquetes de acceso.</div></div></div>
+      <div class="trust-item"><div class="trust-icon">📄</div><div><div class="trust-title">Comprobante Electrónico</div><div class="trust-sub">Emisión automática de boleta / factura con código QR.</div></div></div>
+    </div>
+  </main>
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
+</body>
+</html>

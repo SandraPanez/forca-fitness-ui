@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Control de Acceso — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;display:flex;flex-direction:column;min-height:100vh;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;flex-shrink:0;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:7px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:10px;color:#fff;}
+    .logo-text h1{font-size:12px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:9px;color:#9ca3af;}
+    .nav-links a{padding:6px 12px;font-size:12px;font-weight:500;color:#6b7280;text-decoration:none;border-radius:6px;}
+    .nav-links a.active{background:#eff6ff;color:#0d2d5e;font-weight:700;border:1.5px solid #bfdbfe;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .bell{position:relative;font-size:16px;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:32px;height:32px;background:#374151;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
+    .user-info .name{font-size:12px;font-weight:600;}
+    .user-info .role{font-size:10px;color:#9ca3af;}
+    /* LAYOUT */
+    .layout{display:flex;flex:1;overflow:hidden;}
+    main{flex:1;padding:20px 24px;overflow-y:auto;}
+    .sidebar{width:320px;background:#fff;border-left:1px solid #e5e7eb;padding:20px;overflow-y:auto;flex-shrink:0;}
+    /* HEADER */
+    .status-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+    .dot-green{width:8px;height:8px;background:#16a34a;border-radius:50%;}
+    .status-label{font-size:11px;font-weight:700;color:#15803d;letter-spacing:.5px;}
+    .status-sep{font-size:11px;color:#9ca3af;}
+    .realtime-badge{font-size:11px;color:#9ca3af;}
+    .page-title{font-size:24px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
+    .page-sub{font-size:12px;color:#6b7280;margin-bottom:16px;}
+    .disc-select-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .disc-label{font-size:11px;font-weight:700;color:#374151;letter-spacing:.3px;}
+    select{padding:8px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;}
+    .btn-scan{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    /* STATS */
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+    .stat{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px;}
+    .stat .title{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:8px;}
+    .stat .value{font-size:28px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
+    .stat.orange .value{color:#d97706;}
+    .stat.red .value{background:#fee2e2;color:#dc2626;border-radius:8px;padding:4px 12px;display:inline-block;font-size:22px;}
+    .stat .sub{font-size:11px;color:#9ca3af;display:flex;align-items:center;gap:5px;}
+    .stat .sub .ok{color:#16a34a;}
+    /* TABLE */
+    .table-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .search-box{position:relative;flex:1;max-width:280px;}
+    .search-box input{width:100%;padding:8px 12px 8px 32px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;}
+    .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:#9ca3af;}
+    .filter-tabs{display:flex;gap:6px;align-items:center;font-size:11px;font-weight:600;color:#374151;}
+    .filter-tabs span{margin-right:4px;font-size:11px;color:#9ca3af;}
+    .tab{padding:5px 10px;border-radius:6px;cursor:pointer;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:600;color:#6b7280;}
+    .tab.active{background:#0d2d5e;color:#fff;border-color:#0d2d5e;}
+    .table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;}
+    table{width:100%;border-collapse:collapse;}
+    thead th{padding:10px 14px;font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-align:left;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
+    tbody tr{border-bottom:1px solid #f3f4f6;cursor:pointer;}
+    tbody tr:hover{background:#f8fafc;}
+    td{padding:12px 14px;font-size:12px;vertical-align:middle;}
+    .av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+    .av-mg{background:#0d2d5e;}
+    .av-lf{background:#8b5cf6;}
+    .av-cb{background:#dc2626;}
+    .av-cs{background:#16a34a;}
+    .av-sm{background:#f59e0b;}
+    .av-rd{background:#374151;}
+    .av-mv{background:#0891b2;}
+    .alumno-cell{display:flex;align-items:center;gap:10px;}
+    .alumno-name{font-size:12px;font-weight:700;color:#111;}
+    .alumno-id{font-size:10px;color:#1d4ed8;font-weight:700;}
+    .alumno-sub{font-size:10px;color:#9ca3af;}
+    .badge-active{background:#dcfce7;color:#15803d;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;}
+    .badge-warn{background:#fef9c3;color:#92400e;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;}
+    .badge-inactive{background:#fee2e2;color:#dc2626;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;}
+    .badge-blocked{background:#1f2937;color:#fff;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;}
+    .date-warn{color:#d97706;font-size:11px;font-weight:600;}
+    .date-ok{color:#9ca3af;font-size:11px;}
+    .date-expired{color:#dc2626;font-size:11px;font-weight:700;}
+    .btn-ver{background:#fff;border:1.5px solid #e5e7eb;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;}
+    .pager{padding:10px 14px;font-size:11px;color:#9ca3af;display:flex;justify-content:space-between;align-items:center;}
+    .pager-btns{display:flex;gap:4px;}
+    .pager-btns button{width:28px;height:28px;border:1.5px solid #e5e7eb;border-radius:6px;font-size:11px;font-weight:600;background:#fff;cursor:pointer;}
+    .pager-btns button.active{background:#0d2d5e;color:#fff;border-color:#0d2d5e;}
+    /* SIDEBAR */
+    .sb-eyebrow{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:4px;}
+    .sb-title{font-size:15px;font-weight:800;color:#111;margin-bottom:16px;}
+    .close-btn{position:absolute;right:0;top:0;background:none;border:none;font-size:16px;cursor:pointer;color:#9ca3af;}
+    .sb-header{position:relative;margin-bottom:16px;}
+    .sb-alumno{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+    .sb-av{width:44px;height:44px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;}
+    .sb-name{font-size:14px;font-weight:800;color:#111;}
+    .sb-belt{font-size:11px;color:#6b7280;}
+    .sb-warn{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:14px;}
+    .sb-warn-title{font-size:11px;font-weight:700;color:#92400e;display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+    .sb-warn-body{font-size:11px;color:#78350f;line-height:1.5;}
+    .sb-section{margin-bottom:14px;}
+    .sb-section-title{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+    .sb-row{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;}
+    .sb-row .lbl{color:#9ca3af;}
+    .sb-row .val{font-weight:600;color:#111;font-size:11px;}
+    .sb-row .val-blue{color:#1d4ed8;font-weight:600;font-size:11px;}
+    .sb-actions{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+    .btn-green{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:11px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+    .btn-notify{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;color:#374151;}
+    .btn-close{background:none;border:none;font-size:12px;color:#9ca3af;cursor:pointer;text-align:center;width:100%;margin-top:6px;}
+    footer{text-align:center;padding:12px;font-size:10px;color:#9ca3af;border-top:1px solid #e5e7eb;}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CONTROL DE GIMNASIO & TATAMI</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="#" class="active">Control de acceso</a>
+      <a href="#">Horarios & Asistencias</a>
+      <a href="#">Alumnos de Clase</a>
+    </div>
+    <div class="nav-right">
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar">RG</div>
+      <div class="user-info"><div class="name">Prof. Renzo Gracie</div><div class="role">Head Coach · Sede Surco</div></div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <main>
+      <div class="status-bar">
+        <div class="dot-green"></div>
+        <span class="status-label">PROFESOR · TATAMI ACTIVO</span>
+        <span class="status-sep">·</span>
+        <span class="realtime-badge">· Actualizado en tiempo real</span>
+      </div>
+      <h1 class="page-title">Control de acceso</h1>
+      <p class="page-sub">Verifica la vigencia de matrícula y estado habilitante de los alumnos de tu disciplina antes del ingreso.</p>
+
+      <div class="disc-select-row">
+        <span class="disc-label">DISCIPLINA ACTIVA:</span>
+        <select style="min-width:200px;"><option>🥋 Brazilian Jiu-Jitsu (BJJ)</option></select>
+        <button class="btn-scan">📲 Escanear QR Alumno</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="title">ALUMNOS EN TATAMI</div>
+          <div class="value">24</div>
+          <div class="sub">en sesión actual &nbsp; <span style="font-size:16px;">👥</span></div>
+          <div class="sub" style="margin-top:4px;">⏱ Turno Noche 19:30 – 21:00</div>
+        </div>
+        <div class="stat">
+          <div class="title">ACCESOS PERMITIDOS</div>
+          <div class="value">38</div>
+          <div class="sub"><span class="ok">✓ 92.7%</span></div>
+          <div class="sub" style="margin-top:4px;">✓ Cuota al día / Habilitados</div>
+        </div>
+        <div class="stat red">
+          <div class="title" style="color:#dc2626;">ACCESOS RESTRINGIDOS</div>
+          <div class="value">3</div>
+          <div class="sub"><span style="background:#fee2e2;color:#dc2626;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:700;">Acción requerida</span></div>
+          <div class="sub" style="margin-top:4px;">🚫 Vencido / Inhabilitado</div>
+        </div>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Buscar alumno por nombre o apellido..."/>
+        </div>
+        <div class="filter-tabs">
+          <span>FILTRAR:</span>
+          <button class="tab active">Todos (41)</button>
+          <button class="tab">Activo (32)</button>
+          <button class="tab">Próximo a vencer (6)</button>
+          <button class="tab">Inactivo (2)</button>
+          <button class="tab">Inhabilitado (1)</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>ALUMNO</th><th>ESTADO DE ACCESO</th><th>VENCIMIENTO DE MATRÍCULA</th><th>PLAN / TURNO</th><th>ACCIÓN</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:#eff6ff;">
+              <td><div class="alumno-cell"><div class="av av-mg">MG</div><div><div class="alumno-name">Martín Gómez Silva <span class="alumno-id">#1042</span></div><div class="alumno-sub">DNI: 74839210 · Cinturón Azul (2° Grado)</div></div></div></td>
+              <td><span class="badge-warn">⏱ Próximo a vencer</span></td>
+              <td><div class="date-warn">28 Mar 2025</div><div class="date-warn" style="font-size:10px;">Vence en 3 días</div></td>
+              <td><div style="font-size:11px;font-weight:600;">BJJ Adultos Noche</div><div style="font-size:10px;color:#9ca3af;">Plan Mensual Regular</div></td>
+              <td><button class="btn-ver">Ver ficha ›</button></td>
+            </tr>
+            <tr>
+              <td><div class="alumno-cell"><div class="av av-lf">LF</div><div><div class="alumno-name">Lucía Fernández <span class="alumno-id">#1088</span></div><div class="alumno-sub">DNI: 38891124 · Cinturón Blanco (4 Rayas)</div></div></div></td>
+              <td><span class="badge-active">✓ Activo</span></td>
+              <td><div>15 May 2025</div><div class="date-ok">Vigente (51 días)</div></td>
+              <td><div style="font-size:11px;font-weight:600;">BJJ Femenino + No-Gi</div><div style="font-size:10px;color:#9ca3af;">Plan Trimestral Pase Libre</div></td>
+              <td><button class="btn-ver">Ver ficha ›</button></td>
+            </tr>
+            <tr>
+              <td><div class="alumno-cell"><div class="av av-cb">CB</div><div><div class="alumno-name">Carlos Benítez <span class="alumno-id">#0921</span></div><div class="alumno-sub">DNI: 35120449 · Cinturón Morado</div></div></div></td>
+              <td><span class="badge-inactive">⊗ Inactivo / Vencido</span></td>
+              <td><div class="date-expired">10 Mar 2025</div><div style="font-size:10px;color:#dc2626;">Venció hace 15 días</div></td>
+              <td><div style="font-size:11px;font-weight:600;">BJJ Avanzados</div><div style="font-size:10px;color:#dc2626;">Acceso restringido en torniquete</div></td>
+              <td><button class="btn-ver">Ver ficha ›</button></td>
+            </tr>
+            <tr>
+              <td><div class="alumno-cell"><div class="av av-cs">CS</div><div><div class="alumno-name">Camila Soria <span class="alumno-id">#1104</span></div><div class="alumno-sub">DNI: 44502119 · Cinturón Azul</div></div></div></td>
+              <td><span class="badge-active">✓ Activo</span></td>
+              <td><div>22 Jun 2025</div><div class="date-ok">Vigente (89 días)</div></td>
+              <td><div style="font-size:11px;font-weight:600;">BJJ + Acondicionamiento</div><div style="font-size:10px;color:#9ca3af;">Plan Semestral</div></td>
+              <td><button class="btn-ver">Ver ficha ›</button></td>
+            </tr>
+            <tr>
+              <td><div class="alumno-cell"><div class="av av-sm">SM</div><div><div class="alumno-name">Santiago Morales <span class="alumno-id">#1055</span></div><div class="alumno-sub">DNI: 39441770 · Cinturón Blanco (2 Rayas)</div></div></div></td>
+              <td><span class="badge-warn">⏱ Próximo a vencer</span></td>
+              <td><div class="date-warn">30 Mar 2025</div><div style="font-size:10px;color:#d97706;">Vence en 5 días</div></td>
+              <td><div style="font-size:11px;font-weight:600;">BJJ Fundamentos</div><div style="font-size:10px;color:#9ca3af;">Plan Mensual</div></td>
+              <td><button class="btn-ver">Ver ficha ›</button></td>
+            </tr>
+            <tr>
+              <td><div class="alumno-cell"><div class="av av-rd">RD</div><div><div class="alumno-name">Rodrigo De La Torre <span class="alumno-id">#0854</span></div><div class="alumno-sub">DNI: 41829033 · Cinturón Azul</div></div></div></td>
+              <td><span class="badge-blocked">⊘ Inhabilitado</span></td>
+              <td><div>12 Ago 2025</div><div style="font-size:10px;color:#9ca3af;">Congelamiento por lesión médica</div></td>
+              <td><div style="font-size:11px;font-weight:600;">BJJ Competición</div><div style="font-size:10px;color:#9ca3af;">Bloqueado temporalmente</div></td>
+              <td><button class="btn-ver">Ver ficha ›</button></td>
+            </tr>
+            <tr>
+              <td><div class="alumno-cell"><div class="av av-mv">MV</div><div><div class="alumno-name">Mateo Valdez <span class="alumno-id">#1201</span></div><div class="alumno-sub">DNI: 72019482 · Cinturón Blanco (1 Raya)</div></div></div></td>
+              <td><span class="badge-active">✓ Activo</span></td>
+              <td><div>18 Jul 2025</div><div class="date-ok">Vigente (115 días)</div></td>
+              <td><div style="font-size:11px;font-weight:600;">BJJ Fundamentos</div><div style="font-size:10px;color:#9ca3af;">Plan Semestral Estudiante</div></td>
+              <td><button class="btn-ver">Ver ficha ›</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pager">
+          <span>Mostrando 7 de 41 alumnos matriculados en Brazilian Jiu-Jitsu</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button class="btn-ver">Anterior</button>
+            <div class="pager-btns">
+              <button class="active">1</button><button>2</button><button>3</button><button>…</button><button>6</button>
+            </div>
+            <button class="btn-ver">Siguiente</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="sidebar">
+      <div class="sb-header">
+        <div class="sb-eyebrow">EXPEDIENTE DEPORTIVO &nbsp; Socio #1042</div>
+        <div class="sb-title">DETALLE DEL ALUMNO</div>
+        <button class="close-btn">✕</button>
+      </div>
+      <div class="sb-alumno">
+        <div class="sb-av">MG</div>
+        <div>
+          <div class="sb-name">Martín Gómez Silva</div>
+          <div class="sb-belt">Cinturón Azul · 2 Grados</div>
+          <span class="badge-warn" style="font-size:10px;padding:2px 7px;margin-top:4px;display:inline-block;">⏱ Próximo a vencer</span>
+          <span style="font-size:10px;color:#9ca3af;margin-left:6px;">Desde: Feb 2023</span>
+        </div>
+      </div>
+      <div class="sb-warn">
+        <div class="sb-warn-title">⚠ VENCIMIENTO CERCANO</div>
+        <div class="sb-warn-body">Su matrícula expira el <strong>28 de Marzo de 2025 (en 3 días)</strong>. Recuerda notificarle amablemente al culminar el entrenamiento.</div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-section-title">👤 INFORMACIÓN PERSONAL</div>
+        <div class="sb-row"><span class="lbl">Documento de Identidad (DNI):</span><span class="val">74839210</span></div>
+        <div class="sb-row"><span class="lbl">Correo electrónico:</span><span class="val-blue">martin.gomez@gmail.com</span></div>
+        <div class="sb-row"><span class="lbl">Teléfono / WhatsApp:</span><span class="val">+51 984 210 592</span></div>
+        <div class="sb-row"><span class="lbl">Contacto de emergencia:</span><span class="val" style="font-size:10px;">Rosa Silva (Madre) · 993 112 004</span></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-section-title">🥋 MATRÍCULA DEPORTIVA</div>
+        <div class="sb-row"><span class="lbl">Disciplina:</span><span class="val">Brazilian Jiu-Jitsu (BJJ)</span></div>
+        <div class="sb-row"><span class="lbl">Horario / Turno:</span><span class="val" style="font-size:10px;">Nocturno (Lunes a Viernes 19:30 – 21:00)</span></div>
+        <div class="sb-row"><span class="lbl">Tipo de Plan:</span><span class="val">Plan Mensual Regular Ilimitado</span></div>
+      </div>
+      <div class="sb-actions">
+        <button class="btn-green">✓ Marcar Asistencia</button>
+        <button class="btn-notify">🔔 Notificar Pago</button>
+        <button class="btn-close">Cerrar panel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>FORCA & FITNESS S.A.C. · © 2025 Todos los derechos reservados · Soporte Coach: coordinacion@forcafitness.com · Versión 2.4.0 (Módulo Profesor)</footer>
+</body>
+</html>
