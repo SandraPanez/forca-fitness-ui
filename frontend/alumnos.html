@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Alumnos — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
+    .nav-links a.active{background:#eff6ff;color:#0d2d5e;font-weight:700;border-radius:8px;border:1.5px solid #bfdbfe;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .bell{position:relative;font-size:17px;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .role{font-size:11px;color:#9ca3af;}
+    .page-wrap{display:grid;grid-template-columns:1fr 320px;gap:0;min-height:calc(100vh - 60px);}
+    .left-col{padding:28px 32px;overflow:auto;}
+    .right-col{background:#fff;border-left:1px solid #e5e7eb;padding:24px;}
+    .eyebrow{font-size:11px;font-weight:700;color:#0d2d5e;background:#eff6ff;border-radius:20px;padding:4px 12px;display:inline-flex;align-items:center;gap:5px;margin-bottom:12px;}
+    .eyebrow span{width:6px;height:6px;background:#0d2d5e;border-radius:50%;}
+    h1{font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
+    .page-sub{font-size:13px;color:#6b7280;margin-bottom:16px;}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+    .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 16px;}
+    .stat-label{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.4px;margin-bottom:4px;}
+    .stat-val{font-size:22px;font-weight:800;color:#0d2d5e;}
+    .stat-sub{font-size:11px;color:#9ca3af;margin-top:2px;}
+    .toolbar{display:flex;gap:10px;margin-bottom:16px;align-items:center;}
+    .search-wrap{position:relative;flex:1;}
+    .search-wrap input{width:100%;padding:9px 12px 9px 36px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .18s;}
+    .search-wrap input:focus{border-color:#0d2d5e;}
+    .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:#9ca3af;}
+    .select-filter{padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;cursor:pointer;}
+    .chip{background:#0d2d5e;color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:background .18s;}
+    .chip:hover{background:#0a2448;}
+    .table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:16px;}
+    table{width:100%;border-collapse:collapse;}
+    thead{background:#f9fafb;}
+    thead th{padding:11px 16px;font-size:11px;font-weight:700;color:#9ca3af;text-align:left;letter-spacing:.3px;border-bottom:1px solid #e5e7eb;}
+    tbody tr{cursor:pointer;transition:background .12s;}
+    tbody tr:hover{background:#f9fafb;}
+    tbody tr.selected{background:#eff6ff;}
+    tbody td{padding:12px 16px;font-size:13px;border-bottom:1px solid #f3f4f6;vertical-align:middle;}
+    tbody tr:last-child td{border-bottom:none;}
+    tbody tr.hidden{display:none!important;}
+    .alumno-name{font-weight:700;color:#111;}
+    .alumno-disc{font-size:11px;color:#6b7280;margin-top:1px;}
+    .badge{border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;white-space:nowrap;}
+    .badge-active{background:#dcfce7;color:#15803d;}
+    .badge-vencer{background:#fef9c3;color:#92400e;}
+    .badge-vencida{background:#fee2e2;color:#dc2626;}
+    .btn-ver{padding:5px 12px;border-radius:6px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:600;cursor:pointer;color:#374151;transition:all .15s;}
+    .btn-ver:hover,.btn-ver.active-row{background:#0d2d5e;color:#fff;border-color:#0d2d5e;}
+    .sidebar-title{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.4px;margin-bottom:14px;}
+    .alumno-card{text-align:center;margin-bottom:16px;}
+    .alumno-avatar{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;margin:0 auto 8px;background:#0d2d5e;}
+    .alumno-full-name{font-size:16px;font-weight:800;color:#111;margin-bottom:3px;}
+    .alumno-id{font-size:12px;color:#9ca3af;margin-bottom:8px;}
+    .alumno-status{display:inline-flex;align-items:center;gap:5px;border-radius:6px;padding:4px 12px;font-size:11px;font-weight:700;}
+    .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:12px;}
+    .info-row:last-child{border-bottom:none;}
+    .info-label{color:#9ca3af;font-weight:600;}
+    .info-val{color:#374151;font-weight:600;text-align:right;}
+    .info-val.blue{color:#0d2d5e;font-weight:700;}
+    .section-sep{height:1px;background:#f3f4f6;margin:12px 0;}
+    .sidebar-actions{display:flex;flex-direction:column;gap:7px;margin-top:14px;}
+    .btn-side{width:100%;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .18s;}
+    .btn-side-primary{background:#0d2d5e;color:#fff;}
+    .btn-side-primary:hover{background:#0a2448;}
+    .btn-side-secondary{background:#fff;border:1.5px solid #e5e7eb;color:#374151;}
+    .btn-side-secondary:hover{background:#f9fafb;}
+    .btn-side-warn{background:#fff;border:1.5px solid #fca5a5;color:#dc2626;}
+    .btn-side-warn:hover{background:#fee2e2;}
+    footer{text-align:center;padding:14px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;}
+    footer a{color:#0d2d5e;text-decoration:none;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
+    .toast.show{opacity:1;transform:translateY(0);}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="#" class="active">👥 Alumnos</a>
+      <a href="control_acceso.html">Control de Acceso</a>
+      <a href="tesoreria.html">Tesorería</a>
+      <a href="disciplinas.html">Clases</a>
+    </div>
+    <div class="nav-right">
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
+      <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="left-col">
+      <div class="eyebrow"><span></span> GESTIÓN DE SOCIOS</div>
+      <h1>Padrón de Alumnos</h1>
+      <p class="page-sub">Registro completo de socios activos, próximos a vencer y vencidos.</p>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-label">SOCIOS ACTIVOS</div><div class="stat-val">3</div><div class="stat-sub">↑ 2 esta semana</div></div>
+        <div class="stat-card"><div class="stat-label">PRÓX. A VENCER</div><div class="stat-val">2</div><div class="stat-sub">En los próx. 7 días</div></div>
+        <div class="stat-card"><div class="stat-label">VENCIDOS</div><div class="stat-val">1</div><div class="stat-sub">Requieren contacto</div></div>
+        <div class="stat-card"><div class="stat-label">TOTAL SOCIOS</div><div class="stat-val">5</div><div class="stat-sub">Ciclo 2025</div></div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar alumno por nombre, DNI o disciplina..." oninput="buscar()"/>
+        </div>
+        <select class="select-filter" id="filterEstado" onchange="filtrarEstado()">
+          <option value="">Todos los estados</option>
+          <option value="badge-active">Activo</option>
+          <option value="badge-vencer">Próx. a vencer</option>
+          <option value="badge-vencida">Vencido</option>
+        </select>
+        <select class="select-filter">
+          <option>Todas las disciplinas</option>
+          <option>BJJ</option>
+          <option>Muay Thai</option>
+          <option>Boxeo</option>
+        </select>
+        <button class="chip" onclick="resetFiltros()">↺ Limpiar</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ALUMNO</th>
+              <th>SEDE</th>
+              <th>DISCIPLINA</th>
+              <th>ESTADO</th>
+              <th>VENCE</th>
+              <th>ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="selected" data-id="1" onclick="selRow(this,1)">
+              <td><div class="alumno-name">Martín Gómez Silva</div><div class="alumno-disc">Socio #1042 · DNI 47123456</div></td>
+              <td>Miraflores</td><td>Brazilian Jiu-Jitsu</td>
+              <td><span class="badge badge-vencer">⏱ Próx. a vencer</span></td>
+              <td>28 Mar 2025</td>
+              <td><button class="btn-ver active-row" onclick="event.stopPropagation();selRow(this.closest('tr'),1)">Ver</button></td>
+            </tr>
+            <tr data-id="2" onclick="selRow(this,2)">
+              <td><div class="alumno-name">Sofía Martínez Ruiz</div><div class="alumno-disc">Socia #1055 · DNI 48234567</div></td>
+              <td>San Isidro</td><td>Muay Thai</td>
+              <td><span class="badge badge-vencer">⏱ Próx. a vencer</span></td>
+              <td>31 Mar 2025</td>
+              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),2)">Ver</button></td>
+            </tr>
+            <tr data-id="3" onclick="selRow(this,3)">
+              <td><div class="alumno-name">Luis Fernando Torres</div><div class="alumno-disc">Socio #1061 · DNI 49345678</div></td>
+              <td>Miraflores</td><td>Boxeo Clásico</td>
+              <td><span class="badge badge-active">✓ Activo</span></td>
+              <td>15 Jun 2025</td>
+              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),3)">Ver</button></td>
+            </tr>
+            <tr data-id="4" onclick="selRow(this,4)">
+              <td><div class="alumno-name">Carla Sofía Benítez</div><div class="alumno-disc">Socia #1072 · DNI 50456789</div></td>
+              <td>San Isidro</td><td>Capoeira</td>
+              <td><span class="badge badge-active">✓ Activo</span></td>
+              <td>30 Abr 2025</td>
+              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),4)">Ver</button></td>
+            </tr>
+            <tr data-id="5" onclick="selRow(this,5)">
+              <td><div class="alumno-name">Carlos Barrón Díaz</div><div class="alumno-disc">Socio #0981 · DNI 44567890</div></td>
+              <td>Miraflores</td><td>Brazilian Jiu-Jitsu</td>
+              <td><span class="badge badge-vencida">✕ Vencido</span></td>
+              <td>01 Mar 2025</td>
+              <td><button class="btn-ver" onclick="event.stopPropagation();selRow(this.closest('tr'),5)">Ver</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="sidebar-title">DETALLE DEL ALUMNO SELECCIONADO</div>
+      <div class="alumno-card">
+        <div class="alumno-avatar" id="sb-avatar">MG</div>
+        <div class="alumno-full-name" id="sb-name">Martín Gómez Silva</div>
+        <div class="alumno-id" id="sb-id">Socio #1042 · DNI 47123456</div>
+        <span class="alumno-status badge-vencer" id="sb-status">⏱ Próx. a vencer</span>
+      </div>
+      <div class="section-sep"></div>
+      <div class="info-row"><span class="info-label">📍 Sede</span><span class="info-val" id="sb-sede">Miraflores</span></div>
+      <div class="info-row"><span class="info-label">🥋 Disciplina</span><span class="info-val blue" id="sb-disc">Brazilian Jiu-Jitsu</span></div>
+      <div class="info-row"><span class="info-label">📅 Vence</span><span class="info-val" id="sb-vence">28 Mar 2025</span></div>
+      <div class="info-row"><span class="info-label">📱 Teléfono</span><span class="info-val" id="sb-tel">+51 987 654 321</span></div>
+      <div class="info-row"><span class="info-label">📧 Correo</span><span class="info-val" id="sb-email">mgomez@email.com</span></div>
+      <div class="info-row"><span class="info-label">🎂 Edad</span><span class="info-val" id="sb-edad">28 años</span></div>
+      <div class="info-row"><span class="info-label">📋 Inscripción</span><span class="info-val" id="sb-inscripcion">15 Ene 2024</span></div>
+      <div class="section-sep"></div>
+      <div class="sidebar-actions">
+        <button class="btn-side btn-side-primary" onclick="location.href='renovar.html'">🔄 Renovar matrícula</button>
+        <button class="btn-side btn-side-secondary" onclick="location.href='pagos.html'">💳 Ver historial de pagos</button>
+        <button class="btn-side btn-side-secondary" onclick="location.href='editar-perfil.html'">✏️ Editar datos</button>
+        <button class="btn-side btn-side-warn">🚫 Dar de baja</button>
+      </div>
+    </div>
+  </div>
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a></footer>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    var alumnos = {
+      1:{avatar:'MG',name:'Martín Gómez Silva',id:'Socio #1042 · DNI 47123456',status:'badge-vencer',statusTxt:'⏱ Próx. a vencer',sede:'Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'28 Mar 2025',tel:'+51 987 654 321',email:'mgomez@email.com',edad:'28 años',inscripcion:'15 Ene 2024'},
+      2:{avatar:'SM',name:'Sofía Martínez Ruiz',id:'Socia #1055 · DNI 48234567',status:'badge-vencer',statusTxt:'⏱ Próx. a vencer',sede:'San Isidro',disc:'Muay Thai',vence:'31 Mar 2025',tel:'+51 976 543 210',email:'smartinez@email.com',edad:'24 años',inscripcion:'02 Feb 2024'},
+      3:{avatar:'LF',name:'Luis Fernando Torres',id:'Socio #1061 · DNI 49345678',status:'badge-active',statusTxt:'✓ Activo',sede:'Miraflores',disc:'Boxeo Clásico',vence:'15 Jun 2025',tel:'+51 965 432 109',email:'lftorres@email.com',edad:'31 años',inscripcion:'10 Oct 2024'},
+      4:{avatar:'CB',name:'Carla Sofía Benítez',id:'Socia #1072 · DNI 50456789',status:'badge-active',statusTxt:'✓ Activo',sede:'San Isidro',disc:'Capoeira',vence:'30 Abr 2025',tel:'+51 954 321 098',email:'csbenitez@email.com',edad:'22 años',inscripcion:'18 Sep 2024'},
+      5:{avatar:'CB',name:'Carlos Barrón Díaz',id:'Socio #0981 · DNI 44567890',status:'badge-vencida',statusTxt:'✕ Vencido',sede:'Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'01 Mar 2025',tel:'+51 943 210 987',email:'cbarron@email.com',edad:'35 años',inscripcion:'05 May 2023'}
+    };
+
+    function selRow(tr, id) {
+      document.querySelectorAll('#tableBody tr').forEach(function(r){
+        r.classList.remove('selected');
+        var b=r.querySelector('.btn-ver'); if(b) b.classList.remove('active-row');
+      });
+      tr.classList.add('selected');
+      var btn=tr.querySelector('.btn-ver'); if(btn) btn.classList.add('active-row');
+      var a=alumnos[id];
+      document.getElementById('sb-avatar').textContent=a.avatar;
+      document.getElementById('sb-name').textContent=a.name;
+      document.getElementById('sb-id').textContent=a.id;
+      var s=document.getElementById('sb-status'); s.textContent=a.statusTxt; s.className='alumno-status '+a.status;
+      document.getElementById('sb-sede').textContent=a.sede;
+      document.getElementById('sb-disc').textContent=a.disc;
+      document.getElementById('sb-vence').textContent=a.vence;
+      document.getElementById('sb-tel').textContent=a.tel;
+      document.getElementById('sb-email').textContent=a.email;
+      document.getElementById('sb-edad').textContent=a.edad;
+      document.getElementById('sb-inscripcion').textContent=a.inscripcion;
+      toast('👤 '+a.name+' seleccionado/a');
+    }
+
+    function buscar() {
+      var q=document.getElementById('searchInput').value.toLowerCase();
+      var e=document.getElementById('filterEstado').value;
+      document.querySelectorAll('#tableBody tr').forEach(function(tr){
+        var matchQ=!q||tr.textContent.toLowerCase().includes(q);
+        var matchE=!e||tr.querySelector('.'+e);
+        if(matchQ&&matchE) tr.classList.remove('hidden'); else tr.classList.add('hidden');
+      });
+    }
+
+    function filtrarEstado(){ buscar(); }
+    function resetFiltros(){
+      document.getElementById('searchInput').value='';
+      document.getElementById('filterEstado').value='';
+      document.querySelectorAll('#tableBody tr').forEach(function(tr){tr.classList.remove('hidden');});
+      toast('↺ Filtros eliminados');
+    }
+
+    function toast(msg){
+      var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+      clearTimeout(t._timer); t._timer=setTimeout(function(){t.classList.remove('show');},2200);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comprobante de Pago — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:7px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:10px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .nav-links a{padding:6px 12px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;}
+    .nav-links a.active{color:#0d2d5e;font-weight:700;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .bell{position:relative;font-size:17px;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:32px;height:32px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
+    .user-info .name{font-size:12px;font-weight:600;}
+    .user-info .role{font-size:10px;color:#9ca3af;}
+    main{max-width:960px;margin:0 auto;padding:24px 32px;}
+    .page-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;}
+    .breadcrumb{font-size:11px;color:#9ca3af;margin-bottom:6px;}
+    .breadcrumb span{color:#0d2d5e;}
+    .badge-valid{background:#dcfce7;color:#15803d;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;margin-left:12px;}
+    .page-title{font-size:26px;font-weight:800;color:#0d2d5e;display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+    .page-sub{font-size:12px;color:#9ca3af;margin-top:4px;}
+    .btn-row{display:flex;gap:10px;}
+    .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .btn-secondary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .btn-outline{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;}
+    /* RECEIPT */
+    .receipt{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;max-width:720px;margin:0 auto;}
+    .receipt-header{background:#0d2d5e;padding:24px 32px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .rh-left{display:flex;align-items:flex-start;gap:16px;}
+    .rh-logo{background:#1a4a8a;border-radius:8px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;}
+    .rh-company h2{font-size:16px;font-weight:800;color:#fff;letter-spacing:.5px;}
+    .rh-company p{font-size:11px;color:#8ab0d4;margin-top:2px;}
+    .rh-company .addr{font-size:11px;color:#8ab0d4;margin-top:4px;}
+    .rh-right{text-align:right;}
+    .rh-right .label{font-size:10px;color:#8ab0d4;letter-spacing:.5px;}
+    .rh-right .number{font-size:20px;font-weight:800;color:#fff;margin-top:2px;}
+    .rh-right .meta{font-size:11px;color:#8ab0d4;margin-top:6px;line-height:1.6;}
+    .receipt-body{padding:28px 32px;}
+    .section{margin-bottom:24px;}
+    .section-title{font-size:11px;font-weight:700;color:#0d2d5e;letter-spacing:.5px;display:flex;align-items:center;gap:6px;margin-bottom:12px;}
+    .section-sub{float:right;font-size:11px;color:#9ca3af;font-weight:400;}
+    .info-grid{background:#f9fafb;border-radius:10px;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    .info-item .label{font-size:10px;color:#9ca3af;letter-spacing:.3px;margin-bottom:4px;}
+    .info-item .value{font-size:13px;font-weight:700;color:#111;}
+    .info-item .sub{font-size:11px;color:#9ca3af;}
+    .info-item .value-blue{color:#1d4ed8;font-size:13px;font-weight:700;}
+    table{width:100%;border-collapse:collapse;}
+    thead th{padding:10px 14px;font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.5px;text-align:left;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
+    tbody td{padding:14px;font-size:13px;border-bottom:1px solid #f3f4f6;}
+    .plan-pill{background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;}
+    .pay-method{display:flex;align-items:center;gap:6px;font-size:13px;}
+    .ref-code{font-family:monospace;font-size:12px;color:#374151;}
+    .badge-approved{background:#dcfce7;color:#15803d;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;}
+    /* TOTAL */
+    .total-block{background:linear-gradient(135deg,#0d2d5e,#1a4a8a);border-radius:10px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;color:#fff;margin-bottom:20px;}
+    .total-block .total-label{font-size:12px;font-weight:700;letter-spacing:.5px;color:#8ab0d4;}
+    .total-block .total-amt{font-size:34px;font-weight:800;}
+    .total-block .total-right{text-align:right;}
+    .total-block .total-letters{font-size:12px;color:#8ab0d4;letter-spacing:.3px;margin-bottom:4px;}
+    .total-block .total-breakdown{font-size:11px;color:#8ab0d4;}
+    /* LEGAL */
+    .legal-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .legal-left p{font-size:12px;color:#374151;line-height:1.6;}
+    .legal-left .hash{font-size:11px;color:#9ca3af;font-family:monospace;margin-top:8px;}
+    .legal-right{background:#f9fafb;border-radius:8px;padding:16px;text-align:center;}
+    .signature-line{height:40px;border-bottom:2px solid #9ca3af;width:140px;margin:0 auto 10px;}
+    .sig-name{font-size:13px;font-weight:700;color:#111;}
+    .sig-role{font-size:11px;color:#9ca3af;}
+    .badge-signed{background:#dcfce7;color:#15803d;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;margin-top:6px;}
+    .receipt-footer{background:#f9fafb;border-top:1px solid #e5e7eb;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
+    .rf-left{font-size:11px;color:#9ca3af;}
+    .rf-right{display:flex;align-items:center;gap:14px;font-size:12px;color:#374151;}
+    .rf-right a{color:#0d2d5e;font-weight:600;text-decoration:none;}
+    .bottom-link{text-align:center;padding:16px;font-size:12px;color:#9ca3af;border-top:1px solid #e5e7eb;}
+    .bottom-link a{color:#0d2d5e;font-weight:700;text-decoration:none;}
+    footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
+    /* ── HOVER & TRANSITION EFFECTS ── */
+    a{transition:color .18s ease;}
+    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
+    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
+    button:active{transform:translateY(0);}
+    .btn-primary:hover{background:#0a2448;}
+    .btn-secondary:hover{background:#0a2448;}
+    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-pagar:hover{background:#0a2448;}
+    .btn-save:hover{background:#0a2448;}
+    .btn-confirm:hover{background:#0a2448;}
+    .btn-reject:hover{background:#f3f4f6;}
+    .btn-refresh:hover{background:#0a2448;}
+    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
+    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
+    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
+    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
+    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
+    .card-link:hover{opacity:.75;}
+    .comp-link:hover{opacity:.75;}
+    .back-link:hover{color:#0d2d5e;}
+    tbody tr{transition:background .15s ease;}
+    tbody tr:hover{background:#f9fafb;}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1></div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="alumnos.html">Alumnos</a>
+      <a href="mis-matriculas.html">Matrículas</a>
+      <a href="pagos.html" class="active">Pagos</a>
+      <a href="tesoreria.html">Tesorería</a>
+    </div>
+    <div class="nav-right">
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar">VR</div>
+      <div class="user-info"><div class="name">Valeria Rossi</div><div class="role">Coordinación General</div></div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-top">
+      <div>
+        <div class="breadcrumb">TESORERÍA · MÓDULO DE PAGOS</div>
+        <div class="page-title">Comprobante de pago <span class="badge-valid">✓ Transacción Validada</span></div>
+        <p class="page-sub">Generado automáticamente después de aprobar el pago.</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary">⬇ Descargar comprobante</button>
+        <button class="btn-secondary">✉ Enviar por correo</button>
+        <button class="btn-outline" onclick="location.href='pagos.html'">← Volver a pagos</button>
+      </div>
+    </div>
+
+    <div class="receipt">
+      <div class="receipt-header">
+        <div class="rh-left">
+          <div class="rh-logo">F&F</div>
+          <div class="rh-company">
+            <h2>ACADEMIA FORCA & FITNESS</h2>
+            <p>COMPROBANTE DE PAGO ELECTRÓNICO</p>
+            <p class="addr">📋 R.U.C. 20608945120 · Forca & Fitness S.A.C.</p>
+            <p class="addr">📍 Av. Las Flores 450, Miraflores, Lima – Perú</p>
+          </div>
+        </div>
+        <div class="rh-right">
+          <div class="label">N° DE COMPROBANTE</div>
+          <div class="number">B001-0004821</div>
+          <div class="meta">Fecha emisión: 28 de Marzo de 2025<br>Hora: 11:42 AM<br>Moneda: Soles (PEN)</div>
+        </div>
+      </div>
+
+      <div class="receipt-body">
+        <div class="section">
+          <div class="section-title">👤 DATOS DEL ALUMNO <span class="section-sub">Expediente Socio #1042</span></div>
+          <div class="info-grid">
+            <div class="info-item"><div class="label">NOMBRE DEL ALUMNO</div><div class="value">Martín Gómez Silva</div><div class="sub">martin.gomez@gmail.com</div></div>
+            <div class="info-item"><div class="label">DNI / DOCUMENTO</div><div class="value">74839210</div><div class="sub">Documento Nacional de Identidad</div></div>
+            <div class="info-item"><div class="label">DISCIPLINA INSCRITA</div><div class="value-blue">Brazilian Jiu-Jitsu</div><div class="sub">Nivel Intermedio · Sede Central</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">💳 DETALLE DEL PAGO <span class="section-sub">Período: Abril 2025</span></div>
+          <table>
+            <thead>
+              <tr><th>CONCEPTO</th><th>PLAN</th><th>MÉTODO DE PAGO</th><th>REFERENCIA</th><th>ESTADO</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Matrícula + Mensualidad BJJ</strong><br><span style="font-size:11px;color:#9ca3af;">Acceso ilimitado a clases y tatami</span></td>
+                <td><span class="plan-pill">Mensual</span></td>
+                <td><div class="pay-method">📱 Yape / Transferencia BCP</div></td>
+                <td><span class="ref-code">0P–849201</span></td>
+                <td><span class="badge-approved">✓ Aprobado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="total-block">
+          <div>
+            <div class="total-label">TOTAL PAGADO</div>
+            <div class="total-amt">S/. 250.00</div>
+          </div>
+          <div class="total-right">
+            <div class="total-letters">IMPORTE EN LETRAS</div>
+            <div style="font-size:14px;font-weight:700;color:#fff;">SON: DOSCIENTOS CINCUENTA CON 00/100 SOLES</div>
+            <div class="total-breakdown">IGV (18% incluido): S/. 38.14 &nbsp;·&nbsp; Subtotal: S/. 211.86</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🛡 Validez Legal y Verificación</div>
+          <div class="legal-row">
+            <div class="legal-left">
+              <p>Este documento es una constancia digital oficial emitida de conformidad con los registros financieros de Forca & Fitness S.A.C.</p>
+              <p class="hash">HASH: 8e9f2c...41a7b &nbsp;·&nbsp; ID TRX: 20250328-9842</p>
+            </div>
+            <div class="legal-right">
+              <div class="signature-line"></div>
+              <div class="sig-name">Lic. Valeria Rossi</div>
+              <div class="sig-role">Tesorería & Control Financiero</div>
+              <div class="badge-signed">🔏 Firma Digital Autorizada</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="receipt-footer">
+        <div class="rf-left">© 2025 Forca & Fitness Management System. Documento válido para fines administrativos y deportivos.</div>
+        <div class="rf-right">Soporte: <a href="#">tesoreria@forcafitness.com</a> &nbsp; 🖨 <a href="#">Imprimir</a></div>
+      </div>
+
+      <div class="bottom-link">❓ ¿Deseas reenviar el comprobante a otro destinatario o corregir algún dato fiscal? &nbsp;<a href="#">Gestionar facturación</a></div>
+    </div>
+  </main>
+  <footer>© 2025 Forca & Fitness Management System. Todos los derechos reservados. &nbsp;·&nbsp; Soporte Técnico · Versión 2.4.0</footer>
+</body>
+</html>

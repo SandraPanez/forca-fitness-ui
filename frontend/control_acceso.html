@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Control de Acceso — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
+    .nav-links a.active{background:#eff6ff;color:#0d2d5e;font-weight:700;border-radius:8px;border:1.5px solid #bfdbfe;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .bell{position:relative;font-size:17px;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .role{font-size:11px;color:#9ca3af;}
+    .page-wrap{display:grid;grid-template-columns:1fr 300px;gap:0;min-height:calc(100vh - 60px);}
+    .left-col{padding:28px 32px;overflow:auto;}
+    .right-col{background:#fff;border-left:1px solid #e5e7eb;padding:24px;}
+    .eyebrow{font-size:11px;font-weight:700;color:#15803d;background:#dcfce7;border-radius:20px;padding:4px 12px;display:inline-flex;align-items:center;gap:5px;margin-bottom:12px;}
+    .eyebrow span{width:6px;height:6px;background:#16a34a;border-radius:50%;animation:pulse 1.5s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+    h1{font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
+    .page-sub{font-size:13px;color:#6b7280;margin-bottom:16px;}
+    .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
+    .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;}
+    .stat-label{font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:.4px;margin-bottom:3px;}
+    .stat-val{font-size:20px;font-weight:800;color:#0d2d5e;}
+    .tabs-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+    .tab{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #e5e7eb;background:#fff;color:#6b7280;transition:all .15s;}
+    .tab:hover{border-color:#0d2d5e;color:#0d2d5e;}
+    .tab.active{background:#0d2d5e;color:#fff;border-color:#0d2d5e;}
+    .tab-warn.active{background:#d97706;border-color:#d97706;}
+    .tab-inactive.active{background:#6b7280;border-color:#6b7280;}
+    .tab-blocked.active{background:#dc2626;border-color:#dc2626;}
+    .table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;}
+    table{width:100%;border-collapse:collapse;}
+    thead{background:#f9fafb;}
+    thead th{padding:10px 14px;font-size:11px;font-weight:700;color:#9ca3af;text-align:left;letter-spacing:.3px;border-bottom:1px solid #e5e7eb;}
+    tbody tr{cursor:pointer;transition:background .12s;}
+    tbody tr:hover{background:#f9fafb;}
+    tbody tr.selected{background:#eff6ff;}
+    tbody tr.hidden{display:none!important;}
+    tbody td{padding:11px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;vertical-align:middle;}
+    tbody tr:last-child td{border-bottom:none;}
+    .alumno-name{font-weight:700;color:#111;}
+    .alumno-sub{font-size:11px;color:#6b7280;margin-top:1px;}
+    .badge{border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;}
+    .badge-warn{background:#fef9c3;color:#92400e;}
+    .badge-active{background:#dcfce7;color:#15803d;}
+    .badge-inactive{background:#f3f4f6;color:#374151;}
+    .badge-blocked{background:#fee2e2;color:#dc2626;}
+    .acc-time{font-size:11px;color:#6b7280;}
+    .sidebar-title{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.4px;margin-bottom:14px;}
+    .alumno-card{text-align:center;margin-bottom:16px;}
+    .alumno-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;margin:0 auto 8px;background:#0d2d5e;}
+    .alumno-full-name{font-size:15px;font-weight:800;color:#111;margin-bottom:3px;}
+    .alumno-id-s{font-size:12px;color:#9ca3af;margin-bottom:8px;}
+    .info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f3f4f6;font-size:12px;}
+    .info-row:last-child{border-bottom:none;}
+    .info-label{color:#9ca3af;font-weight:600;}
+    .info-val{color:#374151;font-weight:600;text-align:right;}
+    .info-val.blue{color:#0d2d5e;}
+    .info-val.warn{color:#d97706;}
+    .info-val.ok{color:#16a34a;}
+    .info-val.danger{color:#dc2626;}
+    .section-sep{height:1px;background:#f3f4f6;margin:12px 0;}
+    .sidebar-actions{display:flex;flex-direction:column;gap:7px;margin-top:14px;}
+    .btn-side{width:100%;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .18s;}
+    .btn-side-primary{background:#0d2d5e;color:#fff;} .btn-side-primary:hover{background:#0a2448;}
+    .btn-side-secondary{background:#fff;border:1.5px solid #e5e7eb;color:#374151;} .btn-side-secondary:hover{background:#f9fafb;}
+    .btn-side-green{background:#dcfce7;color:#15803d;border:1.5px solid #bbf7d0;} .btn-side-green:hover{background:#bbf7d0;}
+    .btn-side-warn{background:#fff;border:1.5px solid #fca5a5;color:#dc2626;} .btn-side-warn:hover{background:#fee2e2;}
+    .access-log{margin-top:12px;}
+    .log-item{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid #f3f4f6;font-size:11px;}
+    .log-item:last-child{border-bottom:none;}
+    .log-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+    .dot-green{background:#16a34a;}
+    .dot-red{background:#dc2626;}
+    .log-time{color:#9ca3af;min-width:52px;font-size:10px;}
+    .log-desc{color:#374151;}
+    footer{text-align:center;padding:14px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;}
+    footer a{color:#0d2d5e;text-decoration:none;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
+    .toast.show{opacity:1;transform:translateY(0);}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="alumnos.html">Alumnos</a>
+      <a href="#" class="active">🛡 Control de Acceso</a>
+      <a href="tesoreria.html">Tesorería</a>
+      <a href="disciplinas.html">Clases</a>
+    </div>
+    <div class="nav-right">
+      <div class="bell">🔔<span class="bell-dot"></span></div>
+      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
+      <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="left-col">
+      <div class="eyebrow"><span></span> ACCESO EN TIEMPO REAL</div>
+      <h1>Control de Acceso y Torniquetes</h1>
+      <p class="page-sub">Monitoreo de ingresos por QR, estado de membresías y habilitación de socios.</p>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-label">TOTAL</div><div class="stat-val">41</div></div>
+        <div class="stat-card"><div class="stat-label">ACTIVOS</div><div class="stat-val" style="color:#16a34a;">32</div></div>
+        <div class="stat-card"><div class="stat-label">PRÓX. VENCER</div><div class="stat-val" style="color:#d97706;">6</div></div>
+        <div class="stat-card"><div class="stat-label">INACTIVOS</div><div class="stat-val" style="color:#6b7280;">2</div></div>
+        <div class="stat-card"><div class="stat-label">INHABILITADOS</div><div class="stat-val" style="color:#dc2626;">1</div></div>
+      </div>
+
+      <div class="tabs-row">
+        <button class="tab active" onclick="filtrarTab('',this)">Todos (41)</button>
+        <button class="tab" onclick="filtrarTab('badge-active',this)">Activo (32)</button>
+        <button class="tab tab-warn" onclick="filtrarTab('badge-warn',this)">Próx. a vencer (6)</button>
+        <button class="tab tab-inactive" onclick="filtrarTab('badge-inactive',this)">Inactivo (2)</button>
+        <button class="tab tab-blocked" onclick="filtrarTab('badge-blocked',this)">Inhabilitado (1)</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ALUMNO</th><th>SEDE</th><th>DISCIPLINA</th><th>ESTADO</th><th>ÚLTIMO ACCESO</th><th>MÉTODO</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="selected" data-id="1" onclick="selRow(this,1)">
+              <td><div class="alumno-name">Martín Gómez Silva</div><div class="alumno-sub">Socio #1042</div></td>
+              <td>Miraflores</td><td>BJJ</td>
+              <td><span class="badge badge-warn">⏱ Próx. a vencer</span></td>
+              <td><div class="acc-time">Hoy, 19:03</div></td>
+              <td>📱 QR</td>
+            </tr>
+            <tr data-id="2" onclick="selRow(this,2)">
+              <td><div class="alumno-name">Sofía Martínez Ruiz</div><div class="alumno-sub">Socia #1055</div></td>
+              <td>San Isidro</td><td>Muay Thai</td>
+              <td><span class="badge badge-warn">⏱ Próx. a vencer</span></td>
+              <td><div class="acc-time">Hoy, 17:45</div></td>
+              <td>📱 QR</td>
+            </tr>
+            <tr data-id="3" onclick="selRow(this,3)">
+              <td><div class="alumno-name">Luis Fernando Torres</div><div class="alumno-sub">Socio #1061</div></td>
+              <td>Miraflores</td><td>Boxeo</td>
+              <td><span class="badge badge-active">✓ Activo</span></td>
+              <td><div class="acc-time">Hoy, 08:12</div></td>
+              <td>🎫 Tarjeta</td>
+            </tr>
+            <tr data-id="4" onclick="selRow(this,4)">
+              <td><div class="alumno-name">Carla Sofía Benítez</div><div class="alumno-sub">Socia #1072</div></td>
+              <td>San Isidro</td><td>Capoeira</td>
+              <td><span class="badge badge-active">✓ Activo</span></td>
+              <td><div class="acc-time">Ayer, 10:30</div></td>
+              <td>📱 QR</td>
+            </tr>
+            <tr data-id="5" onclick="selRow(this,5)">
+              <td><div class="alumno-name">Miguel Vargas León</div><div class="alumno-sub">Socio #1038</div></td>
+              <td>Miraflores</td><td>BJJ + Gym</td>
+              <td><span class="badge badge-active">✓ Activo</span></td>
+              <td><div class="acc-time">Hoy, 06:55</div></td>
+              <td>📱 QR</td>
+            </tr>
+            <tr data-id="6" onclick="selRow(this,6)">
+              <td><div class="alumno-name">Carlos Barrón Díaz</div><div class="alumno-sub">Socio #0981</div></td>
+              <td>Miraflores</td><td>BJJ</td>
+              <td><span class="badge badge-inactive">— Inactivo</span></td>
+              <td><div class="acc-time">01 Mar, 20:15</div></td>
+              <td>🎫 Tarjeta</td>
+            </tr>
+            <tr data-id="7" onclick="selRow(this,7)">
+              <td><div class="alumno-name">Roberto Díaz Ponce</div><div class="alumno-sub">Socio #0954</div></td>
+              <td>Miraflores</td><td>Boxeo</td>
+              <td><span class="badge badge-blocked">🚫 Inhabilitado</span></td>
+              <td><div class="acc-time">Denegado</div></td>
+              <td>— —</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="sidebar-title">DETALLE DE ACCESO</div>
+      <div class="alumno-card">
+        <div class="alumno-avatar" id="sb-avatar">MG</div>
+        <div class="alumno-full-name" id="sb-name">Martín Gómez Silva</div>
+        <div class="alumno-id-s" id="sb-id">Socio #1042 · Miraflores</div>
+      </div>
+      <div class="section-sep"></div>
+      <div class="info-row"><span class="info-label">🥋 Disciplina</span><span class="info-val blue" id="sb-disc">Brazilian Jiu-Jitsu</span></div>
+      <div class="info-row"><span class="info-label">📅 Vence</span><span class="info-val warn" id="sb-vence">28 Mar 2025 (3 días)</span></div>
+      <div class="info-row"><span class="info-label">⏱ Último acceso</span><span class="info-val" id="sb-acceso">Hoy, 19:03</span></div>
+      <div class="info-row"><span class="info-label">📱 Método</span><span class="info-val" id="sb-metodo">Código QR</span></div>
+      <div class="info-row"><span class="info-label">📊 Asistencia</span><span class="info-val ok" id="sb-asistencia">18 de 22 clases</span></div>
+      <div class="section-sep"></div>
+      <div class="sidebar-title">HISTORIAL RECIENTE</div>
+      <div class="access-log" id="sb-log"></div>
+      <div class="sidebar-actions">
+        <button class="btn-side btn-side-primary" onclick="location.href='renovar.html'">🔄 Renovar matrícula</button>
+        <button class="btn-side btn-side-green">✅ Habilitar acceso</button>
+        <button class="btn-side btn-side-secondary" onclick="location.href='alumnos.html'">👤 Ver ficha completa</button>
+        <button class="btn-side btn-side-warn">🚫 Bloquear acceso</button>
+      </div>
+    </div>
+  </div>
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a></footer>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    var alumnos = {
+      1:{avatar:'MG',name:'Martín Gómez Silva',id:'Socio #1042 · Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'28 Mar 2025 (3 días)',venceC:'warn',acceso:'Hoy, 19:03',metodo:'Código QR',asist:'18 de 22 clases',asistC:'ok',
+         log:[{ok:1,t:'19:03',d:'Ingreso habilitado - QR escaneado'},{ok:1,t:'19:02',d:'Primera validación BJJ Noche'},{ok:0,t:'06:55',d:'Sin actividad Torniquete 2'},{ok:1,t:'Ayer 19:10',d:'Ingreso regular BJJ'}]},
+      2:{avatar:'SM',name:'Sofía Martínez Ruiz',id:'Socia #1055 · San Isidro',disc:'Muay Thai',vence:'31 Mar 2025 (6 días)',venceC:'warn',acceso:'Hoy, 17:45',metodo:'Código QR',asist:'14 de 20 clases',asistC:'ok',
+         log:[{ok:1,t:'17:45',d:'Ingreso habilitado - QR'},{ok:1,t:'Ayer 17:50',d:'Ingreso Muay Thai tarde'}]},
+      3:{avatar:'LF',name:'Luis Fernando Torres',id:'Socio #1061 · Miraflores',disc:'Boxeo Clásico',vence:'15 Jun 2025',venceC:'ok',acceso:'Hoy, 08:12',metodo:'Tarjeta NFC',asist:'20 de 22 clases',asistC:'ok',
+         log:[{ok:1,t:'08:12',d:'Ingreso habilitado - Tarjeta'},{ok:1,t:'Ayer 07:58',d:'Ingreso puntual Boxeo AM'}]},
+      4:{avatar:'CB',name:'Carla Sofía Benítez',id:'Socia #1072 · San Isidro',disc:'Capoeira',vence:'30 Abr 2025',venceC:'ok',acceso:'Ayer, 10:30',metodo:'Código QR',asist:'10 de 12 clases',asistC:'ok',
+         log:[{ok:1,t:'Ayer 10:30',d:'Ingreso habilitado - QR'},{ok:1,t:'22 Mar',d:'Acceso clase Capoeira Sáb'}]},
+      5:{avatar:'MV',name:'Miguel Vargas León',id:'Socio #1038 · Miraflores',disc:'BJJ + Acond. Físico',vence:'30 May 2025',venceC:'ok',acceso:'Hoy, 06:55',metodo:'Código QR',asist:'21 de 22 clases',asistC:'ok',
+         log:[{ok:1,t:'06:55',d:'Ingreso AM Gym habilitado'},{ok:1,t:'19:08',d:'Ingreso BJJ Noche habilitado'}]},
+      6:{avatar:'CB',name:'Carlos Barrón Díaz',id:'Socio #0981 · Miraflores',disc:'Brazilian Jiu-Jitsu',vence:'01 Mar 2025 (Vencido)',venceC:'danger',acceso:'01 Mar, 20:15',metodo:'Tarjeta NFC',asist:'2 de 22 clases',asistC:'danger',
+         log:[{ok:0,t:'Hoy',d:'Denegado - membresía vencida'},{ok:1,t:'01 Mar',d:'Último acceso válido'},{ok:0,t:'02 Mar',d:'Intento fallido - vencido'}]},
+      7:{avatar:'RD',name:'Roberto Díaz Ponce',id:'Socio #0954 · Miraflores',disc:'Boxeo Clásico',vence:'Inhabilitado',venceC:'danger',acceso:'Acceso denegado',metodo:'Inhabilitado',asist:'0 clases',asistC:'danger',
+         log:[{ok:0,t:'Hoy',d:'Bloqueado - inhabilitado'},{ok:0,t:'Ayer',d:'Bloqueado - inhabilitado'},{ok:0,t:'25 Mar',d:'Bloqueo aplicado por admin'}]}
+    };
+
+    function renderLog(log) {
+      return log.map(function(l){
+        return '<div class="log-item"><div class="log-dot '+(l.ok?'dot-green':'dot-red')+'"></div><span class="log-time">'+l.t+'</span><span class="log-desc">'+l.d+'</span></div>';
+      }).join('');
+    }
+
+    function selRow(tr, id) {
+      document.querySelectorAll('#tableBody tr').forEach(function(r){r.classList.remove('selected');});
+      tr.classList.add('selected');
+      var a=alumnos[id];
+      document.getElementById('sb-avatar').textContent=a.avatar;
+      document.getElementById('sb-name').textContent=a.name;
+      document.getElementById('sb-id').textContent=a.id;
+      document.getElementById('sb-disc').textContent=a.disc;
+      var vEl=document.getElementById('sb-vence'); vEl.textContent=a.vence; vEl.className='info-val '+a.venceC;
+      document.getElementById('sb-acceso').textContent=a.acceso;
+      document.getElementById('sb-metodo').textContent=a.metodo;
+      var aEl=document.getElementById('sb-asistencia'); aEl.textContent=a.asist; aEl.className='info-val '+a.asistC;
+      document.getElementById('sb-log').innerHTML=renderLog(a.log);
+      toast('🛡 '+a.name+' seleccionado/a');
+    }
+
+    function filtrarTab(badge, btn) {
+      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+      btn.classList.add('active');
+      document.querySelectorAll('#tableBody tr').forEach(function(tr){
+        if(!badge||tr.querySelector('.'+badge)) tr.classList.remove('hidden');
+        else tr.classList.add('hidden');
+      });
+      toast(badge?'🔍 Filtrando por estado':'✅ Mostrando todos los socios');
+    }
+
+    function toast(msg){
+      var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+      clearTimeout(t._timer); t._timer=setTimeout(function(){t.classList.remove('show');},2200);
+    }
+
+    // Inicializar log del alumno 1
+    document.getElementById('sb-log').innerHTML=renderLog(alumnos[1].log);
+  </script>
+</body>
+</html>
