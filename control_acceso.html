@@ -108,6 +108,36 @@
     .btn-notify{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;color:#374151;}
     .btn-close{background:none;border:none;font-size:12px;color:#9ca3af;cursor:pointer;text-align:center;width:100%;margin-top:6px;}
     footer{text-align:center;padding:12px;font-size:10px;color:#9ca3af;border-top:1px solid #e5e7eb;}
+    /* ── HOVER & TRANSITION EFFECTS ── */
+    .btn-green:hover{background:#15803d;}
+    .btn-notify:hover{background:#f9fafb;}
+    a{transition:color .18s ease;}
+    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
+    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
+    button:active{transform:translateY(0);}
+    .btn-primary:hover{background:#0a2448;}
+    .btn-secondary:hover{background:#0a2448;}
+    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-pagar:hover{background:#0a2448;}
+    .btn-save:hover{background:#0a2448;}
+    .btn-confirm:hover{background:#0a2448;}
+    .btn-reject:hover{background:#f3f4f6;}
+    .btn-refresh:hover{background:#0a2448;}
+    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
+    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
+    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
+    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
+    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
+    .card-link:hover{opacity:.75;}
+    .comp-link:hover{opacity:.75;}
+    .back-link:hover{color:#0d2d5e;}
+    tbody tr{transition:background .15s ease;}
+    tbody tr:hover{background:#f9fafb;}
   </style>
 </head>
 <body>
@@ -119,8 +149,8 @@
     <div class="nav-links">
       <a href="#">Inicio</a>
       <a href="#" class="active">Control de acceso</a>
-      <a href="#">Horarios & Asistencias</a>
-      <a href="#">Alumnos de Clase</a>
+      <a href="disciplinas.html">Horarios & Asistencias</a>
+      <a href="alumnos.html">Alumnos de Clase</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
@@ -193,49 +223,49 @@
               <td><span class="badge-warn">⏱ Próximo a vencer</span></td>
               <td><div class="date-warn">28 Mar 2025</div><div class="date-warn" style="font-size:10px;">Vence en 3 días</div></td>
               <td><div style="font-size:11px;font-weight:600;">BJJ Adultos Noche</div><div style="font-size:10px;color:#9ca3af;">Plan Mensual Regular</div></td>
-              <td><button class="btn-ver">Ver ficha ›</button></td>
+              <td><button class="btn-ver" onclick="location.href='perfil.html'">Ver ficha ›</button></td>
             </tr>
             <tr>
               <td><div class="alumno-cell"><div class="av av-lf">LF</div><div><div class="alumno-name">Lucía Fernández <span class="alumno-id">#1088</span></div><div class="alumno-sub">DNI: 38891124 · Cinturón Blanco (4 Rayas)</div></div></div></td>
               <td><span class="badge-active">✓ Activo</span></td>
               <td><div>15 May 2025</div><div class="date-ok">Vigente (51 días)</div></td>
               <td><div style="font-size:11px;font-weight:600;">BJJ Femenino + No-Gi</div><div style="font-size:10px;color:#9ca3af;">Plan Trimestral Pase Libre</div></td>
-              <td><button class="btn-ver">Ver ficha ›</button></td>
+              <td><button class="btn-ver" onclick="location.href='perfil.html'">Ver ficha ›</button></td>
             </tr>
             <tr>
               <td><div class="alumno-cell"><div class="av av-cb">CB</div><div><div class="alumno-name">Carlos Benítez <span class="alumno-id">#0921</span></div><div class="alumno-sub">DNI: 35120449 · Cinturón Morado</div></div></div></td>
               <td><span class="badge-inactive">⊗ Inactivo / Vencido</span></td>
               <td><div class="date-expired">10 Mar 2025</div><div style="font-size:10px;color:#dc2626;">Venció hace 15 días</div></td>
               <td><div style="font-size:11px;font-weight:600;">BJJ Avanzados</div><div style="font-size:10px;color:#dc2626;">Acceso restringido en torniquete</div></td>
-              <td><button class="btn-ver">Ver ficha ›</button></td>
+              <td><button class="btn-ver" onclick="location.href='perfil.html'">Ver ficha ›</button></td>
             </tr>
             <tr>
               <td><div class="alumno-cell"><div class="av av-cs">CS</div><div><div class="alumno-name">Camila Soria <span class="alumno-id">#1104</span></div><div class="alumno-sub">DNI: 44502119 · Cinturón Azul</div></div></div></td>
               <td><span class="badge-active">✓ Activo</span></td>
               <td><div>22 Jun 2025</div><div class="date-ok">Vigente (89 días)</div></td>
               <td><div style="font-size:11px;font-weight:600;">BJJ + Acondicionamiento</div><div style="font-size:10px;color:#9ca3af;">Plan Semestral</div></td>
-              <td><button class="btn-ver">Ver ficha ›</button></td>
+              <td><button class="btn-ver" onclick="location.href='perfil.html'">Ver ficha ›</button></td>
             </tr>
             <tr>
               <td><div class="alumno-cell"><div class="av av-sm">SM</div><div><div class="alumno-name">Santiago Morales <span class="alumno-id">#1055</span></div><div class="alumno-sub">DNI: 39441770 · Cinturón Blanco (2 Rayas)</div></div></div></td>
               <td><span class="badge-warn">⏱ Próximo a vencer</span></td>
               <td><div class="date-warn">30 Mar 2025</div><div style="font-size:10px;color:#d97706;">Vence en 5 días</div></td>
               <td><div style="font-size:11px;font-weight:600;">BJJ Fundamentos</div><div style="font-size:10px;color:#9ca3af;">Plan Mensual</div></td>
-              <td><button class="btn-ver">Ver ficha ›</button></td>
+              <td><button class="btn-ver" onclick="location.href='perfil.html'">Ver ficha ›</button></td>
             </tr>
             <tr>
               <td><div class="alumno-cell"><div class="av av-rd">RD</div><div><div class="alumno-name">Rodrigo De La Torre <span class="alumno-id">#0854</span></div><div class="alumno-sub">DNI: 41829033 · Cinturón Azul</div></div></div></td>
               <td><span class="badge-blocked">⊘ Inhabilitado</span></td>
               <td><div>12 Ago 2025</div><div style="font-size:10px;color:#9ca3af;">Congelamiento por lesión médica</div></td>
               <td><div style="font-size:11px;font-weight:600;">BJJ Competición</div><div style="font-size:10px;color:#9ca3af;">Bloqueado temporalmente</div></td>
-              <td><button class="btn-ver">Ver ficha ›</button></td>
+              <td><button class="btn-ver" onclick="location.href='perfil.html'">Ver ficha ›</button></td>
             </tr>
             <tr>
               <td><div class="alumno-cell"><div class="av av-mv">MV</div><div><div class="alumno-name">Mateo Valdez <span class="alumno-id">#1201</span></div><div class="alumno-sub">DNI: 72019482 · Cinturón Blanco (1 Raya)</div></div></div></td>
               <td><span class="badge-active">✓ Activo</span></td>
               <td><div>18 Jul 2025</div><div class="date-ok">Vigente (115 días)</div></td>
               <td><div style="font-size:11px;font-weight:600;">BJJ Fundamentos</div><div style="font-size:10px;color:#9ca3af;">Plan Semestral Estudiante</div></td>
-              <td><button class="btn-ver">Ver ficha ›</button></td>
+              <td><button class="btn-ver" onclick="location.href='perfil.html'">Ver ficha ›</button></td>
             </tr>
           </tbody>
         </table>
@@ -286,7 +316,7 @@
       </div>
       <div class="sb-actions">
         <button class="btn-green">✓ Marcar Asistencia</button>
-        <button class="btn-notify">🔔 Notificar Pago</button>
+        <button class="btn-notify" onclick="location.href='tesoreria.html'">🔔 Notificar Pago</button>
         <button class="btn-close">Cerrar panel</button>
       </div>
     </div>

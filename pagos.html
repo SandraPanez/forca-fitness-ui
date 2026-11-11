@@ -89,6 +89,34 @@
     .sec-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#374151;}
     footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
     footer a{color:#0d2d5e;text-decoration:none;}
+    /* ── HOVER & TRANSITION EFFECTS ── */
+    a{transition:color .18s ease;}
+    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
+    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
+    button:active{transform:translateY(0);}
+    .btn-primary:hover{background:#0a2448;}
+    .btn-secondary:hover{background:#0a2448;}
+    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
+    .btn-pagar:hover{background:#0a2448;}
+    .btn-save:hover{background:#0a2448;}
+    .btn-confirm:hover{background:#0a2448;}
+    .btn-reject:hover{background:#f3f4f6;}
+    .btn-refresh:hover{background:#0a2448;}
+    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
+    .stat-card{transition:box-shadow .18s ease,transform .15s ease;}
+    .stat-card:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
+    .tipo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .periodo-card{transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+    .periodo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
+    .trust-item{transition:box-shadow .18s ease,transform .15s ease;}
+    .trust-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
+    .card-link:hover{opacity:.75;}
+    .comp-link:hover{opacity:.75;}
+    .back-link:hover{color:#0d2d5e;}
+    tbody tr{transition:background .15s ease;}
+    tbody tr:hover{background:#f9fafb;}
   </style>
 </head>
 <body>
@@ -98,11 +126,11 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DEPORTIVO</p></div>
     </div>
     <div class="nav-links">
-      <a href="#">Inicio</a>
-      <a href="#">Consulta de Clases</a>
+      <a href="login.html">Inicio</a>
+      <a href="disciplinas.html">Consulta de Clases</a>
       <a href="mis-matriculas.html">Mis Matrículas</a>
       <a href="#" class="active">Pagos</a>
-      <a href="#">Control de Acceso</a>
+      <a href="control_acceso.html">Control de Acceso</a>
       <a href="alumnos.html">Alumnos</a>
     </div>
     <div class="nav-right">
@@ -185,8 +213,8 @@
         </div>
 
         <div class="btn-row">
-          <button class="btn-cancel">← Cancelar</button>
-          <button class="btn-primary">Continuar al pago →</button>
+          <button class="btn-cancel" onclick="location.href='mis-matriculas.html'">← Cancelar</button>
+          <button class="btn-primary" onclick="location.href='comprobante.html'">Continuar al pago →</button>
         </div>
       </div>
 
