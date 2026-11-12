@@ -112,9 +112,9 @@
       <p id="login-error" style="color:#dc2626;font-size:13px;text-align:center;margin-top:10px;display:none;"></p>
 
       <div class="divider">O CONTINÚA CON</div>
-      <button class="btn-dni" onclick="location.href='mis-matriculas.html'">🪪 Acceso con DNI / Expediente de Socio</button>
+      <button class="btn-dni" onclick="location.href='../portal/mis-matriculas.html'">🪪 Acceso con DNI / Expediente de Socio</button>
 
-      <p class="register">¿No tienes una cuenta? <a href="index.html">Regístrate aquí</a></p>
+      <p class="register">¿No tienes una cuenta? <a href="../admin/index.html">Regístrate aquí</a></p>
       <div class="footer-links">
         <a href="#">Ayuda</a> · <a href="#">Términos y condiciones</a> · <a href="#">Soporte técnico</a>
       </div>
@@ -122,8 +122,18 @@
   </div>
 
   <script>
-    // Si ya tiene sesión activa, redirigir al dashboard
-    if (localStorage.getItem('token')) location.href = 'index.html';
+    function homeForRole(rol) {
+      var normalized = (rol || '').trim().toLowerCase();
+      return ['admin', 'tesorero', 'tesorería', 'tesoreria', 'recepcion'].includes(normalized)
+        ? '../admin/index.html'
+        : '../portal/mis-matriculas.html';
+    }
+
+    // Si ya tiene sesión activa, redirigir según el rol guardado.
+    if (localStorage.getItem('token')) {
+      var usuarioActual = JSON.parse(localStorage.getItem('usuario') || '{}');
+      location.href = homeForRole(usuarioActual.rol);
+    }
 
     function togglePwd() {
       var inp = document.getElementById('inpPassword');
@@ -165,13 +175,7 @@
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
-        // Redirigir según rol
-        var rol = (data.usuario.rol || '').trim();
-        if (rol === 'Admin' || rol === 'Tesorería') {
-          location.href = 'index.html';
-        } else {
-          location.href = 'index.html';
-        }
+        location.href = homeForRole(data.usuario.rol);
 
       } catch (e) {
         errorEl.textContent = 'No se pudo conectar con el servidor.';

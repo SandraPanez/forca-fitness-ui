@@ -3,56 +3,54 @@
  * Forca & Fitness · feature/control-roles
  */
 
-const API = 'https://forca-fitness-backend.onrender.com';
-
 // ── GUARD DE ROL ─────────────────────────────────────────────────────────────
 function requireRol(rolesPermitidos) {
   const token = localStorage.getItem('token');
-  if (!token) { location.href = 'login.html'; return; }
+  if (!token) { location.href = '../auth/login.html'; return; }
   if (rolesPermitidos && rolesPermitidos.length > 0) {
     const usuario = _getUsuario();
-    const rol = (usuario.rol || '').trim();
-    const permitido = rolesPermitidos.some(r => r.toLowerCase() === rol.toLowerCase());
+    const rol = _normalizeRole(usuario.rol);
+    const permitido = rolesPermitidos.some(r => _normalizeRole(r) === rol);
     if (!permitido) {
       alert('No tienes permiso para acceder a esta sección.');
-      location.href = 'index.html';
+      location.href = _homeForRole(rol);
     }
   }
 }
 
 // ── CONFIGURACIÓN DE NAVEGACIÓN POR ROL ──────────────────────────────────────
 const NAV_CONFIG = {
-  Alumno: [
-    { href: 'index.html',        label: '🏠 Inicio' },
-    { href: 'disciplinas.html',  label: '🥋 Mis Clases' },
-    { href: 'renovar.html',      label: '🔄 Renovar' },
-    { href: 'pagos.html',        label: '💳 Pagos' },
-    { href: 'perfil.html',       label: '👤 Mi Perfil' },
+  alumno: [
+    { href: '../portal/mis-matriculas.html', label: '🏠 Inicio' },
+    { href: '../portal/disciplinas.html',    label: '🥋 Mis Clases' },
+    { href: '../portal/renovar.html',        label: '🔄 Renovar' },
+    { href: '../portal/pagos.html',          label: '💳 Pagos' },
+    { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
   ],
-  Admin: [
-    { href: 'index.html',          label: '📊 Dashboard' },
-    { href: 'alumnos.html',        label: '👥 Alumnos' },
-    { href: 'mis-matriculas.html', label: '📋 Matrículas' },
-    { href: 'tesoreria.html',      label: '💰 Tesorería' },
-    { href: 'control_acceso.html', label: '🛡 Control Acceso' },
-    { href: 'perfil.html',         label: '👤 Mi Perfil' },
+  admin: [
+    { href: '../admin/index.html',          label: '📊 Dashboard' },
+    { href: '../admin/alumnos.html',        label: '👥 Alumnos' },
+    { href: '../portal/mis-matriculas.html', label: '📋 Matrículas' },
+    { href: '../admin/tesoreria.html',      label: '💰 Tesorería' },
+    { href: '../admin/control_acceso.html', label: '🛡 Control Acceso' },
+    { href: '../portal/perfil.html',        label: '👤 Mi Perfil' },
   ],
-  Instructor: [
-    { href: 'index.html',       label: '🏠 Inicio' },
-    { href: 'disciplinas.html', label: '🥋 Mis Clases' },
-    { href: 'perfil.html',      label: '👤 Mi Perfil' },
+  instructor: [
+    { href: '../portal/mis-matriculas.html', label: '🏠 Inicio' },
+    { href: '../portal/disciplinas.html',    label: '🥋 Mis Clases' },
+    { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
   ],
-  Tesorería: [
-    { href: 'index.html',          label: '📊 Dashboard' },
-    { href: 'alumnos.html',        label: '👥 Alumnos' },
-    { href: 'mis-matriculas.html', label: '📋 Matrículas' },
-    { href: 'tesoreria.html',      label: '💰 Tesorería' },
-    { href: 'pagos.html',          label: '💳 Pagos' },
-    { href: 'perfil.html',         label: '👤 Mi Perfil' },
+  tesorero: [
+    { href: '../admin/index.html',           label: '📊 Dashboard' },
+    { href: '../admin/alumnos.html',         label: '👥 Alumnos' },
+    { href: '../portal/mis-matriculas.html', label: '📋 Matrículas' },
+    { href: '../admin/tesoreria.html',       label: '💰 Tesorería' },
+    { href: '../portal/pagos.html',          label: '💳 Pagos' },
+    { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
   ],
   default: [
-    { href: 'index.html',  label: '🏠 Inicio' },
-    { href: 'perfil.html', label: '👤 Mi Perfil' },
+    { href: '../portal/mis-matriculas.html', label: '🏠 Inicio' },
+    { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
   ],
 };
 
@@ -60,14 +58,14 @@ const NAV_CONFIG = {
 function initNav() {
   const usuario = _getUsuario();
   const rol = (usuario.rol || '').trim();
-  const links = NAV_CONFIG[rol] || NAV_CONFIG['default'];
-  const paginaActual = location.pathname.split('/').pop() || 'index.html';
+  const links = NAV_CONFIG[_normalizeRole(rol)] || NAV_CONFIG['default'];
+  const paginaActual = location.pathname;
 
   // Inyectar links
   const navLinksEl = document.getElementById('navLinks');
   if (navLinksEl) {
     navLinksEl.innerHTML = links.map(function(l) {
-      var activo = paginaActual === l.href ? ' active' : '';
+      var activo = paginaActual === new URL(l.href, location.href).pathname ? ' active' : '';
       return '<a href="' + l.href + '" class="' + activo.trim() + '">' + l.label + '</a>';
     }).join('');
   }
@@ -89,11 +87,23 @@ function cerrarSesion() {
   if (confirm('¿Seguro que deseas cerrar sesión?')) {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
-    location.href = 'login.html';
+    location.href = '../auth/login.html';
   }
 }
 
 // ── HELPER INTERNO ───────────────────────────────────────────────────────────
+function _normalizeRole(role) {
+  const normalized = (role || '').trim().toLowerCase();
+  if (normalized === 'tesorería' || normalized === 'tesoreria') return 'tesorero';
+  return normalized;
+}
+
+function _homeForRole(role) {
+  return ['admin', 'tesorero', 'recepcion'].includes(_normalizeRole(role))
+    ? '../admin/index.html'
+    : '../portal/mis-matriculas.html';
+}
+
 function _getUsuario() {
   try { return JSON.parse(localStorage.getItem('usuario') || '{}'); }
   catch (e) { return {}; }

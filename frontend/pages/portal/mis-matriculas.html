@@ -170,7 +170,7 @@
         <div class="card-icon">💬</div>
         <div class="card-title">¿Necesitas congelar o cambiar de turno?</div>
         <div class="card-text">Puedes solicitar prórrogas por viaje o motivos médicos directamente con la coordinación general vía WhatsApp.</div>
-        <a class="card-link" href="tesoreria.html">Contactar a Coordinación ↗</a>
+        <a class="card-link" href="../admin/tesoreria.html">Contactar a Coordinación ↗</a>
       </div>
     </div>
   </main>
@@ -178,9 +178,9 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="auth.js"></script>
+  <script src="../auth.js"></script>
   <script>
-    requireRol(['Admin', 'Tesorería']);
+    requireRol(['Alumno', 'Admin', 'Tesorería']);
     initNav();
 
     var API = 'https://forca-fitness-backend.onrender.com';
