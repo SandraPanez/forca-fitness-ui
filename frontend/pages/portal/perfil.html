@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Perfil — Forca & Fitness</title>
+  <title>Mi Perfil — Forca &amp; Fitness</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -13,252 +13,247 @@
     .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
     .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
     .logo-text p{font-size:10px;color:#9ca3af;}
-    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
     .nav-links a.active{color:#0d2d5e;font-weight:700;border-bottom:2px solid #0d2d5e;}
-    .nav-right{display:flex;align-items:center;gap:10px;}
-    .bell{position:relative;font-size:17px;}
-    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
-    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+    .nav-right{display:flex;align-items:center;gap:12px;}
+    .bell{font-size:18px;cursor:pointer;position:relative;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
     .user-info .name{font-size:13px;font-weight:600;}
     .user-info .role{font-size:11px;color:#9ca3af;}
-    main{max-width:720px;margin:0 auto;padding:28px 32px;}
-    .back-link{font-size:13px;color:#374151;text-decoration:none;display:flex;align-items:center;gap:5px;margin-bottom:12px;}
-    .back-link:hover{color:#0d2d5e;}
-    .eyebrow{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:14px;}
-    .eyebrow span{width:6px;height:6px;background:#1d4ed8;border-radius:50%;}
-    h1{font-size:30px;font-weight:800;color:#0d2d5e;margin-bottom:6px;}
-    .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;}
-    .profile-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;margin-bottom:20px;}
-    .profile-header{padding:28px 32px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:20px;}
-    .avatar-large{width:68px;height:68px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;}
-    .profile-name{font-size:22px;font-weight:800;color:#0d2d5e;}
-    .profile-badge{display:inline-flex;align-items:center;gap:5px;background:#dcfce7;color:#15803d;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;margin-left:10px;}
-    .profile-badge span{width:6px;height:6px;background:#15803d;border-radius:50%;}
-    .profile-meta{font-size:12px;color:#9ca3af;margin-top:5px;display:flex;gap:14px;flex-wrap:wrap;}
-    .profile-meta span{display:flex;align-items:center;gap:4px;}
-    .info-section{padding:0 32px;}
-    .info-row{display:flex;align-items:center;border-bottom:1px solid #f3f4f6;padding:14px 0;}
+    main{max-width:860px;margin:0 auto;padding:28px 32px;}
+    .breadcrumb{font-size:12px;color:#9ca3af;margin-bottom:12px;}
+    .breadcrumb span{color:#0d2d5e;font-weight:600;}
+    .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+    .page-title{font-size:26px;font-weight:800;color:#0d2d5e;}
+    .page-sub{font-size:13px;color:#6b7280;margin-top:4px;}
+    .btn-edit{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .18s,transform .12s,box-shadow .18s;}
+    .btn-edit:hover{background:#0a2448;transform:translateY(-1px);box-shadow:0 4px 12px rgba(13,45,94,.2);}
+    /* Profile card */
+    .profile-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px;margin-bottom:20px;display:flex;gap:24px;align-items:flex-start;}
+    .avatar-large{width:68px;height:68px;background:linear-gradient(135deg,#0d2d5e,#1e40af);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 4px 12px rgba(13,45,94,.2);}
+    .profile-info{flex:1;}
+    .profile-name{font-size:20px;font-weight:800;color:#111;margin-bottom:6px;}
+    .profile-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+    .badge-role{background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;}
+    .badge-disc{background:#f0fdf4;color:#15803d;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;}
+    .badge-active{background:#dcfce7;color:#15803d;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;}
+    .profile-email{font-size:13px;color:#6b7280;}
+    /* Info section */
+    .section{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:16px;}
+    .section-header{padding:14px 20px;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:13px;font-weight:700;color:#0d2d5e;display:flex;align-items:center;gap:7px;}
+    .info-row{display:flex;align-items:center;padding:13px 20px;border-bottom:1px solid #f3f4f6;}
     .info-row:last-child{border-bottom:none;}
-    .info-label{font-size:13px;color:#6b7280;width:200px;flex-shrink:0;}
-    .info-value{font-size:13px;font-weight:600;color:#111;flex:1;}
-    .badge-verified{background:#dcfce7;color:#15803d;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:8px;}
-    .badge-confirmed{background:#dcfce7;color:#15803d;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:8px;}
-    .btn-row{padding:20px 32px;display:flex;gap:10px;justify-content:flex-end;}
-    .btn-outline{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    .btn-primary{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 22px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
-    .info-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 22px;}
-    .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-    .card-title-row{display:flex;align-items:center;gap:8px;}
-    .card-icon{font-size:18px;}
-    .card-title{font-size:14px;font-weight:700;color:#0d2d5e;}
-    .card-badge-green{background:#dcfce7;color:#15803d;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;}
-    .card-badge-orange{background:#fef9c3;color:#92400e;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;}
-    .card-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
-    .card-row:last-child{margin-bottom:0;}
-    .card-label{font-size:12px;color:#9ca3af;}
-    .card-value{font-size:13px;font-weight:600;color:#111;text-align:right;}
-    .card-value.orange{color:#d97706;}
-    footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:16px;}
-    footer a{color:#0d2d5e;text-decoration:none;}
-    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
-    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
-    button:active{transform:translateY(0);}
-    .btn-primary:hover{background:#0a2448;}
-    .btn-outline:hover{background:#f9fafb;border-color:#9ca3af;}
-    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    .loading-row{color:#9ca3af;font-style:italic;}
+    .info-label{font-size:12px;color:#9ca3af;width:170px;flex-shrink:0;}
+    .info-val{font-size:14px;font-weight:600;color:#111;flex:1;}
+    .info-val.email-val{display:flex;align-items:center;gap:8px;}
+    .badge-confirmed{background:#dcfce7;color:#15803d;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700;}
+    /* Bottom 2-col */
+    .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .card-mem{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;transition:box-shadow .18s,transform .15s;}
+    .card-mem:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px);}
+    .card-mem-title{font-size:13px;font-weight:700;color:#111;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+    .card-mem-row{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid #f3f4f6;}
+    .card-mem-row:last-child{border-bottom:none;}
+    .card-mem-row .lbl{color:#9ca3af;}
+    .card-mem-row .val{font-weight:600;color:#111;}
+    .progress-bar{background:#e5e7eb;border-radius:999px;height:8px;margin-top:10px;overflow:hidden;}
+    .progress-fill{background:linear-gradient(90deg,#0d2d5e,#1e40af);border-radius:999px;height:100%;transition:width 1s ease;}
+    .progress-label{font-size:11px;color:#6b7280;margin-top:5px;}
+    .btn-renew{margin-top:12px;background:#0d2d5e;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;width:100%;transition:background .18s;}
+    .btn-renew:hover{background:#1e40af;}
+    footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:20px;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
+    .toast.show{opacity:1;transform:translateY(0);}
   </style>
 </head>
 <body>
   <nav>
     <div class="nav-logo">
-      <div class="logo-box">F&F</div>
-      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
+      <div class="logo-box">F&amp;F</div>
+      <div class="logo-text"><h1>FORCA &amp; FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="mis-matriculas.html">Inicio</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="../admin/tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" id="navAvatar">--</div>
-      <div class="user-info"><div class="name" id="navNombre">Cargando...</div><div class="role" id="navRol">--</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
   <main>
-    <a class="back-link" href="mis-matriculas.html">← Volver al Inicio</a>
-    <div class="eyebrow"><span></span> PORTAL ALUMNO · MI PERFIL</div>
-    <h1>Mi Perfil</h1>
-    <p class="page-sub">Consulta y edita tu información personal.</p>
+    <div class="breadcrumb">MI CUENTA › <span>Mi Perfil</span></div>
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Mi Perfil</h1>
+        <p class="page-sub">Consulta y gestiona tu información personal y de membresía.</p>
+      </div>
+      <button class="btn-edit" onclick="location.href='editar-perfil.html'">✏ Editar datos</button>
+    </div>
 
+    <!-- Profile card -->
     <div class="profile-card">
-      <div class="profile-header">
-        <div class="avatar-large" id="avatarLarge">--</div>
-        <div>
-          <div>
-            <span class="profile-name" id="profileNombre">Cargando...</span>
-            <span class="profile-badge"><span></span> <span id="profileBadge">--</span></span>
-          </div>
-          <div class="profile-meta">
-            <span>📍 Sede Central Forca & Fitness</span>
-            <span id="profileDisc">🥋 --</span>
-            <span id="profileEstado">✅ --</span>
-          </div>
+      <div class="avatar-large" id="profileAvatar">--</div>
+      <div class="profile-info">
+        <div class="profile-name" id="profileNombre">—</div>
+        <div class="profile-badges">
+          <span class="badge-role" id="profileRol">—</span>
+          <span class="badge-disc" id="profileDisc"></span>
+          <span class="badge-active">● Activo</span>
         </div>
-      </div>
-
-      <div class="info-section">
-        <div class="info-row">
-          <div class="info-label">Nombre completo</div>
-          <div class="info-value" id="infoNombre">--</div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">Rol / Cargo</div>
-          <div class="info-value" id="infoRol">--</div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">Disciplina</div>
-          <div class="info-value" id="infoDisc">--</div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">Correo electrónico</div>
-          <div class="info-value" id="infoEmail">-- <span class="badge-confirmed">✓ Confirmado</span></div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">ID de usuario</div>
-          <div class="info-value" id="infoId">-- <span class="badge-verified">✓ Verificado</span></div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">Membresía hasta</div>
-          <div class="info-value" id="infoMembresia">Cargando...</div>
-        </div>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn-outline" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
-        <button class="btn-primary" onclick="location.href='editar-perfil.html'">✏ Editar datos</button>
+        <div class="profile-email" id="profileEmail">—</div>
       </div>
     </div>
 
-    <div class="bottom-grid">
-      <div class="info-card">
-        <div class="card-head">
-          <div class="card-title-row">
-            <span class="card-icon">📋</span>
-            <span class="card-title">Estado de Membresía</span>
-          </div>
-          <span class="card-badge-green" id="estadoBadge">Cargando...</span>
-        </div>
-        <div class="card-row"><span class="card-label">Disciplina</span><span class="card-value" id="cardDisc">--</span></div>
-        <div class="card-row"><span class="card-label">Rol</span><span class="card-value" id="cardRol">--</span></div>
-        <div class="card-row"><span class="card-label">ID alumno</span><span class="card-value" id="cardId">--</span></div>
-        <div class="card-row"><span class="card-label">Vencimiento</span><span class="card-value orange" id="cardVencimiento">--</span></div>
+    <!-- Datos personales -->
+    <div class="section">
+      <div class="section-header">👤 Información Personal</div>
+      <div class="info-row"><span class="info-label">Nombre Completo</span><span class="info-val" id="infoNombre">—</span></div>
+      <div class="info-row"><span class="info-label">DNI</span><span class="info-val" id="infoDni">—</span></div>
+      <div class="info-row"><span class="info-label">Correo Electrónico</span>
+        <span class="info-val email-val">
+          <span id="infoEmail">—</span>
+          <span class="badge-confirmed">✓ Confirmado</span>
+        </span>
       </div>
-      <div class="info-card">
-        <div class="card-head">
-          <div class="card-title-row">
-            <span class="card-icon">🔐</span>
-            <span class="card-title">Sesión Activa</span>
-          </div>
-          <span class="card-badge-green">Conectado</span>
-        </div>
-        <div class="card-row"><span class="card-label">Usuario</span><span class="card-value" id="sesNombre">--</span></div>
-        <div class="card-row"><span class="card-label">Correo</span><span class="card-value" id="sesEmail">--</span></div>
-        <div class="card-row"><span class="card-label">Token activo</span><span class="card-value">✅ Sí</span></div>
-        <div class="card-row"><span class="card-label">Acceso</span><span class="card-value">🌐 Web App</span></div>
+      <div class="info-row"><span class="info-label">Celular</span><span class="info-val" id="infoCelular">—</span></div>
+      <div class="info-row"><span class="info-label">Fecha de Nacimiento</span><span class="info-val" id="infoFechaNac">—</span></div>
+      <div class="info-row"><span class="info-label">Género</span><span class="info-val" id="infoGenero">—</span></div>
+      <div class="info-row"><span class="info-label">Dirección</span><span class="info-val" id="infoDireccion">—</span></div>
+    </div>
+
+    <!-- Acceso y seguridad -->
+    <div class="section">
+      <div class="section-header">🛡 Acceso y Seguridad</div>
+      <div class="info-row"><span class="info-label">Rol en el sistema</span><span class="info-val" id="infoRolSys">—</span></div>
+      <div class="info-row"><span class="info-label">Disciplina asignada</span><span class="info-val" id="infoDiscSys">—</span></div>
+      <div class="info-row"><span class="info-label">Contraseña</span><span class="info-val">●●●●●●●● <a href="editar-perfil.html" style="font-size:12px;color:#0d2d5e;font-weight:600;margin-left:8px;">Cambiar</a></span></div>
+    </div>
+
+    <!-- Membresía + Ficha -->
+    <div class="bottom-grid">
+      <div class="card-mem">
+        <div class="card-mem-title">🏅 Membresía Activa</div>
+        <div class="card-mem-row"><span class="lbl">Disciplina</span><span class="val" id="memDisc">—</span></div>
+        <div class="card-mem-row"><span class="lbl">Tipo</span><span class="val">Plan Mensual</span></div>
+        <div class="card-mem-row"><span class="lbl">Estado</span><span class="val" style="color:#15803d;">✓ Vigente</span></div>
+        <div class="card-mem-row"><span class="lbl">Vence</span><span class="val" id="memVence">—</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="memProgress" style="width:0%"></div></div>
+        <div class="progress-label" id="memDias">Calculando vigencia…</div>
+        <button class="btn-renew" onclick="location.href='renovar.html'">↻ Renovar membresía</button>
+      </div>
+      <div class="card-mem">
+        <div class="card-mem-title">📋 Ficha Médica</div>
+        <div class="card-mem-row"><span class="lbl">Tipo de sangre</span><span class="val" id="fichaBlood">No registrado</span></div>
+        <div class="card-mem-row"><span class="lbl">Alergias</span><span class="val" id="fichaAlerg">No registrado</span></div>
+        <div class="card-mem-row"><span class="lbl">Contacto emergencia</span><span class="val" id="fichaEmerg">No registrado</span></div>
+        <div class="card-mem-row"><span class="lbl">Última actualización</span><span class="val" id="fichaUpd">—</span></div>
+        <button class="btn-renew" style="background:#6b7280;" onclick="mostrarToast('📋 Ficha médica: próximamente disponible')">Actualizar ficha</button>
       </div>
     </div>
   </main>
-  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
+  <footer>FORCA &amp; FITNESS S.A.C. · © 2025 Todos los derechos reservados · Versión 2.4.0</footer>
 
+  <div class="toast" id="toast"></div>
+
+  <script src="../auth.js"></script>
   <script>
-    const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol([]);
+    initNav();
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
-
-    // ── Poblar todo con datos del localStorage ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-
-      // Nav
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
-
-      // Header perfil
-      document.getElementById('avatarLarge').textContent = ini;
-      document.getElementById('profileNombre').textContent = usuario.nombre;
-      document.getElementById('profileBadge').textContent = 'ID ' + (usuario.id || '--') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
-      document.getElementById('profileDisc').textContent = '🥋 ' + (usuario.disciplina || 'Sin disciplina');
-
-      // Info rows
-      document.getElementById('infoNombre').textContent = usuario.nombre;
-      document.getElementById('infoRol').textContent = usuario.rol || 'Socio';
-      document.getElementById('infoDisc').textContent = usuario.disciplina || 'Sin disciplina';
-      document.getElementById('infoEmail').innerHTML = (usuario.email || '--') + ' <span class="badge-confirmed">✓ Confirmado</span>';
-      document.getElementById('infoId').innerHTML = 'ID: ' + (usuario.id || '--') + ' <span class="badge-verified">✓ Verificado</span>';
-
-      // Cards
-      document.getElementById('cardDisc').textContent = usuario.disciplina || '--';
-      document.getElementById('cardRol').textContent = usuario.rol || 'Socio';
-      document.getElementById('cardId').textContent = 'ID ' + (usuario.id || '--');
-      document.getElementById('sesNombre').textContent = usuario.nombre;
-      document.getElementById('sesEmail').textContent = usuario.email || '--';
+    function fmt(iso) {
+      if (!iso) return 'No registrada';
+      return new Date(iso).toLocaleDateString('es-PE', { day:'2-digit', month:'long', year:'numeric' });
     }
 
-    // ── Cargar membresía desde la API ──
-    async function cargarMembresia() {
+    function diasRestantes(fechaFin) {
+      if (!fechaFin) return null;
+      var hoy = new Date(); hoy.setHours(0,0,0,0);
+      var fin = new Date(fechaFin); fin.setHours(0,0,0,0);
+      return Math.ceil((fin - hoy) / (1000 * 60 * 60 * 24));
+    }
+
+    async function cargarPerfil() {
+      var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      var extra   = JSON.parse(localStorage.getItem('perfilExtra') || '{}');
+
+      // Avatar
+      var ini = (usuario.nombre || '--').substring(0, 2).toUpperCase();
+      document.getElementById('profileAvatar').textContent = ini;
+      document.getElementById('profileNombre').textContent = usuario.nombre || '—';
+      document.getElementById('profileEmail').textContent  = usuario.email || '—';
+      document.getElementById('profileRol').textContent    = usuario.rol || '—';
+      if (usuario.disciplina) {
+        document.getElementById('profileDisc').textContent = '🥋 ' + usuario.disciplina;
+      } else {
+        document.getElementById('profileDisc').style.display = 'none';
+      }
+
+      // Info personal
+      document.getElementById('infoNombre').textContent    = usuario.nombre || '—';
+      document.getElementById('infoDni').textContent       = extra.dni || usuario.dni || 'No registrado';
+      document.getElementById('infoEmail').textContent     = usuario.email || '—';
+      document.getElementById('infoCelular').textContent   = extra.celular || 'No registrado';
+      document.getElementById('infoFechaNac').textContent  = fmt(extra.fecha_nacimiento);
+      document.getElementById('infoGenero').textContent    = extra.genero || 'No registrado';
+      document.getElementById('infoDireccion').textContent = extra.direccion || 'No registrada';
+
+      // Seguridad
+      document.getElementById('infoRolSys').textContent   = usuario.rol || '—';
+      document.getElementById('infoDiscSys').textContent  = usuario.disciplina || 'Sin asignar';
+
+      // Membresía — intentar desde API
       try {
-        const res = await fetch(API + '/api/alumnos', { headers });
-        if (!res.ok) throw new Error('Error');
-        const alumnos = await res.json();
-        const yo = alumnos.find(a => a.id == usuario.id) || alumnos[0];
-
+        var token = localStorage.getItem('token');
+        var res = await fetch('https://forca-fitness-backend.onrender.com/api/alumnos', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        var alumnos = await res.json();
+        var yo = alumnos.find(function(a) { return a.id === usuario.id || a.email === usuario.email; });
         if (yo && yo.fecha_fin_membresia) {
-          const diff = Math.ceil((new Date(yo.fecha_fin_membresia) - new Date()) / 86400000);
-          const fechaStr = new Date(yo.fecha_fin_membresia).toLocaleDateString('es-PE', {day:'2-digit',month:'long',year:'numeric'});
-
-          document.getElementById('infoMembresia').textContent = fechaStr;
-          document.getElementById('cardVencimiento').textContent = fechaStr + (diff >= 0 ? ' (' + diff + ' días)' : ' — Vencida');
-
-          if (diff < 0) {
-            document.getElementById('estadoBadge').textContent = 'Vencida';
-            document.getElementById('estadoBadge').className = 'card-badge-orange';
-            document.getElementById('profileEstado').textContent = '❌ Membresía vencida';
-          } else if (diff <= 7) {
-            document.getElementById('estadoBadge').textContent = 'Próx. a vencer';
-            document.getElementById('estadoBadge').className = 'card-badge-orange';
-            document.getElementById('profileEstado').textContent = '⚠️ Vence en ' + diff + ' días';
-          } else {
-            document.getElementById('estadoBadge').textContent = 'Al día';
-            document.getElementById('profileEstado').textContent = '✅ Membresía vigente';
-          }
+          document.getElementById('memDisc').textContent  = yo.disciplina || usuario.disciplina || '—';
+          document.getElementById('memVence').textContent = fmt(yo.fecha_fin_membresia);
+          var dias = diasRestantes(yo.fecha_fin_membresia);
+          var pct  = Math.max(0, Math.min(100, (dias / 30) * 100));
+          document.getElementById('memProgress').style.width = pct + '%';
+          document.getElementById('memDias').textContent = dias >= 0
+            ? dias + ' días restantes (' + Math.round(pct) + '% del período)'
+            : 'Membresía vencida — renueva ahora';
         } else {
-          document.getElementById('infoMembresia').textContent = 'Sin membresía activa';
-          document.getElementById('estadoBadge').textContent = 'Sin datos';
-          document.getElementById('profileEstado').textContent = '—';
+          fallbackMem(usuario);
         }
-      } catch(_) {
-        document.getElementById('infoMembresia').textContent = 'No disponible';
+      } catch (e) {
+        fallbackMem(usuario);
       }
+
+      // Ficha médica desde localStorage
+      var ficha = JSON.parse(localStorage.getItem('fichaMedica') || '{}');
+      document.getElementById('fichaBlood').textContent = ficha.sangre  || 'No registrado';
+      document.getElementById('fichaAlerg').textContent = ficha.alergia || 'Ninguna conocida';
+      document.getElementById('fichaEmerg').textContent = ficha.emergencia || 'No registrado';
+      document.getElementById('fichaUpd').textContent   = ficha.actualizado ? fmt(ficha.actualizado) : 'Nunca';
     }
 
-    function cerrarSesion() {
-      if (confirm('¿Seguro que deseas cerrar sesión?')) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
-        location.href = '../auth/login.html';
-      }
+    function fallbackMem(usuario) {
+      document.getElementById('memDisc').textContent  = usuario.disciplina || '—';
+      document.getElementById('memVence').textContent = 'Consultar administración';
+      document.getElementById('memProgress').style.width = '50%';
+      document.getElementById('memDias').textContent = 'Vigencia aproximada';
     }
 
-    cargarMembresia();
+    function mostrarToast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, 2500);
+    }
+
+    cargarPerfil();
   </script>
 </body>
 </html>

@@ -33,6 +33,7 @@ database/
 frontend/
   index.html               Entrada que redirige al inicio de sesión
   pages/
+    auth.js                Navegación compartida y guardias de roles
     auth/                  Inicio de sesión
     admin/                 Dashboard, alumnos, accesos y tesorería
     portal/                Clases, matrículas, perfil y pagos

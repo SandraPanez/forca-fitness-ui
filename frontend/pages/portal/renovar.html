@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Renovar Matrícula — Forca & Fitness</title>
+  <title>Renovar Matrícula — Forca &amp; Fitness</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -19,7 +19,7 @@
     .nav-right{display:flex;align-items:center;gap:10px;}
     .bell{position:relative;font-size:17px;}
     .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
-    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
     .user-info .name{font-size:13px;font-weight:600;}
     .user-info .role{font-size:11px;color:#9ca3af;}
     main{max-width:860px;margin:0 auto;padding:28px 32px;}
@@ -31,7 +31,6 @@
     .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;max-width:600px;line-height:1.5;}
     .main-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px;margin-bottom:20px;}
     .section-label{font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.5px;margin-bottom:14px;}
-    /* TIPO CARDS */
     .tipo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
     .tipo-card{border:2px solid #e5e7eb;border-radius:12px;padding:18px;cursor:pointer;position:relative;transition:border-color .18s,background .18s,box-shadow .18s;}
     .tipo-card:hover{border-color:#0d2d5e;box-shadow:0 2px 10px rgba(13,45,94,.1);}
@@ -45,7 +44,6 @@
     .check-box{width:20px;height:20px;border-radius:50%;position:absolute;top:12px;right:12px;transition:all .18s;}
     .check-box.on{background:#0d2d5e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;}
     .check-box.off{background:#fff;border:2px solid #e5e7eb;}
-    /* DISCIPLINA */
     .disc-block{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-bottom:20px;}
     .disc-top{display:flex;align-items:center;justify-content:space-between;}
     .disc-left{display:flex;align-items:center;gap:14px;}
@@ -56,7 +54,6 @@
     .disc-meta span{display:flex;align-items:center;gap:4px;}
     .vence-badge{background:#fef9c3;color:#92400e;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:700;text-align:right;}
     .vence-badge .sub{font-size:10px;color:#9ca3af;margin-top:2px;font-weight:400;}
-    /* PERIODOS */
     .periodo-label{font-size:12px;font-weight:700;color:#374151;margin:16px 0 10px;}
     .periodo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
     .periodo-card{border:2px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;position:relative;transition:border-color .18s,background .18s,box-shadow .18s;}
@@ -71,7 +68,6 @@
     .periodo-orig{font-size:11px;color:#9ca3af;text-decoration:line-through;}
     .periodo-save{font-size:11px;color:#16a34a;font-weight:700;}
     .periodo-sub{font-size:11px;color:#9ca3af;margin-top:4px;}
-    /* TOTAL BAR */
     .total-bar{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;transition:all .25s;}
     .total-icon{font-size:22px;margin-right:12px;}
     .total-label{font-size:11px;color:#9ca3af;font-weight:700;margin-bottom:2px;}
@@ -92,7 +88,6 @@
     .trust-sub{font-size:11px;color:#9ca3af;}
     footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:20px;}
     footer a{color:#0d2d5e;text-decoration:none;}
-    /* Toast */
     .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
     .toast.show{opacity:1;transform:translateY(0);}
   </style>
@@ -100,19 +95,18 @@
 <body>
   <nav>
     <div class="nav-logo">
-      <div class="logo-box">F&F</div>
-      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
+      <div class="logo-box">F&amp;F</div>
+      <div class="logo-text"><h1>FORCA &amp; FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
-    <div class="nav-links">
-      <a href="../auth/login.html">Inicio</a>
-      <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
-      <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="#">Historial de Pagos</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar">MG</div>
-      <div class="user-info"><div class="name">Martín Gómez Silva</div><div class="role">Socio #1042 · BJJ Azul</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
@@ -141,35 +135,34 @@
         </div>
       </div>
 
-      <div class="section-label">2. MATRÍCULA ACTUAL Y PERIODO A RENOVAR <span style="float:right;font-size:11px;color:#9ca3af;font-weight:400;">Expediente Socio: <strong style="color:#374151;">#1042</strong></span></div>
+      <div class="section-label">2. MATRÍCULA ACTUAL Y PERIODO A RENOVAR <span style="float:right;font-size:11px;color:#9ca3af;font-weight:400;">Expediente Socio: <strong style="color:#374151;" id="numSocio">#—</strong></span></div>
       <div class="disc-block">
         <div class="disc-top">
           <div class="disc-left">
-            <div class="disc-logo">BJJ</div>
+            <div class="disc-logo" id="discLogo">—</div>
             <div>
-              <div class="disc-name">Brazilian Jiu-Jitsu (Gi & No-Gi) <span class="disc-level">Nivel Intermedio</span></div>
+              <div class="disc-name" id="discNombre">— <span class="disc-level" id="discLevel">—</span></div>
               <div class="disc-meta">
                 <span>⏱ Turno Noche: 19:00 – 20:30 PM (Lun a Vie)</span>
-                <span>👤 Profesor: Renzo Gracie</span>
+                <span>📍 Sede Central Miraflores</span>
               </div>
-              <div class="disc-meta" style="margin-top:4px;"><span>📍 Sede Central Miraflores (Tatami Principal)</span></div>
             </div>
           </div>
           <div class="vence-badge">
-            ⏱ Vence: 28 Mar 2025 (en 3 días)
+            ⏱ Próximo vencimiento
             <div class="sub">Tarifa base regular: S/. 150.00 / mes</div>
           </div>
         </div>
 
         <div class="periodo-label">Elige el periodo de renovación</div>
         <div class="periodo-grid">
-          <div class="periodo-card selected" onclick="selPeriodo(this,150,'1 mes','28 de Abril de 2025')" id="p1">
+          <div class="periodo-card selected" onclick="selPeriodo(this,150,'1 mes','28 de Abril 2025')" id="p1">
             <div class="check">✓</div>
             <div class="periodo-title">1 Mes</div>
             <div class="periodo-price">S/. 150.00</div>
             <div class="periodo-sub">Facturación mensual regular</div>
           </div>
-          <div class="periodo-card" onclick="selPeriodo(this,405,'3 meses','28 de Junio de 2025')" id="p3">
+          <div class="periodo-card" onclick="selPeriodo(this,405,'3 meses','28 de Junio 2025')" id="p3">
             <span class="off-badge">10% OFF</span>
             <div class="check">✓</div>
             <div class="periodo-title">3 Meses</div>
@@ -177,7 +170,7 @@
             <div class="periodo-orig">S/. 450.00</div>
             <div class="periodo-save">Ahorras S/. 45.00 (S/. 135/mes)</div>
           </div>
-          <div class="periodo-card" onclick="selPeriodo(this,720,'6 meses','28 de Septiembre de 2025')" id="p6">
+          <div class="periodo-card" onclick="selPeriodo(this,720,'6 meses','28 de Septiembre 2025')" id="p6">
             <span class="off-badge">20% OFF</span>
             <div class="check">✓</div>
             <div class="periodo-title">6 Meses Semestral</div>
@@ -194,7 +187,7 @@
           <div>
             <div class="total-label">TOTAL A LIQUIDAR</div>
             <div><span class="total-amt" id="total-amt">S/. 150.00</span> <span class="total-currency">PEN (IGV incluido)</span></div>
-            <div class="total-vence">Nueva fecha de vencimiento: <strong id="total-vence">28 de Abril de 2025</strong></div>
+            <div class="total-vence">Nueva fecha de vencimiento: <strong id="total-vence">28 de Abril 2025</strong></div>
           </div>
         </div>
         <div class="total-actions">
@@ -210,103 +203,66 @@
       <div class="trust-item"><div class="trust-icon">📄</div><div><div class="trust-title">Comprobante Electrónico</div><div class="trust-sub">Emisión automática de boleta / factura con código QR.</div></div></div>
     </div>
   </main>
-  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
+  <footer><strong>FORCA &amp; FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
 
   <div class="toast" id="toast"></div>
 
+  <script src="../auth.js"></script>
   <script>
-    // Auth guard
-    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    requireRol(['Alumno', 'Admin', 'Tesorería']);
+    initNav();
+
+    // Poblar disciplina desde localStorage
+    var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    if (usuario.id) {
+      document.getElementById('numSocio').textContent = '#' + usuario.id;
+    }
+    if (usuario.disciplina) {
+      document.getElementById('discLogo').textContent = usuario.disciplina.substring(0,3).toUpperCase();
+      document.getElementById('discNombre').innerHTML = usuario.disciplina + ' <span class="disc-level" id="discLevel">Activa</span>';
     }
 
-    // ── TIPO CARD SELECTION ──
     function selTipo(card, tipo) {
-      document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.tipo-card').forEach(function(c) {
+        c.classList.remove('selected');
+      });
       card.classList.add('selected');
-      ['renovar','reservar'].forEach(t => {
-        const chk = document.getElementById('chk-' + t);
-        if (t === tipo) { chk.className = 'check-box on'; chk.textContent = '✓'; }
-        else { chk.className = 'check-box off'; chk.textContent = ''; }
+      ['renovar','reservar'].forEach(function(t) {
+        var chk = document.getElementById('chk-' + t);
+        if (t === tipo) {
+          chk.className = 'check-box on';
+          chk.textContent = '✓';
+        } else {
+          chk.className = 'check-box off';
+          chk.textContent = '';
+        }
       });
       document.getElementById('total-icon').textContent = tipo === 'renovar' ? '🔄' : '🔒';
       toast(tipo === 'renovar' ? '🔄 Renovación de matrícula seleccionada' : '🔒 Reserva de cupo seleccionada');
     }
 
-    // ── PERIODO CARD SELECTION ──
-    let montoSeleccionado = 150;
     function selPeriodo(card, monto, label, fechaVence) {
-      montoSeleccionado = monto;
-      document.querySelectorAll('.periodo-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.periodo-card').forEach(function(c) { c.classList.remove('selected'); });
       card.classList.add('selected');
-      const amtEl = document.getElementById('total-amt');
+      var amtEl = document.getElementById('total-amt');
       amtEl.style.transform = 'scale(1.08)';
       amtEl.style.color = '#16a34a';
       amtEl.textContent = 'S/. ' + monto.toFixed(2);
-      setTimeout(() => { amtEl.style.transform = 'scale(1)'; amtEl.style.color = '#0d2d5e'; }, 300);
+      setTimeout(function() {
+        amtEl.style.transform = 'scale(1)';
+        amtEl.style.color = '#0d2d5e';
+      }, 300);
       document.getElementById('total-vence').textContent = fechaVence;
       toast('✅ ' + label + ' seleccionado — Total: S/. ' + monto.toFixed(2));
     }
 
-    // ── CONFIRMAR PAGO ──
-    document.querySelector('.btn-pagar').onclick = async function(e) {
-      e.preventDefault();
-      const btn = this;
-      btn.textContent = 'Procesando...';
-      btn.disabled = true;
-
-      const id_alumno = usuario.id_alumno || usuario.id;
-      if (!id_alumno) {
-        toast('⚠️ Error: sesión no válida');
-        btn.textContent = 'Continuar a pagar renovación →';
-        btn.disabled = false;
-        return;
-      }
-
-      try {
-        const res = await fetch('https://forca-fitness-backend.onrender.com/api/pagos', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-          },
-          body: JSON.stringify({
-            id_alumno: id_alumno,
-            monto: montoSeleccionado,
-            medio_pago: 'yape',
-            concepto: 'Renovación matrícula BJJ',
-            estado: 'pendiente'
-          })
-        });
-
-        const data = await res.json();
-        if (!res.ok) {
-          toast('⚠️ ' + (data.error || 'Error al registrar pago'));
-          btn.textContent = 'Continuar a pagar renovación →';
-          btn.disabled = false;
-          return;
-        }
-
-        toast('✅ Pago registrado. Redirigiendo...');
-        setTimeout(() => location.href = 'pagos.html', 1500);
-
-      } catch(err) {
-        toast('⚠️ No se pudo conectar con el servidor');
-        btn.textContent = 'Continuar a pagar renovación →';
-        btn.disabled = false;
-      }
-    };
-
     function toast(msg) {
-      const t = document.getElementById('toast');
+      var t = document.getElementById('toast');
       t.textContent = msg;
       t.classList.add('show');
       clearTimeout(t._timer);
-      t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+      t._timer = setTimeout(function() { t.classList.remove('show'); }, 2200);
     }
-</script>
+  </script>
 </body>
 </html>

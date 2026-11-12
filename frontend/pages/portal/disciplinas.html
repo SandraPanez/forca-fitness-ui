@@ -83,7 +83,6 @@
     footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:20px;}
     footer a{color:#0d2d5e;text-decoration:none;}
     .empty-msg{grid-column:1/-1;text-align:center;padding:40px;color:#9ca3af;font-size:14px;}
-    /* Toast */
     .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
     .toast.show{opacity:1;transform:translateY(0);}
   </style>
@@ -94,17 +93,15 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DE TATAMI</p></div>
     </div>
-    <div class="nav-links">
-      <a href="../auth/login.html">Inicio</a>
-      <a href="#" class="active">📋 Consulta de Clases</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="../admin/control_acceso.html">Control de Acceso</a>
-      <a href="../admin/alumnos.html">Alumnos</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">MG</div>
-      <div class="user-info"><div class="name">Martín Gómez Silva</div><div class="role">Socio #1042 · BJJ Azul</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
@@ -152,7 +149,6 @@
         <div class="avail-bar"><div class="avail-fill fill-orange" style="width:84%;"></div></div>
         <button class="btn-reservar" onclick="location.href='renovar.html'">📋 Reservar cupo</button>
       </div>
-
       <div class="class-card" data-disc="bjj" data-dias="semana">
         <div class="cc-header"><span class="disc-pill pill-bjj">BRAZILIAN JIU-JITSU</span><span class="days-badge">Lunes a Viernes</span></div>
         <div class="cc-title">BJJ Fundamentos & Iniciación</div>
@@ -164,9 +160,8 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 16 / 25 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:36%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='renovar.html'">🥋 Matricularme</button>
       </div>
-
       <div class="class-card" data-disc="mt" data-dias="semana">
         <div class="cc-header"><span class="disc-pill pill-mt">MUAY THAI</span><span class="days-badge">Lunes a Viernes</span></div>
         <div class="cc-title">Muay Thai · Las 8 Extremidades</div>
@@ -178,9 +173,8 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 12 / 20 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:40%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='renovar.html'">🥋 Matricularme</button>
       </div>
-
       <div class="class-card" data-disc="box" data-dias="semana">
         <div class="cc-header"><span class="disc-pill pill-box">BOXEO</span><span class="days-badge">Lunes a Viernes</span></div>
         <div class="cc-title">Boxeo Clásico & Sparring Técnico</div>
@@ -194,7 +188,6 @@
         <div class="avail-bar"><div class="avail-fill fill-orange" style="width:83%;"></div></div>
         <button class="btn-reservar" onclick="location.href='renovar.html'">📋 Reservar cupo</button>
       </div>
-
       <div class="class-card" data-disc="cap" data-dias="sabado">
         <div class="cc-header"><span class="disc-pill pill-cap">CAPOEIRA</span><span class="days-badge">Sábados</span></div>
         <div class="cc-title">Capoeira Regional · Roda & Acrobacia</div>
@@ -206,9 +199,8 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 14 / 22 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:36%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='renovar.html'">🥋 Matricularme</button>
       </div>
-
       <div class="class-card" data-disc="gym" data-dias="semana">
         <div class="cc-header"><span class="disc-pill pill-gym">FUERZA / HIIT</span><span class="days-badge">Lunes a Viernes</span></div>
         <div class="cc-title">Acondicionamiento Físico para Atletas</div>
@@ -220,9 +212,8 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 20 / 30 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:33%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='renovar.html'">🥋 Matricularme</button>
       </div>
-
       <div class="class-card" data-disc="bjj" data-dias="sabado">
         <div class="cc-header"><span class="disc-pill pill-bjj">BRAZILIAN JIU-JITSU</span><span class="days-badge">Sábados</span></div>
         <div class="cc-title">BJJ No-Gi · Submission & Wrestling</div>
@@ -236,7 +227,6 @@
         <div class="avail-bar"><div class="avail-fill fill-orange" style="width:80%;"></div></div>
         <button class="btn-reservar" onclick="location.href='renovar.html'">📋 Reservar cupo</button>
       </div>
-
       <div class="class-card" data-disc="mt" data-dias="sabado">
         <div class="cc-header"><span class="disc-pill pill-mt">MUAY THAI</span><span class="days-badge">Sábados</span></div>
         <div class="cc-title">Muay Thai · Sparring Técnico & Paos</div>
@@ -248,7 +238,7 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 11 / 18 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:39%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='renovar.html'">🥋 Matricularme</button>
       </div>
     </div>
 
@@ -263,20 +253,14 @@
       <div class="trust-item"><div class="trust-icon">🔄</div><div><div class="trust-title">Recuperación de Clases</div><div class="trust-sub">Flexibilidad para recuperar sesiones no asistidas durante el mes.</div></div></div>
     </div>
   </main>
-  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · <a href="#">Libro de Reclamaciones</a> · Versión 2.4.0</footer>
-
+  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a></footer>
   <div class="toast" id="toast"></div>
 
+  <script src="../auth.js"></script>
   <script>
-    // Auth guard
-    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.user-info .role').textContent = (usuario.rol || 'Socio') + ' · ' + (usuario.disciplina || '');
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
-    }
-    
+    requireRol([]); // cualquier usuario autenticado
+    initNav();
+
     var filtroDisc = '';
     var filtroDias = '';
 
@@ -286,25 +270,17 @@
       cards.forEach(function(c) {
         var matchDisc = !filtroDisc || c.dataset.disc === filtroDisc;
         var matchDias = !filtroDias || c.dataset.dias === filtroDias;
-        if (matchDisc && matchDias) {
-          c.classList.remove('hidden');
-          visible++;
-        } else {
-          c.classList.add('hidden');
-        }
+        if (matchDisc && matchDias) { c.classList.remove('hidden'); visible++; }
+        else { c.classList.add('hidden'); }
       });
       document.getElementById('badge-count').textContent = '📋 ' + visible + ' clase' + (visible !== 1 ? 's' : '') + ' disponible' + (visible !== 1 ? 's' : '');
-      // Mostrar mensaje vacío si no hay resultados
       var emptyMsg = document.getElementById('empty-msg');
       if (visible === 0 && !emptyMsg) {
         var msg = document.createElement('div');
-        msg.id = 'empty-msg';
-        msg.className = 'empty-msg';
+        msg.id = 'empty-msg'; msg.className = 'empty-msg';
         msg.textContent = '😔 No hay clases disponibles con este filtro';
         document.getElementById('cardsGrid').appendChild(msg);
-      } else if (visible > 0 && emptyMsg) {
-        emptyMsg.remove();
-      }
+      } else if (visible > 0 && emptyMsg) { emptyMsg.remove(); }
     }
 
     function filtrarTab(disc, btn) {
@@ -320,7 +296,6 @@
     function filtrarDesdeSelect() {
       filtroDisc = document.getElementById('sel-disc').value;
       filtroDias = document.getElementById('sel-dias').value;
-      // Sincronizar tabs
       document.querySelectorAll('.disc-tab').forEach(function(t) { t.classList.remove('active'); });
       document.querySelectorAll('.disc-tab').forEach(function(t) {
         var onclick = t.getAttribute('onclick') || '';
@@ -331,8 +306,7 @@
     }
 
     function resetFiltros() {
-      filtroDisc = '';
-      filtroDias = '';
+      filtroDisc = ''; filtroDias = '';
       document.getElementById('sel-disc').value = '';
       document.getElementById('sel-dias').value = '';
       document.querySelectorAll('.disc-tab').forEach(function(t) { t.classList.remove('active'); });
@@ -343,8 +317,7 @@
 
     function toast(msg) {
       var t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
+      t.textContent = msg; t.classList.add('show');
       clearTimeout(t._timer);
       t._timer = setTimeout(function() { t.classList.remove('show'); }, 2200);
     }

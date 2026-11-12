@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mis Matrículas — Forca & Fitness</title>
+  <title>Mis Matrículas — Forca &amp; Fitness</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -32,11 +32,7 @@
     .btn-primary:hover{background:#0a2448;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
     .alert-green{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start;}
     .alert-green .text{font-size:13px;color:#166534;}
-    .alert-green .text strong{font-weight:700;}
     .alert-green .time{font-size:11px;color:#9ca3af;cursor:pointer;white-space:nowrap;margin-left:12px;}
-    .alert-orange{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-bottom:20px;}
-    .alert-orange .title{font-size:13px;font-weight:700;color:#92400e;display:flex;justify-content:space-between;}
-    .alert-orange .body{font-size:12px;color:#78350f;margin-top:4px;}
     .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
     .stat{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;display:flex;justify-content:space-between;align-items:center;transition:box-shadow .18s,transform .15s;cursor:default;}
     .stat:hover{box-shadow:0 4px 16px rgba(13,45,94,.1);transform:translateY(-2px);}
@@ -90,33 +86,28 @@
     .hidden{display:none!important;}
     .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
     .toast.show{opacity:1;transform:translateY(0);}
-    .loading{text-align:center;padding:32px;color:#9ca3af;font-size:13px;}
   </style>
 </head>
 <body>
   <nav>
     <div class="nav-logo">
-      <div class="logo-box">F&F</div>
-      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
+      <div class="logo-box">F&amp;F</div>
+      <div class="logo-text"><h1>FORCA &amp; FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
-    <div class="nav-links">
-      <a href="mis-matriculas.html">Inicio</a>
-      <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
-      <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="../admin/tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'" title="Ver perfil" style="cursor:pointer;">--</div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
       <div class="user-info">
-        <div class="name" id="navNombre">Cargando...</div>
-        <div class="role" id="navRol">--</div>
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
       </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
   <main>
-    <div class="breadcrumb">MÓDULO DEL ALUMNO › <span id="breadDisciplina">--</span></div>
+    <div class="breadcrumb">MÓDULO DEL ALUMNO › <span>Plan Multisede</span></div>
     <div class="page-header">
       <div>
         <h1 class="page-title">Mis matrículas</h1>
@@ -125,17 +116,22 @@
       <button class="btn-primary" onclick="location.href='renovar.html'">+ Inscribir nueva disciplina / Renovar</button>
     </div>
 
-    <div class="stats">
-      <div class="stat"><div><div class="label">Disciplinas Activas</div><div class="value" id="statActivas">--</div></div><div class="stat-icon">🥋</div></div>
-      <div class="stat"><div><div class="label">Próximas a Vencer (&lt; 7 días)</div><div class="value" style="color:#d97706;" id="statProximas">--</div></div><div class="stat-icon">⚠️</div></div>
-      <div class="stat"><div><div class="label">Pagos Pendientes</div><div class="value" id="statPendientes">--</div></div><div class="stat-icon">🕐</div></div>
+    <div class="alert-green" id="alertGreen">
+      <div><span>✅ </span><span class="text"><strong>Portal de matrículas activo.</strong> Consulta tus disciplinas inscritas y fechas de vencimiento.</span></div>
+      <div class="time" onclick="document.getElementById('alertGreen').remove()">✕ cerrar</div>
+    </div>
+
+    <div class="stats" id="statsRow">
+      <div class="stat"><div><div class="label">Disciplinas Activas</div><div class="value" id="statActivas">—</div></div><div class="stat-icon">🥋</div></div>
+      <div class="stat"><div><div class="label">Próximas a Vencer (&lt; 7 días)</div><div class="value" style="color:#d97706;" id="statVencer">—</div></div><div class="stat-icon">⚠️</div></div>
+      <div class="stat"><div><div class="label">Historial / Vencidas</div><div class="value" id="statVencidas">—</div></div><div class="stat-icon">🕐</div></div>
     </div>
 
     <div class="table-wrap">
       <div class="table-header">
         <div>
           <h3>Estado de Matrículas e Inscripciones</h3>
-          <p id="tableDesc">Cargando datos...</p>
+          <p>Historial activo de cuotas y fechas límites de renovación</p>
         </div>
         <div class="filter-tabs">
           <button class="tab active" onclick="filtrar('todas',this)">Todas</button>
@@ -146,20 +142,20 @@
       <table>
         <thead>
           <tr>
-            <th>ALUMNO</th>
             <th>DISCIPLINA</th>
-            <th>MEMBRESÍA HASTA</th>
+            <th>FECHA DE INICIO</th>
+            <th>FECHA DE VENCIMIENTO</th>
             <th>ESTADO</th>
             <th>ACCIÓN</th>
           </tr>
         </thead>
         <tbody id="tablaBody">
-          <tr><td colspan="5" class="loading">Cargando matrículas...</td></tr>
+          <tr><td colspan="5" style="text-align:center;padding:28px;color:#9ca3af;">Cargando matrículas…</td></tr>
         </tbody>
       </table>
       <div class="table-footer">
         <span>⏱ Las renovaciones con transferencia se actualizan al validar el comprobante.</span>
-        <span><a href="#">Soporte</a></span>
+        <span><a href="#">Políticas de congelamiento</a> · <a href="#">Soporte</a></span>
       </div>
     </div>
 
@@ -178,133 +174,112 @@
       </div>
     </div>
   </main>
-  <footer>FORCA & FITNESS S.A.C. · © 2025 Todos los derechos reservados · <a href="#" style="color:#0d2d5e;">Soporte Técnico</a> · Versión 2.4.0</footer>
+  <footer>FORCA &amp; FITNESS S.A.C. · © 2025 Todos los derechos reservados · <a href="#" style="color:#0d2d5e;">Soporte Técnico</a> · Versión 2.4.0</footer>
 
   <div class="toast" id="toast"></div>
 
+  <script src="../auth.js"></script>
   <script>
-    const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol(['Alumno', 'Admin', 'Tesorería']);
+    initNav();
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+    var API = 'https://forca-fitness-backend.onrender.com';
+    var headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 
-    // ── Poblar nav ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
-      document.getElementById('breadDisciplina').textContent = usuario.disciplina || 'Mi Plan';
+    function formatFecha(f) {
+      if (!f) return '—';
+      return new Date(f).toLocaleDateString('es-PE', { day:'2-digit', month:'short', year:'numeric' });
     }
 
-    // ── Estado badge ──
-    function estadoBadge(a) {
-      if (!a.fecha_fin_membresia) return { clase:'badge-vencida', texto:'● Sin membresía', estado:'vencida' };
-      const diff = Math.ceil((new Date(a.fecha_fin_membresia) - new Date()) / 86400000);
-      if (diff < 0) return { clase:'badge-vencida', texto:'● Vencida', estado:'vencida' };
-      if (diff <= 7) return { clase:'badge-reservada', texto:'⏱ Vence en ' + diff + ' días', estado:'proxima' };
-      return { clase:'badge-active', texto:'● Activa', estado:'activa' };
+    function diasRestantes(fechaFin) {
+      if (!fechaFin) return null;
+      var hoy = new Date();
+      hoy.setHours(0,0,0,0);
+      var fin = new Date(fechaFin);
+      fin.setHours(0,0,0,0);
+      return Math.ceil((fin - hoy) / (1000 * 60 * 60 * 24));
     }
 
-    // ── Cargar alumnos y renderizar ──
     async function cargarMatriculas() {
       try {
-        const res = await fetch(API + '/api/alumnos', { headers });
-        if (!res.ok) throw new Error('Error al cargar datos');
-        const alumnos = await res.json();
+        var res = await fetch(API + '/api/alumnos', { headers: headers });
+        var alumnos = await res.json();
+        var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+        var tbody = document.getElementById('tablaBody');
+        tbody.innerHTML = '';
 
-        let activas = 0, proximas = 0, vencidas = 0;
-        alumnos.forEach(a => {
-          const { estado } = estadoBadge(a);
-          if (estado === 'activa') activas++;
-          else if (estado === 'proxima') { activas++; proximas++; }
-          else vencidas++;
+        // Filtrar por usuario actual (alumno ve solo sus matrículas)
+        var lista = alumnos;
+        if (usuario.rol === 'Alumno') {
+          lista = alumnos.filter(function(a) { return a.id === usuario.id || a.email === usuario.email; });
+        }
+
+        var activas = 0, proxVencer = 0, vencidas = 0;
+
+        lista.forEach(function(a) {
+          var dias = diasRestantes(a.fecha_fin_membresia);
+          var estado, badgeHtml;
+          if (dias === null || dias < 0) {
+            estado = 'vencida'; badgeHtml = '<span class="badge-vencida">● Vencida</span>';
+            vencidas++;
+          } else {
+            estado = 'activa'; badgeHtml = '<span class="badge-active">● Activa</span>';
+            activas++;
+            if (dias <= 7) proxVencer++;
+          }
+
+          var vencHTML = '';
+          if (dias !== null && dias >= 0) {
+            vencHTML = '<div class="' + (dias <= 7 ? 'date-warn' : '') + '">' + formatFecha(a.fecha_fin_membresia) + '</div><div class="date-sub">' + (dias <= 7 ? 'Vence en ' + dias + ' días' : 'Vigente') + '</div>';
+          } else {
+            vencHTML = '<div style="color:#dc2626;font-weight:600;">' + formatFecha(a.fecha_fin_membresia) + '</div><div class="date-sub">Vencida</div>';
+          }
+
+          var accionHTML = '<button class="btn-renew" onclick="location.href=\'renovar.html\'">↻ Renovar</button>&nbsp;<button class="btn-comp" onclick="location.href=\'comprobante.html\'">📄 Comprobante</button>';
+
+          var tr = document.createElement('tr');
+          tr.setAttribute('data-estado', estado);
+          tr.innerHTML =
+            '<td><div class="disc-cell"><div class="disc-logo bjj">' + (a.disciplina || 'GEN').substring(0,3).toUpperCase() + '</div><div><div class="disc-name">' + (a.nombre || '—') + '</div><span class="disc-tag">' + (a.disciplina || 'General') + '</span><div class="disc-sede">DNI: ' + (a.dni || '—') + '</div></div></div></td>' +
+            '<td><div>' + formatFecha(a.fecha_inicio_membresia || a.created_at) + '</div><div class="date-sub">Matrícula</div></td>' +
+            '<td>' + vencHTML + '</td>' +
+            '<td>' + badgeHtml + '</td>' +
+            '<td>' + accionHTML + '</td>';
+          tbody.appendChild(tr);
         });
 
         document.getElementById('statActivas').textContent = activas;
-        document.getElementById('statProximas').textContent = proximas;
-        document.getElementById('tableDesc').textContent = alumnos.length + ' registros en total';
+        document.getElementById('statVencer').textContent = proxVencer;
+        document.getElementById('statVencidas').textContent = vencidas;
 
-        // Pagos pendientes
-        try {
-          const resP = await fetch(API + '/api/pagos/pendientes', { headers });
-          if (resP.ok) {
-            const pagos = await resP.json();
-            document.getElementById('statPendientes').textContent = pagos.length || 0;
-          }
-        } catch(_) { document.getElementById('statPendientes').textContent = '0'; }
-
-        renderTabla(alumnos);
+        if (!lista.length) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:28px;color:#9ca3af;">No hay matrículas registradas.</td></tr>';
+        }
       } catch(e) {
-        document.getElementById('tablaBody').innerHTML = '<tr><td colspan="5" class="loading">❌ No se pudieron cargar los datos: ' + e.message + '</td></tr>';
+        console.error('Error cargando matrículas:', e);
+        document.getElementById('tablaBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:28px;color:#dc2626;">Error al cargar datos.</td></tr>';
       }
-    }
-
-    function renderTabla(alumnos) {
-      const tbody = document.getElementById('tablaBody');
-      if (!alumnos.length) {
-        tbody.innerHTML = '<tr><td colspan="5" class="loading">No hay registros para mostrar.</td></tr>';
-        return;
-      }
-      tbody.innerHTML = alumnos.map(a => {
-        const badge = estadoBadge(a);
-        const fechaFin = a.fecha_fin_membresia
-          ? new Date(a.fecha_fin_membresia).toLocaleDateString('es-PE', {day:'2-digit',month:'short',year:'numeric'})
-          : 'Sin fecha';
-        const ini = (a.nombre || '--').substring(0,2).toUpperCase();
-        const estaVencida = badge.estado === 'vencida';
-        return `<tr data-estado="${badge.estado}">
-          <td>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:34px;height:34px;border-radius:50%;background:#0d2d5e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;">${ini}</div>
-              <div>
-                <div style="font-weight:600;color:#111;">${a.nombre || '--'}</div>
-                <div style="font-size:11px;color:#9ca3af;">${a.email || ''}</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div style="font-weight:600;">${a.disciplina || 'Sin disciplina'}</div>
-            <div style="font-size:11px;color:#9ca3af;">${a.turno || ''}</div>
-          </td>
-          <td>
-            <div style="${estaVencida ? 'color:#dc2626;' : badge.estado==='proxima' ? 'color:#d97706;' : ''}font-weight:600;">${fechaFin}</div>
-            <div style="font-size:11px;color:#9ca3af;">${badge.texto}</div>
-          </td>
-          <td><span class="${badge.clase}">${badge.texto}</span></td>
-          <td>
-            ${estaVencida
-              ? `<button class="btn-renew" onclick="location.href='renovar.html'">↻ Renovar</button>`
-              : `<button class="btn-comp" onclick="location.href='comprobante.html'">📄 Comprobante</button>`}
-          </td>
-        </tr>`;
-      }).join('');
     }
 
     function filtrar(estado, btn) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
       btn.classList.add('active');
-      const filas = document.querySelectorAll('#tablaBody tr[data-estado]');
-      filas.forEach(fila => {
+      document.querySelectorAll('#tablaBody tr').forEach(function(fila) {
         if (estado === 'todas') {
           fila.classList.remove('hidden');
         } else {
-          fila.dataset.estado === estado || (estado === 'activa' && fila.dataset.estado === 'proxima')
-            ? fila.classList.remove('hidden')
-            : fila.classList.add('hidden');
+          fila.dataset.estado === estado ? fila.classList.remove('hidden') : fila.classList.add('hidden');
         }
       });
-      const labels = {todas:'Mostrando todas las matrículas',activa:'Filtrando: disciplinas activas',vencida:'Filtrando: disciplinas vencidas'};
+      var labels = { todas:'Mostrando todas las matrículas', activa:'Filtrando: disciplinas activas', vencida:'Filtrando: disciplinas vencidas' };
       mostrarToast(labels[estado]);
     }
 
     function mostrarToast(msg) {
-      const t = document.getElementById('toast');
+      var t = document.getElementById('toast');
       t.textContent = msg;
       t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
+      setTimeout(function() { t.classList.remove('show'); }, 2200);
     }
 
     cargarMatriculas();

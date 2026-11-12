@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Editar Perfil — Forca & Fitness</title>
+  <title>Editar Perfil — Forca &amp; Fitness</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -13,206 +13,299 @@
     .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
     .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
     .logo-text p{font-size:10px;color:#9ca3af;}
-    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
     .nav-links a.active{color:#0d2d5e;font-weight:700;border-bottom:2px solid #0d2d5e;}
-    .nav-right{display:flex;align-items:center;gap:10px;}
-    .bell{position:relative;font-size:17px;}
-    .bell-dot{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#f59e0b;border-radius:50%;}
-    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+    .nav-right{display:flex;align-items:center;gap:12px;}
+    .bell{font-size:18px;cursor:pointer;position:relative;}
+    .bell-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#f59e0b;border-radius:50%;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
     .user-info .name{font-size:13px;font-weight:600;}
     .user-info .role{font-size:11px;color:#9ca3af;}
     main{max-width:720px;margin:0 auto;padding:28px 32px;}
-    .back-link{font-size:13px;color:#374151;text-decoration:none;display:flex;align-items:center;gap:5px;margin-bottom:12px;}
-    .back-link:hover{color:#0d2d5e;}
-    .eyebrow{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;margin-bottom:14px;}
-    .eyebrow span{width:6px;height:6px;background:#1d4ed8;border-radius:50%;}
-    h1{font-size:30px;font-weight:800;color:#0d2d5e;margin-bottom:6px;}
-    .page-sub{font-size:14px;color:#6b7280;margin-bottom:28px;}
-    .form-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;margin-bottom:16px;}
-    .form-card-head{padding:20px 28px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
-    .form-card-title-row{display:flex;align-items:center;gap:8px;}
-    .fct-icon{font-size:18px;}
-    .fct-title{font-size:15px;font-weight:700;color:#111;}
-    .fct-desc{font-size:12px;color:#9ca3af;margin-top:2px;}
-    .required-badge{background:#fef9c3;color:#92400e;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:600;}
-    .form-body{padding:24px 28px;}
-    .section-label{font-size:11px;font-weight:700;color:#0d2d5e;letter-spacing:.5px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
-    .section-label span{font-size:11px;color:#9ca3af;font-weight:400;}
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-    .form-group{display:flex;flex-direction:column;gap:5px;}
-    .form-group.full{grid-column:1/-1;}
-    label{font-size:11px;font-weight:700;color:#374151;letter-spacing:.3px;}
-    label .req{color:#dc2626;}
-    input,select{border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 14px;font-size:13px;font-family:'Inter',sans-serif;color:#111;background:#fff;width:100%;}
-    input:focus,select:focus{outline:none;border-color:#0d2d5e;}
-    input:disabled{background:#f9fafb;color:#9ca3af;cursor:not-allowed;}
-    .input-wrapper{position:relative;}
-    .badge-confirmed{display:inline-flex;align-items:center;gap:5px;background:#dcfce7;color:#15803d;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;position:absolute;right:10px;top:50%;transform:translateY(-50%);}
-    .security-alert{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;margin-top:4px;}
-    .security-alert .icon{font-size:16px;margin-top:1px;flex-shrink:0;}
-    .security-alert p{font-size:12px;color:#1d4ed8;line-height:1.5;}
-    .form-actions{padding:20px 28px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px;}
-    .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:11px 22px;font-size:13px;font-weight:500;cursor:pointer;}
-    .btn-save{background:#0d2d5e;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
-    .legal-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;}
-    .legal-left{display:flex;align-items:flex-start;gap:10px;}
-    .legal-icon{font-size:20px;flex-shrink:0;}
-    .legal-text{font-size:12px;color:#374151;line-height:1.6;max-width:500px;}
-    .legal-link{font-size:13px;color:#0d2d5e;font-weight:600;text-decoration:none;white-space:nowrap;}
-    footer{text-align:center;padding:16px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:16px;}
-    footer a{color:#0d2d5e;text-decoration:none;}
-    button{transition:background .18s ease, transform .12s ease, box-shadow .18s ease;}
-    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
-    button:active{transform:translateY(0);}
-    .btn-save:hover{background:#0a2448;}
-    .btn-cancel:hover{background:#f9fafb;border-color:#9ca3af;}
-    .nav-links a:hover{color:#0d2d5e !important;opacity:.8;}
-    .msg{background:#dcfce7;color:#166534;border-radius:8px;padding:12px 16px;font-size:13px;font-weight:600;margin-bottom:16px;display:none;}
-    .msg.error{background:#fee2e2;color:#dc2626;}
+    .breadcrumb{font-size:12px;color:#9ca3af;margin-bottom:12px;}
+    .breadcrumb a{color:#0d2d5e;font-weight:600;text-decoration:none;}
+    .breadcrumb a:hover{text-decoration:underline;}
+    .page-title{font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
+    .page-sub{font-size:13px;color:#6b7280;margin-bottom:24px;}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:16px;}
+    .card-title{font-size:14px;font-weight:700;color:#111;margin-bottom:16px;display:flex;align-items:center;gap:7px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    .form-row.full{grid-template-columns:1fr;}
+    .form-row.three{grid-template-columns:1fr 1fr 1fr;}
+    .fgroup{display:flex;flex-direction:column;}
+    .fgroup label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;}
+    .fgroup input,.fgroup select{border:1.5px solid #e5e7eb;border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;color:#111;background:#fff;transition:border-color .18s,box-shadow .18s;}
+    .fgroup input:focus,.fgroup select:focus{outline:none;border-color:#0d2d5e;box-shadow:0 0 0 3px rgba(13,45,94,.08);}
+    .fgroup input[disabled],.fgroup input.readonly{background:#f8fafc;color:#6b7280;cursor:not-allowed;}
+    .email-wrapper{position:relative;}
+    .email-wrapper input{padding-right:110px;}
+    .badge-confirmed{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#dcfce7;color:#15803d;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;pointer-events:none;}
+    .security-alert{background:#fef9c3;border:1px solid #fcd34d;border-radius:8px;padding:11px 14px;font-size:12px;color:#92400e;margin-top:8px;line-height:1.5;}
+    .pwd-wrapper{position:relative;}
+    .pwd-wrapper input{padding-right:44px;}
+    .pwd-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9ca3af;transition:color .18s;}
+    .pwd-toggle:hover{color:#0d2d5e;}
+    .pwd-hint{font-size:11px;color:#9ca3af;margin-top:5px;line-height:1.4;}
+    .actions{display:flex;gap:12px;margin-top:4px;}
+    .btn-save{background:linear-gradient(135deg,#0d2d5e,#1e40af);color:#fff;border:none;border-radius:9px;padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:7px;transition:transform .12s,box-shadow .18s;}
+    .btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,45,94,.25);}
+    .btn-save:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+    .btn-cancel{background:#fff;border:1.5px solid #e5e7eb;border-radius:9px;padding:11px 20px;font-size:13px;font-weight:500;cursor:pointer;transition:background .18s,border-color .18s,transform .12s;}
+    .btn-cancel:hover{background:#f8fafc;border-color:#9ca3af;transform:translateY(-1px);}
+    .law-note{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:11px;color:#6b7280;line-height:1.6;margin-bottom:16px;}
+    footer{text-align:center;padding:20px;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:24px;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#0d2d5e;color:#fff;border-radius:10px;padding:14px 20px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:999;}
+    .toast.show{opacity:1;transform:translateY(0);}
+    .toast.success{background:#15803d;}
+    .toast.error{background:#dc2626;}
   </style>
 </head>
 <body>
   <nav>
     <div class="nav-logo">
-      <div class="logo-box">F&F</div>
-      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
+      <div class="logo-box">F&amp;F</div>
+      <div class="logo-text"><h1>FORCA &amp; FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="mis-matriculas.html">Inicio</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="../admin/tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" id="navAvatar">--</div>
-      <div class="user-info"><div class="name" id="navNombre">Cargando...</div><div class="role" id="navRol">--</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">—</div>
+        <div class="role" id="navRol">—</div>
+      </div>
+      <button onclick="cerrarSesion()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#9ca3af;padding:4px 8px;">Salir</button>
     </div>
   </nav>
 
   <main>
-    <a class="back-link" href="perfil.html">← Volver a Mi Perfil</a>
-    <div class="eyebrow"><span></span> PORTAL ALUMNO · MI PERFIL</div>
-    <h1>Editar datos personales</h1>
-    <p class="page-sub">Actualiza tu información personal. Los cambios se guardarán en tu perfil.</p>
+    <div class="breadcrumb"><a href="perfil.html">Mi Perfil</a> › <span style="color:#111;">Editar datos</span></div>
+    <h1 class="page-title">Editar mis datos</h1>
+    <p class="page-sub">Actualiza tu información personal. Los cambios se guardan localmente.</p>
 
-    <div id="msgBox" class="msg"></div>
-
-    <div class="form-card">
-      <div class="form-card-head">
-        <div class="form-card-title-row">
-          <span class="fct-icon">👤</span>
-          <div>
-            <div class="fct-title">Datos personales</div>
-            <div class="fct-desc">Modifica los campos que desees actualizar.</div>
-          </div>
+    <!-- Datos personales -->
+    <div class="card">
+      <div class="card-title">👤 Información Personal</div>
+      <div class="form-row">
+        <div class="fgroup">
+          <label>Nombre(s) *</label>
+          <input type="text" id="inpNombres" placeholder="Ej: María Alejandra"/>
         </div>
-        <span class="required-badge">* Campos obligatorios</span>
-      </div>
-
-      <div class="form-body">
-        <div class="section-label">INFORMACIÓN BÁSICA <span id="secId">ID: --</span></div>
-        <div class="form-grid">
-          <div class="form-group full">
-            <label>NOMBRE COMPLETO <span class="req">*</span></label>
-            <input type="text" id="inpNombre" placeholder="Tu nombre completo"/>
-          </div>
-          <div class="form-group">
-            <label>DISCIPLINA</label>
-            <input type="text" id="inpDisc" placeholder="Ej: BJJ, Boxeo..."/>
-          </div>
-          <div class="form-group">
-            <label>ROL</label>
-            <select id="inpRol">
-              <option value="Socio">Socio</option>
-              <option value="Instructor">Instructor</option>
-              <option value="Admin">Administrador</option>
-              <option value="Tesorería">Tesorería</option>
-            </select>
-          </div>
-          <div class="form-group full">
-            <label>CORREO ELECTRÓNICO <span style="font-size:10px;color:#9ca3af;font-weight:400;">(IDENTIFICADOR DE CUENTA)</span></label>
-            <div class="input-wrapper">
-              <input type="email" id="inpEmail" disabled/>
-              <span class="badge-confirmed">✓ Confirmado</span>
-            </div>
-            <div class="security-alert">
-              <span class="icon">⚠</span>
-              <p><strong>Aviso de seguridad:</strong> El correo electrónico está vinculado a tus credenciales de acceso. Para modificarlo, solicita la actualización directamente con administración en sede.</p>
-            </div>
-          </div>
+        <div class="fgroup">
+          <label>Apellido Paterno *</label>
+          <input type="text" id="inpApePat" placeholder="Ej: García"/>
         </div>
       </div>
-
-      <div class="form-actions">
-        <button class="btn-cancel" onclick="location.href='perfil.html'">Cancelar</button>
-        <button class="btn-save" id="btnGuardar" onclick="guardarCambios()">✓ Guardar cambios</button>
+      <div class="form-row">
+        <div class="fgroup">
+          <label>Apellido Materno</label>
+          <input type="text" id="inpApeMat" placeholder="Ej: López"/>
+        </div>
+        <div class="fgroup">
+          <label>DNI *</label>
+          <input type="text" id="inpDni" placeholder="Ej: 12345678" maxlength="8"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="fgroup">
+          <label>Fecha de Nacimiento</label>
+          <input type="date" id="inpFechaNac"/>
+        </div>
+        <div class="fgroup">
+          <label>Género</label>
+          <select id="inpGenero">
+            <option value="">Seleccionar…</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Prefiero no indicar">Prefiero no indicar</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <div class="legal-card">
-      <div class="legal-left">
-        <span class="legal-icon">🛡</span>
-        <p class="legal-text"><strong>Protección de datos conforme a ley:</strong> Tus datos se encuentran encriptados y protegidos bajo la Ley Nº 29733 de Protección de Datos Personales de la República del Perú.</p>
+    <!-- Contacto -->
+    <div class="card">
+      <div class="card-title">📞 Datos de Contacto</div>
+      <div class="form-row">
+        <div class="fgroup">
+          <label>Celular</label>
+          <input type="tel" id="inpCelular" placeholder="Ej: 999 123 456"/>
+        </div>
+        <div class="fgroup">
+          <label>Correo Electrónico</label>
+          <div class="email-wrapper">
+            <input type="email" id="inpEmail" class="readonly" disabled/>
+            <span class="badge-confirmed">✓ Verificado</span>
+          </div>
+        </div>
       </div>
-      <a class="legal-link" href="#">Términos de privacidad →</a>
+      <div class="security-alert">
+        🔒 El correo electrónico está vinculado a tu cuenta y no puede modificarse aquí. Para cambiar tu email, comunícate con el administrador del sistema.
+      </div>
+      <div class="form-row full" style="margin-top:14px;">
+        <div class="fgroup">
+          <label>Dirección</label>
+          <input type="text" id="inpDireccion" placeholder="Ej: Av. Los Olivos 123, Lima"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seguridad -->
+    <div class="card">
+      <div class="card-title">🔐 Cambiar Contraseña <span style="font-size:11px;color:#9ca3af;font-weight:400;">(opcional)</span></div>
+      <div class="form-row">
+        <div class="fgroup">
+          <label>Contraseña actual</label>
+          <div class="pwd-wrapper">
+            <input type="password" id="inpPwdActual" placeholder="Tu contraseña actual"/>
+            <button class="pwd-toggle" onclick="togglePwd('inpPwdActual',this)" type="button">👁</button>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Nueva contraseña</label>
+          <div class="pwd-wrapper">
+            <input type="password" id="inpPwdNueva" placeholder="Mínimo 8 caracteres"/>
+            <button class="pwd-toggle" onclick="togglePwd('inpPwdNueva',this)" type="button">👁</button>
+          </div>
+          <span class="pwd-hint">Mínimo 8 caracteres. Dejar en blanco para no cambiar.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aviso legal -->
+    <div class="law-note">
+      📄 <strong>Protección de datos personales:</strong> Sus datos serán tratados conforme a la <strong>Ley N.º 29733</strong> — Ley de Protección de Datos Personales del Perú y su Reglamento (D.S. N.º 003-2013-JUS). Forca &amp; Fitness S.A.C. garantiza la confidencialidad y seguridad de su información. Para ejercer sus derechos ARCO contáctenos en privacidad@forcafitness.com.pe.
+    </div>
+
+    <!-- Acciones -->
+    <div class="actions">
+      <button class="btn-save" id="btnGuardar" onclick="guardarCambios()">✓ Guardar cambios</button>
+      <button class="btn-cancel" onclick="location.href='perfil.html'">Cancelar</button>
     </div>
   </main>
-  <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
+  <footer>FORCA &amp; FITNESS S.A.C. · © 2025 Todos los derechos reservados · Versión 2.4.0</footer>
 
+  <div class="toast" id="toast"></div>
+
+  <script src="../auth.js"></script>
   <script>
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    requireRol([]);
+    initNav();
 
-    // ── Poblar nav y formulario con datos actuales ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+    // Pre-poblar formulario desde localStorage
+    (function init() {
+      var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      var extra   = JSON.parse(localStorage.getItem('perfilExtra') || '{}');
 
-      document.getElementById('inpNombre').value = usuario.nombre || '';
-      document.getElementById('inpDisc').value = usuario.disciplina || '';
-      document.getElementById('inpEmail').value = usuario.email || '';
-      document.getElementById('secId').textContent = 'ID: ' + (usuario.id || '--');
-
-      // Seleccionar el rol actual en el select
-      const rolSelect = document.getElementById('inpRol');
-      for (let opt of rolSelect.options) {
-        if (opt.value === usuario.rol) { opt.selected = true; break; }
+      // Separar nombre en partes si no hay campos separados
+      var nombreParts = (usuario.nombre || '').split(' ');
+      document.getElementById('inpNombres').value  = extra.nombres   || nombreParts[0] || '';
+      document.getElementById('inpApePat').value   = extra.ape_pat   || nombreParts[1] || '';
+      document.getElementById('inpApeMat').value   = extra.ape_mat   || nombreParts[2] || '';
+      document.getElementById('inpDni').value      = extra.dni       || usuario.dni    || '';
+      document.getElementById('inpCelular').value  = extra.celular   || '';
+      document.getElementById('inpDireccion').value= extra.direccion || '';
+      document.getElementById('inpEmail').value    = usuario.email   || '';
+      if (extra.fecha_nacimiento) {
+        document.getElementById('inpFechaNac').value = extra.fecha_nacimiento;
       }
+      var genSelect = document.getElementById('inpGenero');
+      if (extra.genero) {
+        for (var i = 0; i < genSelect.options.length; i++) {
+          if (genSelect.options[i].value === extra.genero) { genSelect.selectedIndex = i; break; }
+        }
+      }
+    })();
+
+    function togglePwd(id, btn) {
+      var inp = document.getElementById(id);
+      if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+      else { inp.type = 'password'; btn.textContent = '👁'; }
     }
 
-    // ── Guardar cambios en localStorage ──
-    // Nota: el backend no tiene endpoint PUT /api/alumnos/:id en este proyecto,
-    // así que guardamos en localStorage para mantener la sesión actualizada.
-    function guardarCambios() {
-      const btn = document.getElementById('btnGuardar');
-      const msgBox = document.getElementById('msgBox');
-      const nombre = document.getElementById('inpNombre').value.trim();
-      const disc = document.getElementById('inpDisc').value.trim();
-      const rol = document.getElementById('inpRol').value;
+    async function guardarCambios() {
+      var btn = document.getElementById('btnGuardar');
+      var nombres   = document.getElementById('inpNombres').value.trim();
+      var apePat    = document.getElementById('inpApePat').value.trim();
+      var apeMat    = document.getElementById('inpApeMat').value.trim();
+      var dni       = document.getElementById('inpDni').value.trim();
+      var celular   = document.getElementById('inpCelular').value.trim();
+      var direccion = document.getElementById('inpDireccion').value.trim();
+      var fechaNac  = document.getElementById('inpFechaNac').value;
+      var genero    = document.getElementById('inpGenero').value;
+      var pwdActual = document.getElementById('inpPwdActual').value;
+      var pwdNueva  = document.getElementById('inpPwdNueva').value;
 
-      if (!nombre) {
-        msgBox.textContent = 'El nombre no puede estar vacío.';
-        msgBox.className = 'msg error';
-        msgBox.style.display = 'block';
+      if (!nombres || !apePat) {
+        mostrarToast('⚠ Nombre y apellido paterno son obligatorios.', 'error');
+        return;
+      }
+      if (pwdNueva && pwdNueva.length < 8) {
+        mostrarToast('⚠ La nueva contraseña debe tener al menos 8 caracteres.', 'error');
+        return;
+      }
+      if (pwdNueva && !pwdActual) {
+        mostrarToast('⚠ Debes ingresar tu contraseña actual para cambiarla.', 'error');
         return;
       }
 
-      btn.textContent = 'Guardando...';
       btn.disabled = true;
+      btn.textContent = 'Guardando…';
 
-      // Actualizar datos en localStorage
-      const usuarioActualizado = { ...usuario, nombre, disciplina: disc, rol };
-      localStorage.setItem('usuario', JSON.stringify(usuarioActualizado));
+      try {
+        // 1) Intentar actualizar vía API
+        var token = localStorage.getItem('token');
+        var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+        var body = {
+          nombre: nombres + ' ' + apePat + (apeMat ? ' ' + apeMat : ''),
+          celular: celular,
+          direccion: direccion
+        };
+        if (pwdNueva) { body.password = pwdNueva; body.password_actual = pwdActual; }
 
-      msgBox.textContent = '✅ Datos actualizados correctamente. Redirigiendo a tu perfil...';
-      msgBox.className = 'msg';
-      msgBox.style.display = 'block';
+        var res = await fetch('https://forca-fitness-backend.onrender.com/api/usuarios/' + usuario.id, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify(body)
+        });
+        if (res.ok) {
+          var data = await res.json();
+          // Actualizar localStorage con datos frescos del servidor
+          usuario.nombre = body.nombre;
+          localStorage.setItem('usuario', JSON.stringify(usuario));
+        }
+      } catch(e) {
+        // Si la API falla, guardar solo en localStorage
+      }
 
-      setTimeout(() => location.href = 'perfil.html', 2000);
+      // 2) Siempre guardar en localStorage (incluye campos extra)
+      var usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      usuario.nombre = nombres + ' ' + apePat + (apeMat ? ' ' + apeMat : '');
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+
+      var extra = {
+        nombres: nombres,
+        ape_pat: apePat,
+        ape_mat: apeMat,
+        dni: dni,
+        celular: celular,
+        direccion: direccion,
+        fecha_nacimiento: fechaNac,
+        genero: genero,
+        actualizado: new Date().toISOString()
+      };
+      localStorage.setItem('perfilExtra', JSON.stringify(extra));
+
+      mostrarToast('✅ Perfil actualizado correctamente', 'success');
+      setTimeout(function() { location.href = 'perfil.html'; }, 1300);
+    }
+
+    function mostrarToast(msg, tipo) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (tipo ? ' ' + tipo : '');
+      setTimeout(function() { t.classList.remove('show'); }, 2500);
     }
   </script>
 </body>
