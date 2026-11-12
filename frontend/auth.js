@@ -1,37 +1,33 @@
 /**
  * auth.js — Control de roles y navegación dinámica
  * Forca & Fitness · feature/control-roles
+ *
+ * ROLES EN BD: admin, tesorero, recepcion, instructor
+ * LÓGICA FRONTEND:
+ *   - admin + tesorero → vista de gestión (dashboard con stats, alumnos, matrículas, tesorería)
+ *   - recepcion + instructor → vista de alumno/cliente (clases, pagos, perfil)
  */
 
-const API = 'https://forca-fitness-backend.onrender.com';
-
-// ── MAPEO DE ROLES (BD → frontend) ───────────────────────────────────────────
-// BD usa: admin, tesorero, recepcion, instructor
-// Frontend acepta también: Admin, Tesorería, Alumno, Instructor (legacy)
-const ROL_MAP = {
-  'admin':      'admin',
-  'tesorero':   'tesorero',
-  'recepcion':  'recepcion',
-  'instructor': 'instructor',
-  // aliases con mayúscula (por compatibilidad)
-  'Admin':      'admin',
-  'Tesorería':  'tesorero',
-  'Tesoreria':  'tesorero',
-  'Alumno':     'recepcion',
-  'Instructor': 'instructor',
-};
+// ── HELPER: normaliza cualquier rol al grupo de vista ─────────────────────────
+// Devuelve 'admin' o 'alumno' (dos vistas posibles en el frontend)
+function _getRolVista(rolBD) {
+  var r = (rolBD || '').trim().toLowerCase();
+  if (r === 'admin' || r === 'tesorero') return 'admin';
+  return 'alumno'; // recepcion, instructor, o cualquier otro
+}
 
 // ── GUARD DE ROL ─────────────────────────────────────────────────────────────
-// rolesPermitidos: array de roles en minúscula según BD
-// Ej: requireRol(['admin','tesorero']) o requireRol([]) para cualquier usuario
-function requireRol(rolesPermitidos) {
+// vistasPermitidas: ['admin'] solo admins/tesoreros, ['alumno'] solo alumnos,
+//                  [] o sin arg → cualquier usuario autenticado
+function requireRol(vistasPermitidas) {
   const token = localStorage.getItem('token');
   if (!token) { location.href = 'login.html'; return; }
-  if (rolesPermitidos && rolesPermitidos.length > 0) {
+  if (vistasPermitidas && vistasPermitidas.length > 0) {
     const usuario = _getUsuario();
-    const rolOriginal = (usuario.rol || '').trim();
-    const rol = (ROL_MAP[rolOriginal] || rolOriginal).toLowerCase();
-    const permitido = rolesPermitidos.some(r => r.toLowerCase() === rol);
+    const vista = _getRolVista(usuario.rol);
+    const permitido = vistasPermitidas.some(function(v) {
+      return v.toLowerCase() === vista;
+    });
     if (!permitido) {
       alert('No tienes permiso para acceder a esta sección.');
       location.href = 'index.html';
@@ -39,16 +35,8 @@ function requireRol(rolesPermitidos) {
   }
 }
 
-// ── CONFIGURACIÓN DE NAVEGACIÓN POR ROL ──────────────────────────────────────
-// Roles en BD: admin, tesorero, recepcion, instructor (todos minúscula)
+// ── CONFIGURACIÓN DE NAVEGACIÓN POR VISTA ────────────────────────────────────
 const NAV_CONFIG = {
-  recepcion: [
-    { href: 'index.html',        label: '🏠 Inicio' },
-    { href: 'disciplinas.html',  label: '🥋 Mis Clases' },
-    { href: 'renovar.html',      label: '🔄 Renovar' },
-    { href: 'pagos.html',        label: '💳 Pagos' },
-    { href: 'perfil.html',       label: '👤 Mi Perfil' },
-  ],
   admin: [
     { href: 'index.html',          label: '📊 Dashboard' },
     { href: 'alumnos.html',        label: '👥 Alumnos' },
@@ -57,50 +45,43 @@ const NAV_CONFIG = {
     { href: 'control_acceso.html', label: '🛡 Control Acceso' },
     { href: 'perfil.html',         label: '👤 Mi Perfil' },
   ],
-  instructor: [
-    { href: 'index.html',       label: '🏠 Inicio' },
-    { href: 'disciplinas.html', label: '🥋 Mis Clases' },
-    { href: 'perfil.html',      label: '👤 Mi Perfil' },
-  ],
-  tesorero: [
-    { href: 'index.html',          label: '📊 Dashboard' },
-    { href: 'alumnos.html',        label: '👥 Alumnos' },
-    { href: 'mis-matriculas.html', label: '📋 Matrículas' },
-    { href: 'tesoreria.html',      label: '💰 Tesorería' },
-    { href: 'pagos.html',          label: '💳 Pagos' },
+  alumno: [
+    { href: 'index.html',          label: '🏠 Inicio' },
+    { href: 'mis-membresias.html', label: '🎫 Mi Membresía' },
+    { href: 'disciplinas.html',    label: '🥋 Mis Clases' },
+    { href: 'pagos.html',          label: '💳 Pagar' },
     { href: 'perfil.html',         label: '👤 Mi Perfil' },
-  ],
-  default: [
-    { href: 'index.html',  label: '🏠 Inicio' },
-    { href: 'perfil.html', label: '👤 Mi Perfil' },
   ],
 };
 
 // ── INICIALIZAR BARRA DE NAVEGACIÓN ──────────────────────────────────────────
 function initNav() {
   const usuario = _getUsuario();
-  const rol = (usuario.rol || '').trim();
-  const links = NAV_CONFIG[rol] || NAV_CONFIG['default'];
+  const vista = _getRolVista(usuario.rol);
+  const links = NAV_CONFIG[vista] || NAV_CONFIG['alumno'];
   const paginaActual = location.pathname.split('/').pop() || 'index.html';
 
   // Inyectar links
   const navLinksEl = document.getElementById('navLinks');
   if (navLinksEl) {
     navLinksEl.innerHTML = links.map(function(l) {
-      var activo = paginaActual === l.href ? ' active' : '';
-      return '<a href="' + l.href + '" class="' + activo.trim() + '">' + l.label + '</a>';
+      var activo = paginaActual === l.href ? 'active' : '';
+      return '<a href="' + l.href + '" class="' + activo + '">' + l.label + '</a>';
     }).join('');
   }
 
   // Inyectar datos del usuario en nav-right
   if (usuario.nombre) {
     var ini = usuario.nombre.substring(0, 2).toUpperCase();
-    var avatarEl  = document.getElementById('navAvatar');
-    var nombreEl  = document.getElementById('navNombre');
-    var rolEl     = document.getElementById('navRol');
+    var avatarEl = document.getElementById('navAvatar');
+    var nombreEl = document.getElementById('navNombre');
+    var rolEl    = document.getElementById('navRol');
+    // Etiqueta legible del rol para mostrar al usuario
+    var rolLabels = { admin: 'Administrador', tesorero: 'Tesorería', recepcion: 'Alumno', instructor: 'Instructor' };
+    var rolLabel = rolLabels[(usuario.rol || '').toLowerCase()] || usuario.rol || '';
     if (avatarEl) avatarEl.textContent = ini;
     if (nombreEl) nombreEl.textContent = usuario.nombre;
-    if (rolEl)    rolEl.textContent    = rol + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+    if (rolEl)    rolEl.textContent    = rolLabel + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
   }
 }
 

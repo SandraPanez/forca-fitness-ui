@@ -214,16 +214,23 @@
           headers: { 'Authorization': 'Bearer ' + token }
         });
         var alumnos = await res.json();
-        var yo = alumnos.find(function(a) { return a.id === usuario.id || a.email === usuario.email; });
-        if (yo && yo.fecha_fin_membresia) {
+        // El modelo devuelve fecha_vencimiento (no fecha_fin_membresia)
+        // Buscar por email ya que usuario.id es de tabla usuarios, no alumnos
+        var yo = alumnos.find(function(a) { return a.email === usuario.email; });
+        var fechaVence = yo && (yo.fecha_vencimiento || yo.fecha_fin_membresia);
+        if (yo && fechaVence) {
           document.getElementById('memDisc').textContent  = yo.disciplina || usuario.disciplina || '—';
-          document.getElementById('memVence').textContent = fmt(yo.fecha_fin_membresia);
-          var dias = diasRestantes(yo.fecha_fin_membresia);
+          document.getElementById('memVence').textContent = fmt(fechaVence);
+          var dias = diasRestantes(fechaVence);
           var pct  = Math.max(0, Math.min(100, (dias / 30) * 100));
           document.getElementById('memProgress').style.width = pct + '%';
           document.getElementById('memDias').textContent = dias >= 0
             ? dias + ' días restantes (' + Math.round(pct) + '% del período)'
             : 'Membresía vencida — renueva ahora';
+          // También guardar en localStorage para que mis-membresias.html lo use sin re-fetch
+          usuario.fecha_fin_membresia = fechaVence;
+          usuario.disciplina = yo.disciplina || usuario.disciplina;
+          localStorage.setItem('usuario', JSON.stringify(usuario));
         } else {
           fallbackMem(usuario);
         }

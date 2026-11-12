@@ -155,123 +155,134 @@
     // Auth guard (cualquier usuario autenticado puede ver el dashboard)
     if (!localStorage.getItem('token')) location.href = 'login.html';
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // Inicializar nav dinámico
-      initNav();
-
-      // Personalizar saludo
-      var usuario = _getUsuario();
-      if (usuario.nombre) {
-        var hora = new Date().getHours();
-        var saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
-        document.getElementById('dash-saludo').textContent = saludo + ', ' + usuario.nombre.split(' ')[0] + '. Aquí el resumen de hoy.';
-      }
-
-      // Accesos rápidos según rol (roles BD: admin, tesorero, recepcion, instructor)
-      var rol = (usuario.rol || '').trim().toLowerCase();
-      var acciones = [];
-      if (rol === 'admin' || rol === 'tesorero') {
-      acciones = [
-        { href:'alumnos.html',        icon:'👥', label:'Gestión de Alumnos',   sub:'Ver fichas, estados y matrículas' },
-        { href:'tesoreria.html',      icon:'💰', label:'Tesorería',             sub:'Confirmar y rechazar pagos' },
-        { href:'control_acceso.html', icon:'🛡', label:'Control de Acceso',     sub:'Monitoreo de ingresos QR' },
-        { href:'disciplinas.html',    icon:'🥋', label:'Horarios y Clases',     sub:'Disponibilidad por disciplina' },
-      ];
-    } else {
-      acciones = [
-        { href:'disciplinas.html',  icon:'🥋', label:'Mis Clases',       sub:'Horarios y cupos disponibles' },
-        { href:'renovar.html',      icon:'🔄', label:'Renovar',          sub:'Renueva tu matrícula' },
-        { href:'pagos.html',        icon:'💳', label:'Mis Pagos',        sub:'Historial de pagos' },
-        { href:'perfil.html',       icon:'👤', label:'Mi Perfil',        sub:'Ver y editar datos' },
-      ];
-    }
-    document.getElementById('quickActions').innerHTML = acciones.map(function(a) {
-      return '<a class="action-btn" href="' + a.href + '"><div class="action-icon">' + a.icon + '</div><div><div class="action-label">' + a.label + '</div><div class="action-sub">' + a.sub + '</div></div></a>';
-    }).join('');
-
-    var headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
-
     function formatFecha(f) {
       if (!f) return '—';
       return new Date(f).toLocaleDateString('es-PE', { day:'2-digit', month:'short', year:'numeric' });
     }
 
-    function estadoBadge(a) {
+    function estadoBadge(fecha_fin) {
+      if (!fecha_fin) return { clase: 'badge-inactive', texto: 'Sin membresía' };
       var hoy = new Date();
-      if (!a.fecha_fin_membresia) return { clase: 'badge-inactive', texto: '— Inactivo' };
-      var fin = new Date(a.fecha_fin_membresia);
+      var fin = new Date(fecha_fin);
       var diff = Math.ceil((fin - hoy) / (1000*60*60*24));
       if (diff < 0) return { clase: 'badge-inactive', texto: 'Vencido' };
-      if (diff <= 7) return { clase: 'badge-warn', texto: 'Próx. vencer' };
+      if (diff <= 7) return { clase: 'badge-warn', texto: 'Próx. a vencer' };
       return { clase: 'badge-active', texto: 'Activo' };
     }
 
-    async function cargarDashboard() {
-      try {
-        var resA = await fetch(API + '/api/alumnos', { headers: headers });
-        var alumnos = await resA.json();
-        var hoy = new Date();
-        var activos = 0, proxVencer = 0, inactivos = 0;
-        alumnos.forEach(function(a) {
-          if (!a.fecha_fin_membresia) { inactivos++; return; }
-          var fin = new Date(a.fecha_fin_membresia);
-          var diff = Math.ceil((fin - hoy) / (1000*60*60*24));
-          if (diff < 0) inactivos++;
-          else if (diff <= 7) proxVencer++;
-          else activos++;
-        });
-        document.getElementById('stat-total').textContent = alumnos.length;
-        document.getElementById('stat-activos').textContent = activos;
-        document.getElementById('stat-prox').textContent = proxVencer;
-        document.getElementById('stat-inactivos').textContent = inactivos;
+    function initPage() {
+      initNav();
 
-        var recientes = alumnos.slice(0, 5);
-        if (!recientes.length) {
-          document.getElementById('tabla-alumnos').innerHTML = '<div class="loading">No hay alumnos registrados</div>';
-        } else {
-          document.getElementById('tabla-alumnos').innerHTML =
-            '<table><thead><tr><th>ALUMNO</th><th>DISCIPLINA</th><th>ESTADO</th><th>VENCE</th></tr></thead><tbody>' +
-            recientes.map(function(a) {
-              var badge = estadoBadge(a);
-              return '<tr onclick="location.href=\'alumnos.html\'" style="cursor:pointer">' +
-                '<td><div class="alumno-name">' + (a.nombre||'—') + '</div><div class="alumno-sub">ID #' + a.id_alumno + '</div></td>' +
-                '<td>' + (a.disciplina || '—') + '</td>' +
-                '<td><span class="badge ' + badge.clase + '">' + badge.texto + '</span></td>' +
-                '<td>' + formatFecha(a.fecha_fin_membresia) + '</td></tr>';
-            }).join('') + '</tbody></table>';
-        }
+      var usuario = _getUsuario();
+      var hora = new Date().getHours();
+      var saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
+      var vista = _getRolVista(usuario.rol);
+      var nombre1 = usuario.nombre ? usuario.nombre.split(' ')[0] : 'bienvenido';
 
-        var actEl = document.getElementById('actividad');
-        actEl.innerHTML =
-          '<div class="act-item"><div class="act-dot dot-green"></div><div><div class="act-text">' + alumnos.length + ' alumnos cargados desde la base de datos</div><div class="act-time">Ahora</div></div></div>' +
-          '<div class="act-item"><div class="act-dot dot-blue"></div><div><div class="act-text">' + activos + ' membresías activas · ' + proxVencer + ' próximas a vencer</div><div class="act-time">Ahora</div></div></div>';
-      } catch(e) {
-        document.getElementById('stat-total').textContent = '—';
+      if (vista === 'admin') {
+        // ── VISTA ADMIN ──────────────────────────────────────────────────────
+        document.getElementById('dash-saludo').textContent = saludo + ', ' + nombre1 + '. Aquí el resumen de hoy.';
+        document.getElementById('quickActions').innerHTML = [
+          { href:'alumnos.html',        icon:'👥', label:'Gestión de Alumnos',   sub:'Ver fichas, estados y matrículas' },
+          { href:'tesoreria.html',      icon:'💰', label:'Tesorería',             sub:'Confirmar y rechazar pagos' },
+          { href:'control_acceso.html', icon:'🛡', label:'Control de Acceso',     sub:'Monitoreo de ingresos QR' },
+          { href:'mis-matriculas.html', icon:'📋', label:'Matrículas',            sub:'Historial y estados' },
+        ].map(function(a) {
+          return '<a class="action-btn" href="' + a.href + '"><div class="action-icon">' + a.icon + '</div><div><div class="action-label">' + a.label + '</div><div class="action-sub">' + a.sub + '</div></div></a>';
+        }).join('');
+
+        // Cargar stats del gimnasio (solo admin)
+        var headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+        fetch(API + '/api/alumnos', { headers: headers })
+          .then(function(r) { return r.json(); })
+          .then(function(alumnos) {
+            // El modelo devuelve: fecha_vencimiento, estado_matricula, id (no id_alumno)
+            var hoy = new Date(), activos = 0, proxVencer = 0, inactivos = 0;
+            alumnos.forEach(function(a) {
+              if (!a.fecha_vencimiento || !a.estado_matricula) { inactivos++; return; }
+              var diff = Math.ceil((new Date(a.fecha_vencimiento) - hoy) / 86400000);
+              if (diff < 0) inactivos++;
+              else if (diff <= 7) proxVencer++;
+              else activos++;
+            });
+            document.getElementById('stat-total').textContent = alumnos.length;
+            document.getElementById('stat-activos').textContent = activos;
+            document.getElementById('stat-prox').textContent = proxVencer;
+            document.getElementById('stat-inactivos').textContent = inactivos;
+            var recientes = alumnos.slice(0, 5);
+            document.getElementById('tabla-alumnos').innerHTML = recientes.length
+              ? '<table><thead><tr><th>ALUMNO</th><th>DISCIPLINA</th><th>ESTADO</th><th>VENCE</th></tr></thead><tbody>' +
+                recientes.map(function(a) {
+                  var b = estadoBadge(a.fecha_vencimiento);
+                  var nombreCompleto = a.nombre + (a.apellido_paterno ? ' ' + a.apellido_paterno : '');
+                  return '<tr onclick="location.href=\'alumnos.html\'" style="cursor:pointer">' +
+                    '<td><div class="alumno-name">' + nombreCompleto + '</div><div class="alumno-sub">ID #' + a.id + '</div></td>' +
+                    '<td>' + (a.disciplina||'—') + '</td>' +
+                    '<td><span class="badge ' + b.clase + '">' + b.texto + '</span></td>' +
+                    '<td>' + formatFecha(a.fecha_vencimiento) + '</td></tr>';
+                }).join('') + '</tbody></table>'
+              : '<div class="loading">No hay alumnos registrados</div>';
+            document.getElementById('actividad').innerHTML =
+              '<div class="act-item"><div class="act-dot dot-green"></div><div><div class="act-text">' + alumnos.length + ' alumnos cargados</div><div class="act-time">Ahora</div></div></div>';
+          }).catch(function() {
+            document.getElementById('stat-total').textContent = '—';
+          });
+
+        fetch(API + '/api/pagos/pendientes', { headers: headers })
+          .then(function(r) { return r.json(); })
+          .then(function(pagos) {
+            document.getElementById('stat-pagos').textContent = pagos.length;
+            var medioLabel = { yape:'📱 Yape', plin:'📱 Plin', efectivo:'💵 Efectivo', tarjeta:'💳 Tarjeta', transferencia:'🏦 Transferencia' };
+            document.getElementById('lista-pagos').innerHTML = pagos.length
+              ? pagos.slice(0,6).map(function(p) {
+                  return '<div class="pago-item"><div><div class="pago-name">' + (p.nombre_alumno||'Alumno #'+p.id_alumno) + '</div>' +
+                    '<div class="pago-concepto">' + (p.concepto||'Pago') + '</div></div>' +
+                    '<div style="text-align:right"><div class="pago-monto">S/. ' + Number(p.monto).toFixed(2) + '</div>' +
+                    '<div class="pago-medio">' + (medioLabel[p.medio_pago]||p.medio_pago) + '</div></div></div>';
+                }).join('')
+              : '<div class="loading" style="color:#16a34a">✓ Sin pagos pendientes</div>';
+          }).catch(function() {
+            document.getElementById('stat-pagos').textContent = '—';
+          });
+
+      } else {
+        // ── VISTA ALUMNO ─────────────────────────────────────────────────────
+        // Ocultar secciones de admin y mostrar info personal del alumno
+        document.querySelectorAll('.stats-grid, .grid-2').forEach(function(el) { el.style.display = 'none'; });
+
+        var contenido = document.querySelector('.page-wrap');
+        var badge = estadoBadge(usuario.fecha_fin_membresia);
+
+        contenido.innerHTML =
+          '<div class="eyebrow"><span></span> PORTAL DEL ALUMNO</div>' +
+          '<h2 style="font-size:26px;font-weight:800;color:#0d2d5e;margin-bottom:4px;">' + saludo + ', ' + nombre1 + ' 👋</h2>' +
+          '<p style="color:#6b7280;margin-bottom:28px;">Bienvenido a tu portal personal de Forca & Fitness.</p>' +
+          '<div style="background:#fff;border-radius:16px;border:1px solid #e5e7eb;padding:24px;margin-bottom:24px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;">' +
+            '<div style="font-size:48px;">🥋</div>' +
+            '<div style="flex:1;">' +
+              '<div style="font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;margin-bottom:4px;">MI MEMBRESÍA</div>' +
+              '<div style="font-size:20px;font-weight:800;color:#0d2d5e;">' + (usuario.nombre || '—') + '</div>' +
+              '<div style="font-size:13px;color:#6b7280;margin-top:2px;">' + (usuario.disciplina || 'Sin disciplina asignada') + '</div>' +
+            '</div>' +
+            '<div style="text-align:right;">' +
+              '<span class="badge ' + badge.clase + '" style="font-size:13px;padding:6px 14px;">' + badge.texto + '</span>' +
+              '<div style="font-size:12px;color:#9ca3af;margin-top:6px;">Vence: ' + formatFecha(usuario.fecha_fin_membresia) + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;">' +
+            '<a class="action-btn" href="pagos.html"><div class="action-icon">💳</div><div><div class="action-label">Pagar mensualidad</div><div class="action-sub">Registra tu pago</div></div></a>' +
+            '<a class="action-btn" href="disciplinas.html"><div class="action-icon">🥋</div><div><div class="action-label">Mis Clases</div><div class="action-sub">Horarios disponibles</div></div></a>' +
+            '<a class="action-btn" href="perfil.html"><div class="action-icon">👤</div><div><div class="action-label">Mi Perfil</div><div class="action-sub">Ver y editar datos</div></div></a>' +
+          '</div>';
       }
+    } // fin initPage
 
-      try {
-        var resP = await fetch(API + '/api/pagos/pendientes', { headers: headers });
-        var pagos = await resP.json();
-        document.getElementById('stat-pagos').textContent = pagos.length;
-        if (!pagos.length) {
-          document.getElementById('lista-pagos').innerHTML = '<div class="loading" style="color:#16a34a">✓ Sin pagos pendientes</div>';
-        } else {
-          var medioLabel = { yape:'📱 Yape', plin:'📱 Plin', efectivo:'💵 Efectivo', tarjeta:'💳 Tarjeta', transferencia:'🏦 Transferencia' };
-          document.getElementById('lista-pagos').innerHTML = pagos.slice(0,6).map(function(p) {
-            return '<div class="pago-item"><div><div class="pago-name">' + (p.nombre_alumno || 'Alumno #' + p.id_alumno) + '</div>' +
-              '<div class="pago-concepto">' + (p.concepto || 'Pago') + '</div></div>' +
-              '<div style="text-align:right"><div class="pago-monto">S/. ' + Number(p.monto).toFixed(2) + '</div>' +
-              '<div class="pago-medio">' + (medioLabel[p.medio_pago] || p.medio_pago) + '</div></div></div>';
-          }).join('');
-          document.getElementById('actividad').innerHTML += '<div class="act-item"><div class="act-dot dot-orange"></div><div><div class="act-text">' + pagos.length + ' pago(s) pendientes de confirmación</div><div class="act-time">Ahora</div></div></div>';
-        }
-      } catch(e) {
-        document.getElementById('stat-pagos').textContent = '—';
-      }
+    // Ejecutar cuando el DOM esté listo (funciona en file:// y http://)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
     }
-
-      cargarDashboard();
-    }); // fin DOMContentLoaded
   </script>
 </body>
 </html>
