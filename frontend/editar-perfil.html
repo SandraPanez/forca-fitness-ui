@@ -77,16 +77,14 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
       <div class="avatar" id="navAvatar">--</div>
-      <div class="user-info"><div class="name" id="navNombre">Cargando...</div><div class="role" id="navRol">--</div></div>
+      <div class="user-info">
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol">--</div>
+      </div>
     </div>
   </nav>
 
@@ -160,34 +158,37 @@
   </main>
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
 
+  <script src="auth.js"></script>
   <script>
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol([]);
 
-    // ── Poblar nav y formulario con datos actuales ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
+    }
 
-      document.getElementById('inpNombre').value = usuario.nombre || '';
-      document.getElementById('inpDisc').value = usuario.disciplina || '';
-      document.getElementById('inpEmail').value = usuario.email || '';
-      document.getElementById('secId').textContent = 'ID: ' + (usuario.id || '--');
+    function initPage() {
+      initNav();
 
-      // Seleccionar el rol actual en el select
-      const rolSelect = document.getElementById('inpRol');
-      for (let opt of rolSelect.options) {
-        if (opt.value === usuario.rol) { opt.selected = true; break; }
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+
+      if (usuario.nombre) {
+        document.getElementById('inpNombre').value = usuario.nombre || '';
+        document.getElementById('inpDisc').value = usuario.disciplina || '';
+        document.getElementById('inpEmail').value = usuario.email || '';
+        document.getElementById('secId').textContent = 'ID: ' + (usuario.id || '--');
+
+        const rolSelect = document.getElementById('inpRol');
+        for (let opt of rolSelect.options) {
+          if (opt.value === usuario.rol) { opt.selected = true; break; }
+        }
       }
     }
 
-    // ── Guardar cambios en localStorage ──
-    // Nota: el backend no tiene endpoint PUT /api/alumnos/:id en este proyecto,
-    // así que guardamos en localStorage para mantener la sesión actualizada.
     function guardarCambios() {
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
       const btn = document.getElementById('btnGuardar');
       const msgBox = document.getElementById('msgBox');
       const nombre = document.getElementById('inpNombre').value.trim();
@@ -204,7 +205,6 @@
       btn.textContent = 'Guardando...';
       btn.disabled = true;
 
-      // Actualizar datos en localStorage
       const usuarioActualizado = { ...usuario, nombre, disciplina: disc, rol };
       localStorage.setItem('usuario', JSON.stringify(usuarioActualizado));
 

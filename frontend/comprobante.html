@@ -97,13 +97,7 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="alumnos.html">Alumnos</a>
-      <a href="mis-matriculas.html">Matrículas</a>
-      <a href="pagos.html" class="active">Pagos</a>
-      <a href="tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
       <div class="avatar" id="navAvatar">--</div>
@@ -203,35 +197,40 @@
   </main>
   <footer>© 2025 Forca & Fitness Management System. Todos los derechos reservados. · Versión 2.4.0</footer>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol([]);
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
-
-    // ── Poblar nav ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Tesorería');
-      document.getElementById('infoNombre').textContent = usuario.nombre;
-      document.getElementById('infoEmail').textContent = usuario.email || '';
-      document.getElementById('infoId').textContent = 'ID: ' + (usuario.id || '--');
-      document.getElementById('infoDisc').textContent = usuario.disciplina || 'Sin disciplina';
-      document.getElementById('secAlumnoId').textContent = 'ID ' + (usuario.id || '--');
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
     }
 
-    // ── Cargar último pago del usuario ──
-    async function cargarPago() {
+    function initPage() {
+      initNav();
+
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+
+      if (usuario.nombre) {
+        document.getElementById('infoNombre').textContent = usuario.nombre;
+        document.getElementById('infoEmail').textContent = usuario.email || '';
+        document.getElementById('infoId').textContent = 'ID: ' + (usuario.id || '--');
+        document.getElementById('infoDisc').textContent = usuario.disciplina || 'Sin disciplina';
+        document.getElementById('secAlumnoId').textContent = 'ID ' + (usuario.id || '--');
+      }
+
+      cargarPago(usuario, headers);
+    }
+
+    async function cargarPago(usuario, headers) {
       try {
         const res = await fetch(API + '/api/pagos', { headers });
         if (!res.ok) throw new Error('No se pudo cargar');
         const pagos = await res.json();
 
-        // Buscar pagos del alumno actual o el más reciente
         const misPagos = pagos.filter(p => p.id_alumno == usuario.id);
         const pago = misPagos.length ? misPagos[misPagos.length - 1] : pagos[pagos.length - 1];
 
@@ -280,8 +279,6 @@
         document.getElementById('badgeEstado').textContent = '⚠ Sin datos';
       }
     }
-
-    cargarPago();
   </script>
 </body>
 </html>

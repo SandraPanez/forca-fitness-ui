@@ -52,18 +52,15 @@
     .btn-reject{padding:6px 14px;background:#fff;color:#dc2626;border:1.5px solid #fca5a5;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;margin-left:6px;}
     .btn-reject:hover{background:#fee2e2;}
     .empty-row td{text-align:center;padding:28px;color:#9ca3af;font-size:13px;}
-    /* Status badges */
     .status-badge{border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;}
     .sb-approved{background:#dcfce7;color:#15803d;}
     .sb-pending{background:#fef9c3;color:#92400e;}
     .sb-rejected{background:#fee2e2;color:#dc2626;}
     .sb-annulled{background:#f3f4f6;color:#6b7280;}
-    /* Pay method */
     .pay-method-badge{border-radius:6px;padding:3px 10px;font-size:10px;font-weight:700;}
     .pm-mp{background:#eff6ff;color:#1d4ed8;}
     .pm-cash{background:#f0fdf4;color:#15803d;}
     .pm-transfer{background:#faf5ff;color:#7c3aed;}
-    /* Filters bar */
     .filters-bar{padding:12px 16px;border-bottom:1px solid #e5e7eb;display:flex;gap:10px;align-items:center;background:#f9fafb;}
     .filter-select{padding:7px 12px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;cursor:pointer;transition:border-color .15s;}
     .filter-select:focus{border-color:#0d2d5e;}
@@ -83,17 +80,14 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Dashboard</a>
-      <a href="alumnos.html">Alumnos</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="#" class="active">💰 Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
-      <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol">--</div>
+      </div>
     </div>
   </nav>
 
@@ -239,21 +233,25 @@
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a> · <a href="#">Política de Privacidad</a></footer>
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol(['admin']);
 
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
+    }
 
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    function initPage() {
+      initNav();
+      cargarPendientes();
+      cargarHistorial();
     }
 
     const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 
-    // Mapa medio_pago → clase CSS y etiqueta
     const medioMap = {
       'yape':          { cls: 'pm-mp',       label: 'Yape' },
       'plin':          { cls: 'pm-mp',       label: 'Plin' },
@@ -264,7 +262,7 @@
 
     function medioHtml(medio) {
       const m = medioMap[medio] || { cls: 'pm-cash', label: medio };
-      return `<span class="pay-method-badge ${m.cls}">${m.label}</span>`;
+      return '<span class="pay-method-badge ' + m.cls + '">' + m.label + '</span>';
     }
 
     function estadoHtml(estado) {
@@ -273,7 +271,7 @@
         'aprobado':   '<span class="status-badge sb-approved">✓ Aprobado</span>',
         'rechazado':  '<span class="status-badge sb-rejected">✕ Rechazado</span>'
       };
-      return map[estado] || `<span class="status-badge sb-annulled">${estado}</span>`;
+      return map[estado] || '<span class="status-badge sb-annulled">' + estado + '</span>';
     }
 
     function formatFecha(f) {
@@ -303,17 +301,16 @@
           const nombre = (p.alumno || 'Alumno').split(' ').slice(0,2).join(' ');
           const tr = document.createElement('tr');
           tr.id = 'prow-' + p.id;
-          tr.innerHTML = `
-            <td><div class="alumno-name">${p.alumno || '—'}</div><div class="alumno-sub">DNI ${p.dni || '—'}</div></td>
-            <td>${p.concepto || 'Pago'}</td>
-            <td><span class="amount">S/. ${parseFloat(p.monto).toFixed(2)}</span></td>
-            <td>${formatFecha(p.fecha_pago)}</td>
-            <td>${medioHtml(p.medio_pago)}</td>
-            <td>
-              <button class="btn-confirm" onclick="confirmar(${p.id},'${nombre}')">✓ Confirmar pago</button>
-              <button class="btn-reject" onclick="rechazar(${p.id},'${nombre}')">✕ Rechazar</button>
-            </td>
-          `;
+          tr.innerHTML =
+            '<td><div class="alumno-name">' + (p.alumno || '—') + '</div><div class="alumno-sub">DNI ' + (p.dni || '—') + '</div></td>' +
+            '<td>' + (p.concepto || 'Pago') + '</td>' +
+            '<td><span class="amount">S/. ' + parseFloat(p.monto).toFixed(2) + '</span></td>' +
+            '<td>' + formatFecha(p.fecha_pago) + '</td>' +
+            '<td>' + medioHtml(p.medio_pago) + '</td>' +
+            '<td>' +
+              '<button class="btn-confirm" onclick="confirmar(' + p.id + ',\'' + nombre.replace(/'/g,"\\'") + '\')">✓ Confirmar pago</button>' +
+              '<button class="btn-reject" onclick="rechazar(' + p.id + ',\'' + nombre.replace(/'/g,"\\'") + '\')">✕ Rechazar</button>' +
+            '</td>';
           tbody.appendChild(tr);
         });
       } catch(e) {
@@ -334,14 +331,13 @@
           const tr = document.createElement('tr');
           tr.setAttribute('data-estado', estadoKey);
           tr.setAttribute('data-medio', medioKey);
-          tr.innerHTML = `
-            <td><div class="alumno-name">${p.alumno || '—'}</div><div class="alumno-sub">DNI ${p.dni || '—'}</div></td>
-            <td>${p.concepto || 'Pago'}</td>
-            <td><span class="amount">S/. ${parseFloat(p.monto).toFixed(2)}</span></td>
-            <td>${formatFecha(p.fecha_pago)}</td>
-            <td>${medioHtml(p.medio_pago)}</td>
-            <td>${estadoHtml(p.estado)}</td>
-          `;
+          tr.innerHTML =
+            '<td><div class="alumno-name">' + (p.alumno || '—') + '</div><div class="alumno-sub">DNI ' + (p.dni || '—') + '</div></td>' +
+            '<td>' + (p.concepto || 'Pago') + '</td>' +
+            '<td><span class="amount">S/. ' + parseFloat(p.monto).toFixed(2) + '</span></td>' +
+            '<td>' + formatFecha(p.fecha_pago) + '</td>' +
+            '<td>' + medioHtml(p.medio_pago) + '</td>' +
+            '<td>' + estadoHtml(p.estado) + '</td>';
           tbody.appendChild(tr);
         });
       } catch(e) {
@@ -411,9 +407,6 @@
       clearTimeout(t._timer);
       t._timer = setTimeout(function() { t.classList.remove('show'); }, 2500);
     }
-
-    cargarPendientes();
-    cargarHistorial();
-</script>
+  </script>
 </body>
 </html>

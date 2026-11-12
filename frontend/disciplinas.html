@@ -94,17 +94,14 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DE TATAMI</p></div>
     </div>
-    <div class="nav-links">
-      <a href="login.html">Inicio</a>
-      <a href="#" class="active">📋 Consulta de Clases</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="alumnos.html">Alumnos</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">MG</div>
-      <div class="user-info"><div class="name">Martín Gómez Silva</div><div class="role">Socio #1042 · BJJ Azul</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol">--</div>
+      </div>
     </div>
   </nav>
 
@@ -267,16 +264,21 @@
 
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
-    // Auth guard
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.user-info .role').textContent = (usuario.rol || 'Socio') + ' · ' + (usuario.disciplina || '');
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol([]);
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
     }
-    
+
+    function initPage() {
+      initNav();
+    }
+
     var filtroDisc = '';
     var filtroDias = '';
 
@@ -294,7 +296,6 @@
         }
       });
       document.getElementById('badge-count').textContent = '📋 ' + visible + ' clase' + (visible !== 1 ? 's' : '') + ' disponible' + (visible !== 1 ? 's' : '');
-      // Mostrar mensaje vacío si no hay resultados
       var emptyMsg = document.getElementById('empty-msg');
       if (visible === 0 && !emptyMsg) {
         var msg = document.createElement('div');
@@ -320,7 +321,6 @@
     function filtrarDesdeSelect() {
       filtroDisc = document.getElementById('sel-disc').value;
       filtroDias = document.getElementById('sel-dias').value;
-      // Sincronizar tabs
       document.querySelectorAll('.disc-tab').forEach(function(t) { t.classList.remove('active'); });
       document.querySelectorAll('.disc-tab').forEach(function(t) {
         var onclick = t.getAttribute('onclick') || '';

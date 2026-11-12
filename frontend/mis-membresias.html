@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Membresía — Forca & Fitness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1f2937;}
+    nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;}
+    .logo-box{background:#0d2d5e;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+    .logo-text h1{font-size:13px;font-weight:700;color:#0d2d5e;}
+    .logo-text p{font-size:10px;color:#9ca3af;}
+    .nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:#6b7280;text-decoration:none;transition:color .18s;}
+    .nav-links a:hover{color:#0d2d5e;}
+    .nav-links a.active{background:#eff6ff;color:#0d2d5e;font-weight:700;border-radius:8px;border:1.5px solid #bfdbfe;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .avatar{width:34px;height:34px;background:#0d2d5e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
+    .user-info .name{font-size:13px;font-weight:600;}
+    .user-info .role{font-size:11px;color:#9ca3af;}
+    .btn-logout{background:transparent;border:1.5px solid #e5e7eb;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#6b7280;transition:all .18s;}
+    .btn-logout:hover{border-color:#dc2626;color:#dc2626;}
+    .page-wrap{max-width:800px;margin:0 auto;padding:32px;}
+    .eyebrow{font-size:11px;font-weight:700;color:#15803d;background:#dcfce7;border-radius:20px;padding:4px 12px;display:inline-flex;align-items:center;gap:5px;margin-bottom:12px;}
+    .eyebrow span{width:6px;height:6px;background:#16a34a;border-radius:50%;}
+    h2{font-size:24px;font-weight:800;color:#0d2d5e;margin-bottom:4px;}
+    .sub{font-size:13px;color:#6b7280;margin-bottom:28px;}
+
+    /* Tarjeta principal de membresía */
+    .card-membresia{background:#0d2d5e;border-radius:20px;padding:28px 32px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden;}
+    .card-membresia::before{content:'🥋';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.1;}
+    .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+    .card-label{font-size:10px;font-weight:700;letter-spacing:1.5px;color:#8ab0d4;margin-bottom:4px;}
+    .card-nombre{font-size:22px;font-weight:800;}
+    .card-disciplina{font-size:13px;color:#8ab0d4;margin-top:2px;}
+    .badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;}
+    .badge-active{background:#dcfce7;color:#15803d;}
+    .badge-warn{background:#fef9c3;color:#a16207;}
+    .badge-inactive{background:#fee2e2;color:#dc2626;}
+    .card-fechas{display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px solid rgba(255,255,255,.15);padding-top:20px;}
+    .fecha-item .label{font-size:10px;font-weight:700;letter-spacing:1px;color:#8ab0d4;margin-bottom:4px;}
+    .fecha-item .valor{font-size:15px;font-weight:700;}
+
+    /* Barra de progreso de vigencia */
+    .progreso-wrap{background:#fff;border-radius:16px;border:1px solid #e5e7eb;padding:24px;margin-bottom:24px;}
+    .progreso-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+    .progreso-titulo{font-size:14px;font-weight:700;color:#0d2d5e;}
+    .progreso-dias{font-size:13px;color:#6b7280;}
+    .barra-bg{background:#f1f5f9;border-radius:99px;height:10px;overflow:hidden;}
+    .barra-fill{height:100%;border-radius:99px;transition:width .6s ease;}
+    .barra-green{background:linear-gradient(90deg,#16a34a,#4ade80);}
+    .barra-yellow{background:linear-gradient(90deg,#d97706,#fbbf24);}
+    .barra-red{background:linear-gradient(90deg,#dc2626,#f87171);}
+
+    /* Historial */
+    .seccion-titulo{font-size:14px;font-weight:700;color:#0d2d5e;margin-bottom:12px;}
+    .historial-item{background:#fff;border-radius:12px;border:1px solid #e5e7eb;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+    .hist-izq .hist-disciplina{font-size:14px;font-weight:600;color:#1f2937;}
+    .hist-izq .hist-fechas{font-size:12px;color:#9ca3af;margin-top:2px;}
+    .loading{text-align:center;padding:32px;color:#9ca3af;font-size:14px;}
+
+    /* Botón pagar */
+    .btn-pagar{display:inline-flex;align-items:center;gap:8px;background:#0d2d5e;color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .2s;}
+    .btn-pagar:hover{background:#0a2448;}
+    .acciones{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px;}
+    .btn-secondary{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0d2d5e;border:1.5px solid #bfdbfe;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;}
+    .btn-secondary:hover{background:#eff6ff;}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">F&F</div>
+      <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DEL ALUMNO</p></div>
+    </div>
+    <div class="nav-links" id="navLinks"></div>
+    <div class="nav-right">
+      <div class="avatar" id="navAvatar">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol"></div>
+      </div>
+      <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="eyebrow"><span></span> MI CUENTA</div>
+    <h2>Mi Membresía</h2>
+    <p class="sub">Estado actual de tu matrícula en Forca & Fitness.</p>
+
+    <div id="contenido"><div class="loading">⏳ Cargando tu membresía...</div></div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    const API = 'https://forca-fitness-backend.onrender.com';
+
+    // Solo alumnos (recepcion/instructor), admin no necesita esta vista
+    requireRol([]);
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
+    }
+
+    function initPage() {
+      initNav();
+      var usuario = _getUsuario();
+      renderMembresia(usuario);
+    }
+
+    function formatFecha(f) {
+      if (!f) return '—';
+      return new Date(f).toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric' });
+    }
+
+    function calcDias(fecha_fin) {
+      if (!fecha_fin) return null;
+      var hoy = new Date();
+      hoy.setHours(0,0,0,0);
+      var fin = new Date(fecha_fin);
+      fin.setHours(0,0,0,0);
+      return Math.ceil((fin - hoy) / 86400000);
+    }
+
+    function getBadge(dias) {
+      if (dias === null) return { clase: 'badge-inactive', texto: 'Sin membresía' };
+      if (dias < 0)      return { clase: 'badge-inactive', texto: 'Vencida' };
+      if (dias <= 7)     return { clase: 'badge-warn',     texto: 'Próxima a vencer' };
+      return { clase: 'badge-active', texto: 'Activa' };
+    }
+
+    function renderMembresia(usuario) {
+      var dias = calcDias(usuario.fecha_fin_membresia);
+      var badge = getBadge(dias);
+
+      // Barra de progreso: asume membresía mensual (30 días)
+      var pct = 0, barraClase = 'barra-red';
+      if (dias !== null && dias > 0) {
+        pct = Math.min(100, Math.round((dias / 30) * 100));
+        barraClase = dias <= 7 ? 'barra-yellow' : 'barra-green';
+      }
+
+      var diasTexto = dias === null ? '—'
+        : dias < 0  ? 'Vencida hace ' + Math.abs(dias) + ' día(s)'
+        : dias === 0 ? 'Vence hoy'
+        : dias + ' día(s) restantes';
+
+      var html =
+        // Tarjeta principal
+        '<div class="card-membresia">' +
+          '<div class="card-top">' +
+            '<div>' +
+              '<div class="card-label">MEMBRESÍA</div>' +
+              '<div class="card-nombre">' + (usuario.nombre || '—') + '</div>' +
+              '<div class="card-disciplina">' + (usuario.disciplina || 'Sin disciplina asignada') + '</div>' +
+            '</div>' +
+            '<span class="badge ' + badge.clase + '">' + badge.texto + '</span>' +
+          '</div>' +
+          '<div class="card-fechas">' +
+            '<div class="fecha-item"><div class="label">INICIO</div><div class="valor">' + formatFecha(usuario.fecha_inicio_membresia) + '</div></div>' +
+            '<div class="fecha-item"><div class="label">VENCIMIENTO</div><div class="valor">' + formatFecha(usuario.fecha_fin_membresia) + '</div></div>' +
+          '</div>' +
+        '</div>' +
+
+        // Barra de progreso
+        '<div class="progreso-wrap">' +
+          '<div class="progreso-header">' +
+            '<span class="progreso-titulo">Vigencia de membresía</span>' +
+            '<span class="progreso-dias">' + diasTexto + '</span>' +
+          '</div>' +
+          '<div class="barra-bg"><div class="barra-fill ' + barraClase + '" style="width:' + pct + '%"></div></div>' +
+        '</div>' +
+
+        // Acciones
+        '<div class="acciones">' +
+          '<a class="btn-pagar" href="pagos.html">💳 Pagar mensualidad</a>' +
+          '<a class="btn-secondary" href="disciplinas.html">🥋 Ver horarios</a>' +
+          '<a class="btn-secondary" href="perfil.html">👤 Mi perfil</a>' +
+        '</div>' +
+
+        // Historial (desde localStorage si hay datos guardados)
+        '<div class="seccion-titulo">Último pago registrado</div>' +
+        renderUltimoPago();
+
+      document.getElementById('contenido').innerHTML = html;
+    }
+
+    function renderUltimoPago() {
+      try {
+        var p = JSON.parse(localStorage.getItem('ultimoPago') || 'null');
+        if (!p) return '<div class="loading">No hay pagos registrados aún.</div>';
+        var medioLabel = { yape:'📱 Yape', plin:'📱 Plin', efectivo:'💵 Efectivo', tarjeta:'💳 Tarjeta', transferencia:'🏦 Transferencia' };
+        return '<div class="historial-item">' +
+          '<div class="hist-izq">' +
+            '<div class="hist-disciplina">' + (p.concepto || 'Mensualidad') + '</div>' +
+            '<div class="hist-fechas">' + formatFecha(p.fecha) + ' · ' + (medioLabel[p.medio_pago] || p.medio_pago || '—') + '</div>' +
+          '</div>' +
+          '<span class="badge badge-active">S/. ' + Number(p.monto || 0).toFixed(2) + '</span>' +
+        '</div>';
+      } catch(e) {
+        return '<div class="loading">No hay pagos registrados aún.</div>';
+      }
+    }
+  </script>
+</body>
+</html>

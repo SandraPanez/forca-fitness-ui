@@ -99,17 +99,14 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE GESTIÓN</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Dashboard</a>
-      <a href="alumnos.html">Alumnos</a>
-      <a href="#" class="active">🛡 Control de Acceso</a>
-      <a href="tesoreria.html">Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
-      <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
+      <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'">--</div>
+      <div class="user-info">
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol">--</div>
+      </div>
     </div>
   </nav>
 
@@ -224,19 +221,23 @@
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 · <a href="#">Soporte</a></footer>
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
-    let accesosData = [];
+    requireRol(['admin']);
 
-    // Auth guard
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (usuario.nombre) {
-      document.querySelector('.user-info .name').textContent = usuario.nombre;
-      document.querySelector('.user-info .role').textContent = usuario.rol || 'Staff';
-      document.querySelector('.avatar').textContent = usuario.nombre.substring(0,2).toUpperCase();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
     }
 
+    function initPage() {
+      initNav();
+      cargarAccesos();
+    }
+
+    let accesosData = [];
     const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 
     async function cargarAccesos() {
@@ -268,7 +269,6 @@
       }
       tbody.innerHTML = data.map(function(a, i) {
         const badge = estadoBadge(a);
-        const initials = (a.nombre||'').split(' ').map(function(p){return p[0];}).join('').substring(0,2).toUpperCase();
         const disciplina = a.disciplina || a.id_disciplina || '—';
         return '<tr data-id="'+a.id_alumno+'" onclick="selRow(this,'+JSON.stringify(a).replace(/"/g,'&quot;')+')" '+(i===0?'class="selected"':'')+'>'+
           '<td><div class="alumno-name">'+(a.nombre||'')+'</div><div class="alumno-sub">Socio #'+String(a.id_alumno).padStart(4,'0')+'</div></td>'+
@@ -304,7 +304,6 @@
       if (stats[2]) stats[2].textContent = proxVencer;
       if (stats[3]) stats[3].textContent = inactivos;
       if (stats[4]) stats[4].textContent = 0;
-      // Actualizar tabs
       const tabs = document.querySelectorAll('.tabs-row .tab');
       if (tabs[0]) tabs[0].textContent = 'Todos (' + data.length + ')';
       if (tabs[1]) tabs[1].textContent = 'Activo (' + activos + ')';
@@ -352,8 +351,6 @@
       clearTimeout(t._timer);
       t._timer = setTimeout(function(){t.classList.remove('show');}, 2200);
     }
-
-    cargarAccesos();
-</script>
+  </script>
 </body>
 </html>

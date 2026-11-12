@@ -76,16 +76,14 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
       <div class="avatar" id="navAvatar">--</div>
-      <div class="user-info"><div class="name" id="navNombre">Cargando...</div><div class="role" id="navRol">--</div></div>
+      <div class="user-info">
+        <div class="name" id="navNombre">Cargando...</div>
+        <div class="role" id="navRol">--</div>
+      </div>
     </div>
   </nav>
 
@@ -175,46 +173,53 @@
   </main>
   <footer><strong>FORCA & FITNESS S.A.C.</strong> · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol([]);
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
-
-    // ── Poblar todo con datos del localStorage ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-
-      // Nav
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
-
-      // Header perfil
-      document.getElementById('avatarLarge').textContent = ini;
-      document.getElementById('profileNombre').textContent = usuario.nombre;
-      document.getElementById('profileBadge').textContent = 'ID ' + (usuario.id || '--') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
-      document.getElementById('profileDisc').textContent = '🥋 ' + (usuario.disciplina || 'Sin disciplina');
-
-      // Info rows
-      document.getElementById('infoNombre').textContent = usuario.nombre;
-      document.getElementById('infoRol').textContent = usuario.rol || 'Socio';
-      document.getElementById('infoDisc').textContent = usuario.disciplina || 'Sin disciplina';
-      document.getElementById('infoEmail').innerHTML = (usuario.email || '--') + ' <span class="badge-confirmed">✓ Confirmado</span>';
-      document.getElementById('infoId').innerHTML = 'ID: ' + (usuario.id || '--') + ' <span class="badge-verified">✓ Verificado</span>';
-
-      // Cards
-      document.getElementById('cardDisc').textContent = usuario.disciplina || '--';
-      document.getElementById('cardRol').textContent = usuario.rol || 'Socio';
-      document.getElementById('cardId').textContent = 'ID ' + (usuario.id || '--');
-      document.getElementById('sesNombre').textContent = usuario.nombre;
-      document.getElementById('sesEmail').textContent = usuario.email || '--';
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
     }
 
-    // ── Cargar membresía desde la API ──
+    function initPage() {
+      initNav();
+
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+
+      if (usuario.nombre) {
+        const ini = usuario.nombre.substring(0,2).toUpperCase();
+
+        // Header perfil
+        document.getElementById('avatarLarge').textContent = ini;
+        document.getElementById('profileNombre').textContent = usuario.nombre;
+        document.getElementById('profileBadge').textContent = 'ID ' + (usuario.id || '--') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
+        document.getElementById('profileDisc').textContent = '🥋 ' + (usuario.disciplina || 'Sin disciplina');
+
+        // Info rows
+        document.getElementById('infoNombre').textContent = usuario.nombre;
+        document.getElementById('infoRol').textContent = usuario.rol || 'Socio';
+        document.getElementById('infoDisc').textContent = usuario.disciplina || 'Sin disciplina';
+        document.getElementById('infoEmail').innerHTML = (usuario.email || '--') + ' <span class="badge-confirmed">✓ Confirmado</span>';
+        document.getElementById('infoId').innerHTML = 'ID: ' + (usuario.id || '--') + ' <span class="badge-verified">✓ Verificado</span>';
+
+        // Cards
+        document.getElementById('cardDisc').textContent = usuario.disciplina || '--';
+        document.getElementById('cardRol').textContent = usuario.rol || 'Socio';
+        document.getElementById('cardId').textContent = 'ID ' + (usuario.id || '--');
+        document.getElementById('sesNombre').textContent = usuario.nombre;
+        document.getElementById('sesEmail').textContent = usuario.email || '--';
+      }
+
+      cargarMembresia();
+    }
+
     async function cargarMembresia() {
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
       try {
         const res = await fetch(API + '/api/alumnos', { headers });
         if (!res.ok) throw new Error('Error');
@@ -249,16 +254,6 @@
         document.getElementById('infoMembresia').textContent = 'No disponible';
       }
     }
-
-    function cerrarSesion() {
-      if (confirm('¿Seguro que deseas cerrar sesión?')) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
-        location.href = 'login.html';
-      }
-    }
-
-    cargarMembresia();
   </script>
 </body>
 </html>

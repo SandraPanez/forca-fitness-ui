@@ -105,14 +105,7 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DEPORTIVO</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="disciplinas.html">Consulta de Clases</a>
-      <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="#" class="active">Pagos</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="alumnos.html">Alumnos</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="avatar" id="navAvatar">--</div>
       <div class="user-info">
@@ -224,29 +217,31 @@
   </main>
   <footer>FORCA & FITNESS S.A.C. · © 2025 Todos los derechos reservados &nbsp;·&nbsp; <a href="#">Términos del Servicio</a> · <a href="#">Política de Privacidad</a> · Versión 2.4.0</footer>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol([]);
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-
-    // ── Poblar nav y alumno ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
-
-      document.getElementById('alumnoAv').textContent = ini;
-      document.getElementById('alumnoNombre').textContent = usuario.nombre;
-      document.getElementById('alumnoSub').textContent = 'ID: ' + (usuario.id || '--') + ' · Forca & Fitness';
-
-      document.getElementById('sumNombre').textContent = usuario.nombre;
-      document.getElementById('sumDisc').textContent = usuario.disciplina || 'Sin disciplina';
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
     }
 
-    // ── Selección de medio de pago ──
+    function initPage() {
+      initNav();
+
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      if (usuario.nombre) {
+        const ini = usuario.nombre.substring(0,2).toUpperCase();
+        document.getElementById('alumnoAv').textContent = ini;
+        document.getElementById('alumnoNombre').textContent = usuario.nombre;
+        document.getElementById('alumnoSub').textContent = 'ID: ' + (usuario.id || '--') + ' · Forca & Fitness';
+        document.getElementById('sumNombre').textContent = usuario.nombre;
+        document.getElementById('sumDisc').textContent = usuario.disciplina || 'Sin disciplina';
+      }
+    }
+
     let medioPago = 'yape';
     function selPago(metodo) {
       medioPago = metodo;
@@ -259,7 +254,6 @@
       document.getElementById('sumMetodo').textContent = metodo === 'yape' ? 'Yape / Transferencia' : 'Efectivo';
     }
 
-    // ── Actualizar resumen en tiempo real ──
     document.getElementById('inpMonto').addEventListener('input', function() {
       const monto = parseFloat(this.value) || 0;
       const subtotal = (monto / 1.18).toFixed(2);
@@ -272,8 +266,8 @@
       document.getElementById('sumConcepto').textContent = this.value || 'Mensualidad';
     });
 
-    // ── Registrar pago en la API ──
     async function registrarPago() {
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
       const btn = document.getElementById('btnPagar');
       const msgBox = document.getElementById('msgBox');
       const monto = parseFloat(document.getElementById('inpMonto').value);

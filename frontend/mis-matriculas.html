@@ -99,12 +99,7 @@
       <div class="logo-box">F&F</div>
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
-      <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="tesoreria.html">Tesorería</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
       <div class="avatar" id="navAvatar" onclick="location.href='perfil.html'" title="Ver perfil" style="cursor:pointer;">--</div>
@@ -182,24 +177,30 @@
 
   <div class="toast" id="toast"></div>
 
+  <script src="auth.js"></script>
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
+    requireRol([]);
 
-    // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
-
-    // ── Poblar nav ──
-    if (usuario.nombre) {
-      const ini = usuario.nombre.substring(0,2).toUpperCase();
-      document.getElementById('navAvatar').textContent = ini;
-      document.getElementById('navNombre').textContent = usuario.nombre;
-      document.getElementById('navRol').textContent = (usuario.rol || 'Socio') + (usuario.disciplina ? ' · ' + usuario.disciplina : '');
-      document.getElementById('breadDisciplina').textContent = usuario.disciplina || 'Mi Plan';
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
     }
 
-    // ── Estado badge ──
+    function initPage() {
+      initNav();
+
+      const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+      if (usuario.disciplina) {
+        document.getElementById('breadDisciplina').textContent = usuario.disciplina;
+      }
+
+      cargarMatriculas();
+    }
+
+    const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
+
     function estadoBadge(a) {
       if (!a.fecha_fin_membresia) return { clase:'badge-vencida', texto:'● Sin membresía', estado:'vencida' };
       const diff = Math.ceil((new Date(a.fecha_fin_membresia) - new Date()) / 86400000);
@@ -208,7 +209,6 @@
       return { clase:'badge-active', texto:'● Activa', estado:'activa' };
     }
 
-    // ── Cargar alumnos y renderizar ──
     async function cargarMatriculas() {
       try {
         const res = await fetch(API + '/api/alumnos', { headers });
@@ -227,7 +227,6 @@
         document.getElementById('statProximas').textContent = proximas;
         document.getElementById('tableDesc').textContent = alumnos.length + ' registros en total';
 
-        // Pagos pendientes
         try {
           const resP = await fetch(API + '/api/pagos/pendientes', { headers });
           if (resP.ok) {
@@ -306,8 +305,6 @@
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
     }
-
-    cargarMatriculas();
   </script>
 </body>
 </html>
