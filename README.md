@@ -31,10 +31,14 @@ database/
   schema.sql               Tablas e índices
   seed.sql                 Datos opcionales de demostración
 frontend/
-  *.html                   Vistas multipágina con estilos y scripts locales
+  index.html               Entrada que redirige al inicio de sesión
+  pages/
+    auth/                  Inicio de sesión
+    admin/                 Dashboard, alumnos, accesos y tesorería
+    portal/                Clases, matrículas, perfil y pagos
 ```
 
-El frontend se mantiene multipágina y plano para conservar los enlaces relativos actuales; los recursos compartidos podrán extraerse cuando se incorpore un proceso de compilación o diseño común.
+El frontend sigue siendo multipágina con estilos y scripts locales; se agrupa por área para facilitar su mantenimiento. Cada página conserva enlaces relativos hacia las otras áreas.
 
 ## Puesta en marcha
 
@@ -49,7 +53,7 @@ El API usa el puerto `3000` por defecto y permite configurar otro mediante `PORT
 
 `database/schema.sql` crea únicamente estructura; no elimina tablas existentes. `database/seed.sql` es solo para bases locales/de prueba e inserta usuarios de demostración con contraseñas inseguras.
 
-Para abrir las vistas, sirve `frontend/` con la extensión Live Server de VS Code y entra a `login.html`. Las páginas todavía apuntan a la URL de producción del API; para probar el frontend contra un backend local habría que cambiar esa configuración.
+Para abrir las vistas, sirve `frontend/` con la extensión Live Server de VS Code y entra a `index.html`; redirige a `pages/auth/login.html`. Las páginas todavía apuntan a la URL de producción del API; para probar el frontend contra un backend local habría que cambiar esa configuración.
 
 ## Estado
 

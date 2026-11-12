@@ -78,10 +78,10 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
     <div class="nav-links">
-      <a href="index.html">Inicio</a>
+      <a href="mis-matriculas.html">Inicio</a>
       <a href="mis-matriculas.html">Mis Matrículas</a>
       <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="tesoreria.html">Tesorería</a>
+      <a href="../admin/tesoreria.html">Tesorería</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
@@ -162,7 +162,7 @@
 
   <script>
     // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
 
     // ── Poblar nav y formulario con datos actuales ──

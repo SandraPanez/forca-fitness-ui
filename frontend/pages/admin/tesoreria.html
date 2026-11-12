@@ -88,11 +88,11 @@
       <a href="alumnos.html">Alumnos</a>
       <a href="control_acceso.html">Control de Acceso</a>
       <a href="#" class="active">💰 Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
+      <a href="../portal/disciplinas.html">Clases</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
+      <div class="avatar" onclick="location.href='../portal/perfil.html'">FD</div>
       <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
     </div>
   </nav>
@@ -242,7 +242,7 @@
   <script>
     const API = 'https://forca-fitness-backend.onrender.com';
 
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
 
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     if (usuario.nombre) {

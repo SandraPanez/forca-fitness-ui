@@ -106,12 +106,12 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DEPORTIVO</p></div>
     </div>
     <div class="nav-links">
-      <a href="index.html">Inicio</a>
+      <a href="mis-matriculas.html">Inicio</a>
       <a href="disciplinas.html">Consulta de Clases</a>
       <a href="mis-matriculas.html">Mis Matrículas</a>
       <a href="#" class="active">Pagos</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="alumnos.html">Alumnos</a>
+      <a href="../admin/control_acceso.html">Control de Acceso</a>
+      <a href="../admin/alumnos.html">Alumnos</a>
     </div>
     <div class="nav-right">
       <div class="avatar" id="navAvatar">--</div>
@@ -228,7 +228,7 @@
     const API = 'https://forca-fitness-backend.onrender.com';
 
     // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
 
     // ── Poblar nav y alumno ──

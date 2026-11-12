@@ -95,11 +95,11 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>CENTRO DE RENDIMIENTO DE TATAMI</p></div>
     </div>
     <div class="nav-links">
-      <a href="login.html">Inicio</a>
+      <a href="../auth/login.html">Inicio</a>
       <a href="#" class="active">📋 Consulta de Clases</a>
       <a href="mis-matriculas.html">Mis Matrículas</a>
-      <a href="control_acceso.html">Control de Acceso</a>
-      <a href="alumnos.html">Alumnos</a>
+      <a href="../admin/control_acceso.html">Control de Acceso</a>
+      <a href="../admin/alumnos.html">Alumnos</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
@@ -164,7 +164,7 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 16 / 25 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:36%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='index.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
       </div>
 
       <div class="class-card" data-disc="mt" data-dias="semana">
@@ -178,7 +178,7 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 12 / 20 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:40%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='index.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
       </div>
 
       <div class="class-card" data-disc="box" data-dias="semana">
@@ -206,7 +206,7 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 14 / 22 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:36%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='index.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
       </div>
 
       <div class="class-card" data-disc="gym" data-dias="semana">
@@ -220,7 +220,7 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 20 / 30 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:33%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='index.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
       </div>
 
       <div class="class-card" data-disc="bjj" data-dias="sabado">
@@ -248,7 +248,7 @@
         </div>
         <div class="avail-label">Disponibilidad: &nbsp;<span class="count count-green">✓ 11 / 18 cupos disponibles</span></div>
         <div class="avail-bar"><div class="avail-fill fill-green" style="width:39%;"></div></div>
-        <button class="btn-matricular" onclick="location.href='index.html'">🥋 Matricularme</button>
+        <button class="btn-matricular" onclick="location.href='mis-matriculas.html'">🥋 Matricularme</button>
       </div>
     </div>
 
@@ -269,7 +269,7 @@
 
   <script>
     // Auth guard
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     if (usuario.nombre) {
       document.querySelector('.user-info .name').textContent = usuario.nombre;

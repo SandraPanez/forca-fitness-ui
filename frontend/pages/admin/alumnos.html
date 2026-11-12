@@ -97,11 +97,11 @@
       <a href="#" class="active">👥 Alumnos</a>
       <a href="control_acceso.html">Control de Acceso</a>
       <a href="tesoreria.html">Tesorería</a>
-      <a href="disciplinas.html">Clases</a>
+      <a href="../portal/disciplinas.html">Clases</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
-      <div class="avatar" onclick="location.href='perfil.html'">FD</div>
+      <div class="avatar" onclick="location.href='../portal/perfil.html'">FD</div>
       <div class="user-info"><div class="name">Ing. Fred Duarte</div><div class="role">Administrador General</div></div>
     </div>
   </nav>
@@ -210,9 +210,9 @@
       <div class="info-row"><span class="info-label">📋 Inscripción</span><span class="info-val" id="sb-inscripcion">15 Ene 2024</span></div>
       <div class="section-sep"></div>
       <div class="sidebar-actions">
-        <button class="btn-side btn-side-primary" onclick="location.href='renovar.html'">🔄 Renovar matrícula</button>
-        <button class="btn-side btn-side-secondary" onclick="location.href='pagos.html'">💳 Ver historial de pagos</button>
-        <button class="btn-side btn-side-secondary" onclick="location.href='editar-perfil.html'">✏️ Editar datos</button>
+        <button class="btn-side btn-side-primary" onclick="location.href='../portal/renovar.html'">🔄 Renovar matrícula</button>
+        <button class="btn-side btn-side-secondary" onclick="location.href='../portal/pagos.html'">💳 Ver historial de pagos</button>
+        <button class="btn-side btn-side-secondary" onclick="location.href='../portal/editar-perfil.html'">✏️ Editar datos</button>
         <button class="btn-side btn-side-warn">🚫 Dar de baja</button>
       </div>
     </div>
@@ -225,7 +225,7 @@
     let alumnosData = [];
 
     // Proteger ruta: si no hay token, volver al login
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
 
     // Mostrar nombre del usuario logueado
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');

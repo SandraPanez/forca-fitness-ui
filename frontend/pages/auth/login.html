@@ -152,9 +152,9 @@
 
       <div class="divider">O CONTINÚA CON</div>
 
-      <button class="btn-dni" onclick="location.href='mis-matriculas.html'">🪪 Acceso con DNI / Expediente de Socio</button>
+      <button class="btn-dni" onclick="location.href='../portal/mis-matriculas.html'">🪪 Acceso con DNI / Expediente de Socio</button>
 
-      <p class="register">¿No tienes una cuenta? <a href="index.html">Regístrate aquí</a></p>
+      <p class="register">¿No tienes una cuenta? <a href="../admin/index.html">Regístrate aquí</a></p>
       <div class="footer-links">
         <a href="#">Ayuda</a> · <a href="#">Términos y condiciones</a> · <a href="#">Soporte técnico</a>
       </div>
@@ -195,7 +195,7 @@
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
-        location.href = 'alumnos.html';
+        location.href = '../admin/alumnos.html';
       } catch (e) {
         errorEl.textContent = 'No se pudo conectar con el servidor.';
         errorEl.style.display = 'block';

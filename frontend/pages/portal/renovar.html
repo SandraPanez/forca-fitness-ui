@@ -104,7 +104,7 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
     <div class="nav-links">
-      <a href="login.html">Inicio</a>
+      <a href="../auth/login.html">Inicio</a>
       <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
       <a href="disciplinas.html">Horarios & Clases</a>
       <a href="#">Historial de Pagos</a>
@@ -216,7 +216,7 @@
 
   <script>
     // Auth guard
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     if (usuario.nombre) {
       document.querySelector('.user-info .name').textContent = usuario.nombre;

@@ -98,11 +98,11 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1></div>
     </div>
     <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="alumnos.html">Alumnos</a>
+      <a href="mis-matriculas.html">Inicio</a>
+      <a href="../admin/alumnos.html">Alumnos</a>
       <a href="mis-matriculas.html">Matrículas</a>
       <a href="pagos.html" class="active">Pagos</a>
-      <a href="tesoreria.html">Tesorería</a>
+      <a href="../admin/tesoreria.html">Tesorería</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
@@ -198,7 +198,7 @@
         <div class="rf-right">Soporte: <a href="#">tesoreria@forcafitness.com</a></div>
       </div>
 
-      <div class="bottom-link">❓ ¿Tienes dudas sobre el pago? &nbsp;<a href="tesoreria.html">Ir a Tesorería →</a></div>
+      <div class="bottom-link">❓ ¿Tienes dudas sobre el pago? &nbsp;<a href="../admin/tesoreria.html">Ir a Tesorería →</a></div>
     </div>
   </main>
   <footer>© 2025 Forca & Fitness Management System. Todos los derechos reservados. · Versión 2.4.0</footer>
@@ -207,7 +207,7 @@
     const API = 'https://forca-fitness-backend.onrender.com';
 
     // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 

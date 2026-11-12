@@ -100,10 +100,10 @@
       <div class="logo-text"><h1>FORCA & FITNESS</h1><p>PORTAL DE ALUMNOS</p></div>
     </div>
     <div class="nav-links">
-      <a href="index.html">Inicio</a>
+      <a href="mis-matriculas.html">Inicio</a>
       <a href="mis-matriculas.html" class="active">Mis Matrículas</a>
       <a href="disciplinas.html">Horarios & Clases</a>
-      <a href="tesoreria.html">Tesorería</a>
+      <a href="../admin/tesoreria.html">Tesorería</a>
     </div>
     <div class="nav-right">
       <div class="bell">🔔<span class="bell-dot"></span></div>
@@ -174,7 +174,7 @@
         <div class="card-icon">💬</div>
         <div class="card-title">¿Necesitas congelar o cambiar de turno?</div>
         <div class="card-text">Puedes solicitar prórrogas por viaje o motivos médicos directamente con la coordinación general vía WhatsApp.</div>
-        <a class="card-link" href="tesoreria.html">Contactar a Coordinación ↗</a>
+        <a class="card-link" href="../admin/tesoreria.html">Contactar a Coordinación ↗</a>
       </div>
     </div>
   </main>
@@ -186,7 +186,7 @@
     const API = 'https://forca-fitness-backend.onrender.com';
 
     // ── Auth guard ──
-    if (!localStorage.getItem('token')) location.href = 'login.html';
+    if (!localStorage.getItem('token')) location.href = '../auth/login.html';
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') };
 
