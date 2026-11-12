@@ -9,7 +9,7 @@ INSERT INTO disciplinas (nombre, descripcion, profesor, horario, sede, cupos_max
   ('Karate',       'Arte marcial japonés tradicional',      'Prof. Luis Mendoza',   'Lun/Mié 4:00–6:00pm',      'Los Olivos', 20, 120.00);
 
 INSERT INTO alumnos (nombre, apellido_paterno, apellido_materno, dni, email, telefono, fecha_nacimiento, sede) VALUES
-  ('Martín', 'Gómez', 'Silva', '74521036', 'martin.gomez@email.com', '987654321', '2000-03-15', 'Principal'),
+  ('Martín', 'Gómez', 'Silva', '74521036', 'martin.gomez@forcafitness.com', '987654321', '2000-03-15', 'Principal'),
   ('Ana', 'Torres', 'Vega', '62384951', 'ana.torres@email.com', '976543210', '1998-07-22', 'Principal'),
   ('Luis', 'Ramírez', 'Flores', '58147263', 'luis.ramirez@email.com', '965432109', '2002-11-08', 'Los Olivos'),
   ('Sofia', 'Castro', 'López', '71293845', 'sofia.castro@email.com', '954321098', '1995-04-30', 'Miraflores'),
@@ -40,9 +40,3 @@ INSERT INTO accesos (id_alumno, tipo, sede, resultado, observacion, fecha_hora) 
   (2, 'ingreso', 'Principal', 'permitido', 'Acceso habilitado', NOW() - INTERVAL '30 minutes'),
   (3, 'ingreso', 'Los Olivos', 'denegado', 'Matrícula vencida', NOW() - INTERVAL '5 hours'),
   (5, 'ingreso', 'Principal', 'permitido', 'Acceso habilitado', NOW() - INTERVAL '1 hour');
-
--- Credenciales de demostración; no reutilizar ni desplegar en producción.
-INSERT INTO usuarios (nombre, email, password, rol) VALUES
-  ('Administrador', 'admin@forcafitness.pe', 'admin123', 'admin'),
-  ('Tesorero', 'tesorero@forcafitness.pe', 'tesorero123', 'tesorero'),
-  ('Recepción', 'recepcion@forcafitness.pe', 'recepcion123', 'recepcion');

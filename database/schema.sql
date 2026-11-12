@@ -14,7 +14,8 @@ CREATE TABLE disciplinas (
   profesor        VARCHAR(150),
   horario         VARCHAR(200),
   sede            VARCHAR(100) DEFAULT 'Principal',
-  cupos_max       INTEGER DEFAULT 20,
+  cupos_max       INTEGER NOT NULL DEFAULT 20
+                    CONSTRAINT disciplinas_cupos_max_nonnegative CHECK (cupos_max >= 0),
   precio_mensual  DECIMAL(8,2) NOT NULL,
   activa          BOOLEAN DEFAULT TRUE,
   created_at      TIMESTAMP DEFAULT NOW()
@@ -92,22 +93,28 @@ CREATE TABLE accesos (
 );
 
 -- ============================================================
--- 6. USUARIOS (staff del sistema)
+-- 6. USUARIOS (cuentas del sistema)
 -- ============================================================
 CREATE TABLE usuarios (
-  id          SERIAL PRIMARY KEY,
-  nombre      VARCHAR(150) NOT NULL,
-  email       VARCHAR(150) UNIQUE NOT NULL,
-  password    VARCHAR(255) NOT NULL,
-  rol         VARCHAR(30) NOT NULL DEFAULT 'recepcion'
-                CHECK (rol IN ('admin','tesorero','recepcion','instructor')),
-  activo      BOOLEAN DEFAULT TRUE,
-  created_at  TIMESTAMP DEFAULT NOW()
+  id            SERIAL PRIMARY KEY,
+  nombre        VARCHAR(150) NOT NULL,
+  email         VARCHAR(150) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  rol           VARCHAR(30) NOT NULL
+                  CONSTRAINT usuarios_rol_valid_role_check
+                  CHECK (rol IN ('admin','tesorero','recepcion','instructor','alumno')),
+  alumno_id     INTEGER REFERENCES alumnos(id) ON DELETE RESTRICT,
+  activo        BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at    TIMESTAMP NOT NULL DEFAULT NOW(),
+  CONSTRAINT usuarios_rol_alumno_link_check
+    CHECK ((rol = 'alumno' AND alumno_id IS NOT NULL) OR (rol <> 'alumno' AND alumno_id IS NULL))
 );
 
 -- ============================================================
 -- ÍNDICES DE RENDIMIENTO
 -- ============================================================
+CREATE UNIQUE INDEX idx_usuarios_email_lower_unique ON usuarios (LOWER(email));
+CREATE UNIQUE INDEX idx_usuarios_alumno_id_unique ON usuarios (alumno_id) WHERE alumno_id IS NOT NULL;
 CREATE INDEX idx_alumnos_dni         ON alumnos(dni);
 CREATE INDEX idx_alumnos_sede        ON alumnos(sede);
 CREATE INDEX idx_matriculas_alumno   ON matriculas(id_alumno);

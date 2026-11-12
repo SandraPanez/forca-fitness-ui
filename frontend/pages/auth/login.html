@@ -112,27 +112,19 @@
       <p id="login-error" style="color:#dc2626;font-size:13px;text-align:center;margin-top:10px;display:none;"></p>
 
       <div class="divider">O CONTINÚA CON</div>
-      <button class="btn-dni" onclick="location.href='../portal/mis-matriculas.html'">🪪 Acceso con DNI / Expediente de Socio</button>
-
-      <p class="register">¿No tienes una cuenta? <a href="../admin/index.html">Regístrate aquí</a></p>
+      <p class="register">¿No tienes una cuenta? Solicita tu registro en recepción.</p>
       <div class="footer-links">
         <a href="#">Ayuda</a> · <a href="#">Términos y condiciones</a> · <a href="#">Soporte técnico</a>
       </div>
     </div>
   </div>
 
+  <script src="../auth.js"></script>
   <script>
-    function homeForRole(rol) {
-      var normalized = (rol || '').trim().toLowerCase();
-      return ['admin', 'tesorero', 'tesorería', 'tesoreria', 'recepcion'].includes(normalized)
-        ? '../admin/index.html'
-        : '../portal/mis-matriculas.html';
-    }
-
     // Si ya tiene sesión activa, redirigir según el rol guardado.
-    if (localStorage.getItem('token')) {
+    if (_hasSession()) {
       var usuarioActual = JSON.parse(localStorage.getItem('usuario') || '{}');
-      location.href = homeForRole(usuarioActual.rol);
+      location.href = _homeForRole(usuarioActual.rol);
     }
 
     function togglePwd() {
@@ -172,10 +164,18 @@
           return;
         }
 
+        if (typeof data.token !== 'string' || !data.token.trim()) {
+          errorEl.textContent = 'El servidor no devolvió un token de sesión.';
+          errorEl.style.display = 'block';
+          btnLogin.textContent = 'Iniciar sesión →';
+          btnLogin.disabled = false;
+          return;
+        }
+
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
-        location.href = homeForRole(data.usuario.rol);
+        location.href = _homeForRole(data.usuario.rol);
 
       } catch (e) {
         errorEl.textContent = 'No se pudo conectar con el servidor.';

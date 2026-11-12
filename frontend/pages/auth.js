@@ -5,8 +5,7 @@
 
 // ── GUARD DE ROL ─────────────────────────────────────────────────────────────
 function requireRol(rolesPermitidos) {
-  const token = localStorage.getItem('token');
-  if (!token) { location.href = '../auth/login.html'; return; }
+  if (!_hasSession()) { location.href = '../auth/login.html'; return; }
   if (rolesPermitidos && rolesPermitidos.length > 0) {
     const usuario = _getUsuario();
     const rol = _normalizeRole(usuario.rol);
@@ -30,28 +29,39 @@ const NAV_CONFIG = {
   admin: [
     { href: '../admin/index.html',          label: '📊 Dashboard' },
     { href: '../admin/alumnos.html',        label: '👥 Alumnos' },
-    { href: '../portal/mis-matriculas.html', label: '📋 Matrículas' },
     { href: '../admin/tesoreria.html',      label: '💰 Tesorería' },
     { href: '../admin/control_acceso.html', label: '🛡 Control Acceso' },
     { href: '../portal/perfil.html',        label: '👤 Mi Perfil' },
   ],
   instructor: [
-    { href: '../portal/mis-matriculas.html', label: '🏠 Inicio' },
-    { href: '../portal/disciplinas.html',    label: '🥋 Mis Clases' },
+    { href: '../portal/disciplinas.html',   label: '🥋 Mis Clases' },
     { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
   ],
   tesorero: [
     { href: '../admin/index.html',           label: '📊 Dashboard' },
     { href: '../admin/alumnos.html',         label: '👥 Alumnos' },
-    { href: '../portal/mis-matriculas.html', label: '📋 Matrículas' },
     { href: '../admin/tesoreria.html',       label: '💰 Tesorería' },
-    { href: '../portal/pagos.html',          label: '💳 Pagos' },
+    { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
+  ],
+  recepcion: [
     { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
   ],
   default: [
-    { href: '../portal/mis-matriculas.html', label: '🏠 Inicio' },
     { href: '../portal/perfil.html',         label: '👤 Mi Perfil' },
   ],
+};
+
+const ROLE_ALIASES = {
+  admin: 'admin',
+  director: 'admin',
+  alumno: 'alumno',
+  instructor: 'instructor',
+  profesor: 'instructor',
+  recepcion: 'recepcion',
+  recepcionista: 'recepcion',
+  tesorero: 'tesorero',
+  tesoreria: 'tesorero',
+  tesorería: 'tesorero',
 };
 
 // ── INICIALIZAR BARRA DE NAVEGACIÓN ──────────────────────────────────────────
@@ -94,17 +104,24 @@ function cerrarSesion() {
 // ── HELPER INTERNO ───────────────────────────────────────────────────────────
 function _normalizeRole(role) {
   const normalized = (role || '').trim().toLowerCase();
-  if (normalized === 'tesorería' || normalized === 'tesoreria') return 'tesorero';
-  return normalized;
+  return ROLE_ALIASES[normalized] || normalized;
 }
 
 function _homeForRole(role) {
-  return ['admin', 'tesorero', 'recepcion'].includes(_normalizeRole(role))
-    ? '../admin/index.html'
-    : '../portal/mis-matriculas.html';
+  const normalized = _normalizeRole(role);
+  if (normalized === 'admin' || normalized === 'tesorero') return '../admin/index.html';
+  if (normalized === 'instructor') return '../portal/disciplinas.html';
+  if (normalized === 'alumno') return '../portal/mis-matriculas.html';
+  if (normalized === 'recepcion') return '../portal/perfil.html';
+  return '../auth/login.html';
 }
 
 function _getUsuario() {
   try { return JSON.parse(localStorage.getItem('usuario') || '{}'); }
   catch (e) { return {}; }
+}
+
+function _hasSession() {
+  const token = localStorage.getItem('token');
+  return Boolean(token && token.trim() && token !== 'undefined' && token !== 'null');
 }

@@ -29,6 +29,7 @@ backend/
   server.js                Arranque del servidor
 database/
   schema.sql               Tablas e índices
+  migrations/              Cambios incrementales para bases existentes
   seed.sql                 Datos opcionales de demostración
 frontend/
   index.html               Entrada que redirige al inicio de sesión
@@ -45,17 +46,28 @@ El frontend sigue siendo multipágina con estilos y scripts locales; se agrupa p
 
 1. Crear una base de datos PostgreSQL vacía.
 2. Aplicar `database/schema.sql` para crear las tablas e índices.
+   En una base existente, revisar los datos y aplicar en orden las migraciones de `database/migrations/`.
 3. Opcionalmente, aplicar `database/seed.sql` para cargar datos de demostración.
-4. Copiar `backend/.env.example` a `backend/.env` y completar `DATABASE_URL` y `JWT_SECRET`.
+4. Copiar `backend/.env.example` a `backend/.env` y configurar `DATABASE_URL` con las credenciales de una base local o de pruebas. Generar `JWT_SECRET` con `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` y configurarlo en el entorno privado del backend; no reutilizarlo entre entornos.
 5. Instalar dependencias desde `backend/` con `npm install`.
 6. Iniciar el API con `npm start` o `npm run dev`.
 
 El API usa el puerto `3000` por defecto y permite configurar otro mediante `PORT`.
 
-`database/schema.sql` crea únicamente estructura; no elimina tablas existentes. `database/seed.sql` es solo para bases locales/de prueba e inserta usuarios de demostración con contraseñas inseguras.
+`database/schema.sql` crea únicamente estructura; no elimina tablas existentes. `database/seed.sql` solo carga datos de dominio para desarrollo y no crea cuentas de acceso. Las cuentas deben tener un hash bcrypt en `usuarios.password_hash`; nunca guardes contraseñas en texto plano.
+
+`backend/.env` está excluido de Git. No guardes credenciales reales en archivos versionados ni ejecutes migraciones o datos de prueba contra la base de producción.
 
 Para abrir las vistas, sirve `frontend/` con la extensión Live Server de VS Code y entra a `index.html`; redirige a `pages/auth/login.html`. Las páginas todavía apuntan a la URL de producción del API; para probar el frontend contra un backend local habría que cambiar esa configuración.
 
 ## Estado
 
-Esta estructura establece la composición MVC y conserva las funcionalidades y endpoints existentes. La autenticación segura, autorización por roles, control transaccional de aforo, integraciones de pago/facturación, inventario, analítica y aplicaciones PWA/POS siguen siendo trabajo pendiente.
+Las matrículas activas respetan el aforo de cada disciplina. La creación y reactivación de una matrícula bloquea la disciplina durante la comprobación; si no hay cupos, la API responde `409`. Reducir el aforo por debajo de las matrículas activas también responde `409`.
+
+El login compara hashes bcrypt y emite JWT de una hora. Todas las rutas de dominio requieren un token Bearer; `/api/auth/login` es pública, mientras que `/api/auth/me` y `/api/auth/logout` requieren token. Configura `JWT_SECRET` en el entorno de despliegue antes de habilitar el login. Cerrar sesión en el navegador elimina el token; al ser JWT stateless, un token ya emitido sigue siendo válido hasta expirar.
+
+La navegación alinea los nombres del C4 con los roles técnicos (`Director`/`admin`, `Profesor`/`instructor`, `Recepcionista`/`recepcion`, `Tesorero`/`tesorero` y `Alumno`/`alumno`). Las guardias del frontend solo controlan la presentación y no reemplazan la autorización por rol en cada endpoint del backend.
+
+Para una demostración, después de aplicar `schema.sql` y `seed.sql`, ejecuta `npm run create:demo-users` desde `backend/`. El script crea una cuenta por rol, genera contraseñas aleatorias y las muestra una sola vez en la terminal. Si `DATABASE_URL` apunta a una base remota, exige `ALLOW_REMOTE_DEMO_ACCOUNT_SEED=true`; úsalo únicamente si confirmaste que es la base vacía de demostración, nunca sobre datos reales. No guardes esas contraseñas en Git ni las compartas en capturas o chats.
+
+La migración `002_secure_user_authentication.sql` se detiene si encuentra cuentas heredadas con contraseñas en texto plano; no la ejecutes directamente en una base con usuarios sin respaldo y un plan de restablecimiento. El POS de recepción y el pase de lista QR para profesores aún no tienen vistas ni endpoints propios; la autorización fina por rol en cada endpoint sigue pendiente.
