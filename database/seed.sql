@@ -40,9 +40,3 @@ INSERT INTO accesos (id_alumno, tipo, sede, resultado, observacion, fecha_hora) 
   (2, 'ingreso', 'Principal', 'permitido', 'Acceso habilitado', NOW() - INTERVAL '30 minutes'),
   (3, 'ingreso', 'Los Olivos', 'denegado', 'Matrícula vencida', NOW() - INTERVAL '5 hours'),
   (5, 'ingreso', 'Principal', 'permitido', 'Acceso habilitado', NOW() - INTERVAL '1 hour');
-
--- Credenciales de demostración; no reutilizar ni desplegar en producción.
-INSERT INTO usuarios (nombre, email, password, rol) VALUES
-  ('Administrador', 'admin@forcafitness.pe', 'admin123', 'admin'),
-  ('Tesorero', 'tesorero@forcafitness.pe', 'tesorero123', 'tesorero'),
-  ('Recepción', 'recepcion@forcafitness.pe', 'recepcion123', 'recepcion');
