@@ -258,8 +258,16 @@
 
   <script src="../auth.js"></script>
   <script>
-    requireRol([]); // cualquier usuario autenticado
+    requireRol(['Alumno', 'Instructor']);
     initNav();
+
+    if (_normalizeRole(_getUsuario().rol) === 'instructor') {
+      document.querySelectorAll('.btn-reservar, .btn-matricular').forEach(function(button) {
+        button.remove();
+      });
+      var matriculasLink = document.querySelector('.bottom-note a[href="mis-matriculas.html"]');
+      if (matriculasLink) matriculasLink.remove();
+    }
 
     var filtroDisc = '';
     var filtroDias = '';
