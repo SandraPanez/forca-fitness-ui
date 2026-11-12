@@ -28,22 +28,22 @@ const getByAlumno = async (req, res) => {
   }
 };
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   try {
     const nueva = await Matricula.create(req.body);
     res.status(201).json(nueva);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 };
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
   try {
     const actualizada = await Matricula.update(req.params.id, req.body);
     if (!actualizada) return res.status(404).json({ error: 'Matrícula no encontrada' });
     res.json(actualizada);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 };
 

@@ -14,7 +14,8 @@ CREATE TABLE disciplinas (
   profesor        VARCHAR(150),
   horario         VARCHAR(200),
   sede            VARCHAR(100) DEFAULT 'Principal',
-  cupos_max       INTEGER DEFAULT 20,
+  cupos_max       INTEGER NOT NULL DEFAULT 20
+                    CONSTRAINT disciplinas_cupos_max_nonnegative CHECK (cupos_max >= 0),
   precio_mensual  DECIMAL(8,2) NOT NULL,
   activa          BOOLEAN DEFAULT TRUE,
   created_at      TIMESTAMP DEFAULT NOW()
