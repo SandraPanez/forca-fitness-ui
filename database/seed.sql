@@ -9,7 +9,7 @@ INSERT INTO disciplinas (nombre, descripcion, profesor, horario, sede, cupos_max
   ('Karate',       'Arte marcial japonés tradicional',      'Prof. Luis Mendoza',   'Lun/Mié 4:00–6:00pm',      'Los Olivos', 20, 120.00);
 
 INSERT INTO alumnos (nombre, apellido_paterno, apellido_materno, dni, email, telefono, fecha_nacimiento, sede) VALUES
-  ('Martín', 'Gómez', 'Silva', '74521036', 'martin.gomez@email.com', '987654321', '2000-03-15', 'Principal'),
+  ('Martín', 'Gómez', 'Silva', '74521036', 'martin.gomez@forcafitness.com', '987654321', '2000-03-15', 'Principal'),
   ('Ana', 'Torres', 'Vega', '62384951', 'ana.torres@email.com', '976543210', '1998-07-22', 'Principal'),
   ('Luis', 'Ramírez', 'Flores', '58147263', 'luis.ramirez@email.com', '965432109', '2002-11-08', 'Los Olivos'),
   ('Sofia', 'Castro', 'López', '71293845', 'sofia.castro@email.com', '954321098', '1995-04-30', 'Miraflores'),

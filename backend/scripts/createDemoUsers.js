@@ -3,13 +3,13 @@ const path = require('node:path');
 const bcrypt = require('bcryptjs');
 
 const DEMO_ACCOUNTS = [
-  { nombre: 'Director de demostración', email: 'director.demo@forcafitness.test', rol: 'admin' },
-  { nombre: 'Tesorero de demostración', email: 'tesorero.demo@forcafitness.test', rol: 'tesorero' },
-  { nombre: 'Recepción de demostración', email: 'recepcion.demo@forcafitness.test', rol: 'recepcion' },
-  { nombre: 'Profesor de demostración', email: 'profesor.demo@forcafitness.test', rol: 'instructor' },
+  { nombre: 'Director', email: 'director@forcafitness.com', rol: 'admin' },
+  { nombre: 'Tesorero', email: 'tesorero@forcafitness.com', rol: 'tesorero' },
+  { nombre: 'Recepcionista', email: 'recepcion@forcafitness.com', rol: 'recepcion' },
+  { nombre: 'Profesor', email: 'profesor@forcafitness.com', rol: 'instructor' },
   {
-    nombre: 'Martín Gómez (demostración)',
-    email: 'martin.gomez@email.com',
+    nombre: 'Martín Gómez',
+    email: 'martin.gomez@forcafitness.com',
     rol: 'alumno'
   }
 ];
@@ -35,7 +35,7 @@ const createDemoUsers = async (client, options = {}) => {
 
     const student = await client.query(
       'SELECT id FROM alumnos WHERE LOWER(email) = $1 LIMIT 1',
-      ['martin.gomez@email.com']
+      ['martin.gomez@forcafitness.com']
     );
     if (student.rows.length === 0) {
       throw new Error('Falta el alumno demo de seed.sql; carga los datos de demostración primero');

@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { createDemoUsers } = require('../scripts/createDemoUsers');
+const { createDemoUsers, DEMO_ACCOUNTS } = require('../scripts/createDemoUsers');
 
 const createClient = ({ existing = [], studentId = 12 } = {}) => {
   const queries = [];
@@ -34,6 +34,10 @@ test('creates demo role accounts with hashed passwords and linked student accoun
   const inserts = client.queries.filter(({ statement }) => statement.startsWith('INSERT INTO usuarios'));
   assert.equal(inserts.length, 5);
   assert.deepEqual(accounts.map(({ rol }) => rol), ['admin', 'tesorero', 'recepcion', 'instructor', 'alumno']);
+  assert.equal(accounts.every(({ email }) => email.endsWith('@forcafitness.com')), true);
+  assert.equal(DEMO_ACCOUNTS.every(({ email, nombre }) => (
+    !email.includes('demo') && !nombre.toLowerCase().includes('demo')
+  )), true);
   assert.equal(accounts.every(({ password }) => password.startsWith('private-demo-password-')), true);
   accounts.forEach((account, index) => {
     assert.equal(inserts[index].params[2], `bcrypt-hash(${account.password})`);
